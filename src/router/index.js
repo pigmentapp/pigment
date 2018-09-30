@@ -9,7 +9,11 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      components: {
+        header: () => import(/* webpackChunkName: "home" */ '@/components/TabHeader.vue'),
+        aside: () => import(/* webpackChunkName: "home" */ '@/components/TabNav.vue'),
+        default: Home,
+      },
     },
     {
       path: '/about',
