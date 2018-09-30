@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div>
-      {{ activeTab.title }}
-    </div>
+  <div class="py-2">
+    {{ activeTab.title }}
   </div>
 </template>
 

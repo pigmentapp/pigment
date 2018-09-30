@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-grey-darkest shadow-md">
     <tab-main
       v-for="tab in $store.getters['Tabs/list']"
       :key="tab.ident"

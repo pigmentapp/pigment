@@ -3,7 +3,6 @@
     ref="view"
     :src="item.url"
     :style="isActive ? '' : 'visibility: hidden;'"
-    style="display:flex; width:100%; height:100%;"
   />
 </template>
 
@@ -52,12 +51,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="postcss" scoped>
 webview {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  @apply absolute pin;
 }
 </style>
