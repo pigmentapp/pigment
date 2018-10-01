@@ -4,17 +4,24 @@
       <button
         v-for="tab in tabList"
         :key="tab.ident"
-        class="flex items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
         :class="tab.ident === activeTab.ident && ['text-grey', 'bg-grey-darkest']"
+        class="flex items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
         @click="$store.commit('Tabs/activateIdent', tab.ident)"
       >
-        <div class="flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3 bg-grey-light rounded-full shadow">
+        <div
+          class="
+            flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3
+            bg-grey-light rounded-full shadow
+          "
+        >
           <img
             :src="tab.favicon"
             class="block max-w-full max-h-full"
           >
         </div>
-        <div class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest">
+        <div
+          class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest"
+        >
           <div class="text-overflow">
             {{ tab.label }}
           </div>

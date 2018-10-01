@@ -15,7 +15,7 @@
         name="header"
         class="flex-grow"
       />
-      <window-controls />
+      <window-controls v-if="showWindowControls" />
     </div>
     <router-view class="main" />
   </div>
@@ -27,6 +27,11 @@ import WindowControls from '@/components/WindowControls.vue';
 export default {
   components: {
     WindowControls,
+  },
+  data() {
+    return {
+      showWindowControls: process.platform !== 'darwin',
+    };
   },
 };
 </script>
@@ -59,15 +64,15 @@ export default {
 
 .nav,
 .header {
-  @apply text-grey-dark;
+  @apply items-center h-10 text-grey-dark;
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-app-region: drag;
 }
 
-.nav > *,
+/* .nav > *,
 .header > * {
   -webkit-app-region: no-drag;
-}
+} */
 
 .aside {
   @apply relative flex flex-col w-64;

@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       isMaximized: false,
-    }
+    };
   },
   computed: {
     window() {
@@ -55,8 +55,8 @@ export default {
         this.window.maximize();
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="postcss" scoped>
