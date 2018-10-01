@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { TabEvents } from '@/events';
+
 export default {
   props: {
     item: {
@@ -46,6 +48,12 @@ export default {
           favicon,
         },
       });
+    });
+
+    TabEvents.$on('reloadByIdent', (ident) => {
+      if (this.item.ident === ident) {
+        this.$refs.view.reload();
+      }
     });
   },
 };
