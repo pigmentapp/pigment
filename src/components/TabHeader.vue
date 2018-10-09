@@ -2,6 +2,12 @@
   <div class="py-2">
     <button
       class="text-grey mr-3"
+      @click="goToHome"
+    >
+      Home
+    </button>
+    <button
+      class="text-grey mr-3"
       @click="reloadTab"
     >
       Reload
@@ -20,6 +26,9 @@ export default {
     },
   },
   methods: {
+    goToHome() {
+      TabEvents.$emit('goHomeByIdent', this.activeTab.ident);
+    },
     reloadTab() {
       TabEvents.$emit('reloadByIdent', this.activeTab.ident);
     },

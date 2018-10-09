@@ -55,6 +55,12 @@ export default {
         this.$refs.view.reload();
       }
     });
+
+    TabEvents.$on('goHomeByIdent', (ident) => {
+      if (this.item.ident === ident) {
+        this.$refs.view.src = this.item.url;
+      }
+    });
   },
 };
 </script>
