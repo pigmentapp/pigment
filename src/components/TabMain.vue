@@ -8,6 +8,7 @@
 
 <script>
 import { TabEvents } from '@/events';
+import url from 'url';
 
 export default {
   props: {
@@ -39,6 +40,7 @@ export default {
         },
       });
     });
+
     this.$refs.view.addEventListener('page-favicon-updated', (view) => {
       const favicon = view.favicons[0];
 
@@ -48,6 +50,14 @@ export default {
           favicon,
         },
       });
+    });
+
+    this.$refs.view.addEventListener('new-window', (e) => {
+      const { protocol } = url.parse(e.url);
+
+      if (protocol === 'http:' || protocol === 'https:') {
+        this.$electron.remote.shell.openExternal(e.url);
+      }
     });
 
     TabEvents.$on('reloadByIdent', (ident) => {
