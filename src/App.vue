@@ -69,10 +69,10 @@ export default {
   -webkit-app-region: drag;
 }
 
-/* .nav > *,
+.nav > *,
 .header > * {
   -webkit-app-region: no-drag;
-} */
+}
 
 .aside {
   @apply relative flex flex-col w-64;
