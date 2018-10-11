@@ -17,16 +17,21 @@
       />
       <window-controls v-if="showWindowControls" />
     </div>
-    <router-view class="main" />
+    <window-dim
+      el="router-view"
+      class="main"
+    />
   </div>
 </template>
 
 <script>
 import WindowControls from '@/components/WindowControls.vue';
+import WindowDim from '@/components/WindowDim.vue';
 
 export default {
   components: {
     WindowControls,
+    WindowDim,
   },
   data() {
     return {
