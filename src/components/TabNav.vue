@@ -1,6 +1,10 @@
 <template>
   <div>
-    <nav class="flex-grow">
+    <vue-draggable
+      v-model="tabList"
+      element="nav"
+      class="flex-grow"
+    >
       <button
         v-for="tab in tabList"
         :key="tab.ident"
@@ -27,7 +31,7 @@
           </div>
         </div>
       </button>
-    </nav>
+    </vue-draggable>
 
     <template v-if="showCreateForm">
       <tab-create
@@ -47,11 +51,13 @@
 </template>
 
 <script>
+import VueDraggable from 'vuedraggable';
 import TabCreate from '@/components/TabCreate.vue';
 
 export default {
   components: {
     TabCreate,
+    VueDraggable,
   },
   data() {
     return {
@@ -62,8 +68,13 @@ export default {
     activeTab() {
       return this.$store.getters['Tabs/active'];
     },
-    tabList() {
-      return this.$store.getters['Tabs/list'];
+    tabList: {
+      get() {
+        return this.$store.getters['Tabs/list'];
+      },
+      set(items) {
+        this.$store.commit('Tabs/setList', items);
+      },
     },
   },
 };

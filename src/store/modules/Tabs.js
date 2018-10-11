@@ -28,6 +28,9 @@ export default {
         favicon: '',
       });
     },
+    setList(state, items) {
+      state.list = items;
+    },
     update({ list }, { ident, data }) {
       const index = list.findIndex(item => item.ident === ident);
       const item = list[index];
