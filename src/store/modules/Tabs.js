@@ -28,6 +28,10 @@ export default {
         favicon: '',
       });
     },
+    delete(state, item) {
+      Vue.delete(state.list, state.list.indexOf(item));
+      state.activateIdent = 0;
+    },
     setList(state, items) {
       state.list = items;
     },

@@ -5,32 +5,43 @@
       element="nav"
       class="flex-grow"
     >
-      <button
+      <div
         v-for="tab in tabList"
         :key="tab.ident"
-        :class="tab.ident === activeTab.ident && ['text-grey', 'bg-grey-darkest']"
-        class="flex items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
-        @click="$store.commit('Tabs/activateIdent', tab.ident)"
+        class="flex"
       >
-        <div
-          class="
-            flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3
-            bg-grey-light rounded-full shadow
-          "
+        <button
+          :class="tab.ident === activeTab.ident && ['text-grey', 'bg-grey-darkest']"
+          class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
+          @click="$store.commit('Tabs/activateIdent', tab.ident)"
         >
-          <img
-            :src="tab.favicon"
-            class="block max-w-full max-h-full"
+          <div
+            class="
+              flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3
+              bg-grey-light rounded-full shadow
+            "
           >
-        </div>
-        <div
-          class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest"
-        >
-          <div class="text-overflow">
-            {{ tab.label }}
+            <img
+              :src="tab.favicon"
+              class="block max-w-full max-h-full"
+            >
           </div>
-        </div>
-      </button>
+          <div
+            class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest"
+          >
+            <div class="text-overflow">
+              {{ tab.label }}
+            </div>
+          </div>
+        </button>
+        <button
+          :class="tab.ident === activeTab.ident && ['text-grey', 'bg-grey-darkest']"
+          class="pt-px pr-2 -mb-px text-grey-dark text-left"
+          @click="deleteTab(tab)"
+        >
+          &times;
+        </button>
+      </div>
     </vue-draggable>
 
     <template v-if="showCreateForm">
@@ -75,6 +86,11 @@ export default {
       set(items) {
         this.$store.commit('Tabs/setList', items);
       },
+    },
+  },
+  methods: {
+    deleteTab(item) {
+      this.$store.commit('Tabs/delete', item);
     },
   },
 };
