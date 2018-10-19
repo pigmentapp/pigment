@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      windowHasFocus: null,
+      windowHasFocus: true,
       dim: {
         timeout: null,
         isActive: false,
@@ -56,7 +56,7 @@ export default {
       clearTimeout(this.dim.timeout);
 
       if (!value) {
-        this.timeout = setTimeout(() => {
+        this.dim.timeout = setTimeout(() => {
           this.dim.isActive = true;
         }, this.delay);
       } else {
@@ -65,13 +65,11 @@ export default {
     },
   },
   created() {
-    this.windowHasFocus = document.hasFocus();
-
-    window.addEventListener('blur', () => {
+    this.$electron.remote.app.on('browser-window-blur', () => {
       this.windowHasFocus = false;
     });
 
-    window.addEventListener('focus', () => {
+    this.$electron.remote.app.on('browser-window-focus', () => {
       this.windowHasFocus = true;
     });
   },
