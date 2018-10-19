@@ -12,6 +12,12 @@
     >
       Reload
     </button>
+    <button
+      class="text-grey mr-3"
+      @click="isDimActive = !isDimActive"
+    >
+      Dim {{ isDimActive ? 'on' : 'off' }}
+    </button>
     {{ activeTab.title }}
   </div>
 </template>
@@ -23,6 +29,14 @@ export default {
   computed: {
     activeTab() {
       return this.$store.getters['Tabs/active'];
+    },
+    isDimActive: {
+      get() {
+        return this.$store.getters['Settings/isDimActive'];
+      },
+      set(value) {
+        this.$store.commit('Settings/setDimActive', value);
+      },
     },
   },
   methods: {

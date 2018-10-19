@@ -50,6 +50,9 @@ export default {
           'transition-duration': `${this.fadeIn}ms`,
         };
     },
+    isDimActive() {
+      return this.$store.getters['Settings/isDimActive'];
+    },
   },
   watch: {
     windowHasFocus(value) {
@@ -63,10 +66,18 @@ export default {
         this.dim.isActive = false;
       }
     },
+    isDimActive(value) {
+      if (!value) {
+        clearTimeout(this.dim.timeout);
+        this.windowHasFocus = true;
+      }
+    },
   },
   created() {
     this.$electron.remote.app.on('browser-window-blur', () => {
-      this.windowHasFocus = false;
+      if (this.isDimActive) {
+        this.windowHasFocus = false;
+      }
     });
 
     this.$electron.remote.app.on('browser-window-focus', () => {
