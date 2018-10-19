@@ -7,7 +7,7 @@ import modules from './modules';
 Vue.use(Vuex);
 
 const localStorageState = new VuexPersistence({
-  modules: ['Tabs'],
+  modules: ['Tabs', 'Settings'],
 });
 
 export default new Vuex.Store({
