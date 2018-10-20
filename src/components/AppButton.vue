@@ -1,5 +1,6 @@
 <template>
   <button
+    :class="`bg-${schema} border-${schema}`"
     class="button"
     @click="$emit('click')"
   >
@@ -14,6 +15,10 @@ export default {
       type: String,
       default: '',
     },
+    schema: {
+      type: String,
+      default: 'blue',
+    },
   },
 };
 </script>
@@ -21,7 +26,7 @@ export default {
 <style lang="postcss" scoped>
 .button {
   @apply px-2 py-1 w-full;
-  @apply text-grey-light leading-tight;
-  @apply bg-grey-darkest border border-grey-darkest rounded-sm;
+  @apply text-white leading-tight;
+  @apply border rounded-sm;
 }
 </style>

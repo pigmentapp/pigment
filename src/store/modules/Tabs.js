@@ -19,7 +19,7 @@ export default {
     activateIdent(state, ident) {
       state.activeIdent = ident;
     },
-    add({ list }, { ident, label, url }) {
+    add({ list }, { ident, label = 'New Tab', url = '' }) {
       list.push({
         ident,
         label,
@@ -46,7 +46,7 @@ export default {
     },
   },
   actions: {
-    add({ commit }, payload) {
+    add({ commit }, payload = {}) {
       const ident = Date.now();
       commit('add', { ident, ...payload });
       commit('activateIdent', ident);

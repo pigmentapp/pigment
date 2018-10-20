@@ -3,7 +3,6 @@
     <vue-draggable
       v-model="tabList"
       element="nav"
-      class="flex-grow"
     >
       <div
         v-for="tab in tabList"
@@ -44,36 +43,26 @@
       </div>
     </vue-draggable>
 
-    <template v-if="showCreateForm">
-      <tab-create
-        class="p-2 border-t border-grey-darker"
-        @submitted="showCreateForm = !showCreateForm"
-      />
-    </template>
-    <div
-      v-else
-      class="p-2"
+    <button
+      class="flex items-center w-full p-2"
+      @click="$store.dispatch('Tabs/add')"
     >
-      <app-button @click="showCreateForm = !showCreateForm">
-        + Create Tab
-      </app-button>
-    </div>
+      <div class="flex items-center justify-center w-8 h-8 mr-3 text-4xl text-grey-dark">
+        +
+      </div>
+      <div class="text-grey-darker">
+        Create Tab
+      </div>
+    </button>
   </div>
 </template>
 
 <script>
 import VueDraggable from 'vuedraggable';
-import TabCreate from '@/components/TabCreate.vue';
 
 export default {
   components: {
-    TabCreate,
     VueDraggable,
-  },
-  data() {
-    return {
-      showCreateForm: false,
-    };
   },
   computed: {
     activeTab() {

@@ -18,6 +18,12 @@
     >
       Dim {{ isDimActive ? 'on' : 'off' }}
     </button>
+    <button
+      class="text-grey mr-3"
+      @click="tabSettings"
+    >
+      Settings
+    </button>
     {{ activeTab.title }}
   </div>
 </template>
@@ -45,6 +51,9 @@ export default {
     },
     reloadTab() {
       TabEvents.$emit('reloadByIdent', this.activeTab.ident);
+    },
+    tabSettings() {
+      TabEvents.$emit('settingsByIdent', this.activeTab.ident);
     },
   },
 };

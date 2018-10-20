@@ -1,16 +1,31 @@
 <template>
-  <webview
-    ref="view"
-    :src="item.url"
-    :style="isActive ? '' : 'visibility: hidden;'"
-  />
+  <div
+    v-show="isActive"
+    class="flex flex-grow"
+  >
+    <webview
+      v-show="item.url && !isSettingsView"
+      ref="view"
+      :src="item.url"
+    />
+
+    <tab-settings
+      v-show="isSettingsView || !item.url"
+      :item="item"
+      @submitted="isSettingsView = false"
+    />
+  </div>
 </template>
 
 <script>
-import { TabEvents } from '@/events';
 import url from 'url';
+import { TabEvents } from '@/events';
+import TabSettings from '@/components/TabSettings.vue';
 
 export default {
+  components: {
+    TabSettings,
+  },
   props: {
     item: {
       type: Object,
@@ -19,8 +34,7 @@ export default {
   },
   data() {
     return {
-      title: 'null',
-      favicon: '',
+      isSettingsView: false,
     };
   },
   computed: {
@@ -63,6 +77,12 @@ export default {
     TabEvents.$on('reloadByIdent', (ident) => {
       if (this.item.ident === ident) {
         this.$refs.view.reload();
+      }
+    });
+
+    TabEvents.$on('settingsByIdent', (ident) => {
+      if (this.item.ident === ident) {
+        this.isSettingsView = !this.isSettingsView;
       }
     });
 
