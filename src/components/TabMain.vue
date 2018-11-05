@@ -12,7 +12,7 @@
     <tab-settings
       v-show="isSettingsView || !item.url"
       :item="item"
-      @submitted="isSettingsView = false"
+      @submitted="settingsChanged"
     />
   </div>
 </template>
@@ -66,6 +66,15 @@ export default {
       });
     });
 
+    this.$refs.view.addEventListener('dom-ready', (view) => {
+      if ('customCss' in this.item) {
+        view.target.insertCSS(this.item.customCss);
+      }
+      if ('customJs' in this.item) {
+        view.target.executeJavaScript(this.item.customJs);
+      }
+    });
+
     this.$refs.view.addEventListener('new-window', (e) => {
       const { protocol } = url.parse(e.url);
 
@@ -76,7 +85,7 @@ export default {
 
     TabEvents.$on('reloadByIdent', (ident) => {
       if (this.item.ident === ident) {
-        this.$refs.view.reload();
+        this.reloadTab();
       }
     });
 
@@ -91,6 +100,18 @@ export default {
         this.$refs.view.src = this.item.url;
       }
     });
+  },
+  methods: {
+    settingsChanged(options) {
+      this.isSettingsView = false;
+
+      if (!options.isNewTab) {
+        this.reloadTab();
+      }
+    },
+    reloadTab() {
+      this.$refs.view.reload();
+    },
   },
 };
 </script>

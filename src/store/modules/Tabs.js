@@ -26,6 +26,7 @@ export default {
         url,
         title: '',
         favicon: '',
+        isNew: true,
       });
     },
     delete(state, item) {
@@ -41,6 +42,7 @@ export default {
 
       Vue.set(list, index, {
         ...item,
+        isNew: false,
         ...data,
       });
     },
@@ -48,7 +50,10 @@ export default {
   actions: {
     add({ commit }, payload = {}) {
       const ident = Date.now();
-      commit('add', { ident, ...payload });
+      commit('add', {
+        ident,
+        ...payload,
+      });
       commit('activateIdent', ident);
     },
   },

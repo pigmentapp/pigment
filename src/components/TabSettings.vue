@@ -21,6 +21,26 @@
           type="url"
         >
       </label>
+      <template v-if="!item.isNew">
+        <label
+          class="block mb-4"
+        >
+          <div class="mb-1">Custom CSS</div>
+          <textarea
+            v-model="tab.customCss"
+            class="input"
+          />
+        </label>
+        <label
+          class="block mb-4"
+        >
+          <div class="mb-1">Custom JavaScript</div>
+          <textarea
+            v-model="tab.customJs"
+            class="input"
+          />
+        </label>
+      </template>
       <app-button>Submit</app-button>
     </div>
   </form>
@@ -58,12 +78,13 @@ export default {
       this.$store.commit('Tabs/update', {
         ident: this.item.ident,
         data: {
-          label: this.tab.label,
-          url: this.tab.url,
+          ...this.tab,
         },
       });
 
-      this.$emit('submitted');
+      this.$emit('submitted', {
+        isNewTab: this.tab.isNew,
+      });
     },
   },
 };
