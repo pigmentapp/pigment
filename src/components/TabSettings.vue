@@ -26,18 +26,18 @@
           class="block mb-4"
         >
           <div class="mb-1">Custom CSS</div>
-          <textarea
+          <prism-editor
             v-model="tab.customCss"
-            class="input"
+            language="css"
           />
         </label>
         <label
           class="block mb-4"
         >
           <div class="mb-1">Custom JavaScript</div>
-          <textarea
+          <prism-editor
             v-model="tab.customJs"
-            class="input"
+            language="js"
           />
         </label>
       </template>
@@ -47,7 +47,14 @@
 </template>
 
 <script>
+import 'prismjs';
+import 'prism-themes/themes/prism-darcula.css';
+import PrismEditor from 'vue-prism-editor';
+
 export default {
+  components: {
+    PrismEditor,
+  },
   props: {
     item: {
       type: Object,
@@ -56,6 +63,10 @@ export default {
   },
   data() {
     return {
+      editors: {
+        css: null,
+        js: null,
+      },
       tab: {},
     };
   },
@@ -67,6 +78,14 @@ export default {
 
         if (!this.tab.url) {
           this.tab.url = 'https://';
+        }
+
+        if (!this.tab.customCss) {
+          this.tab.customCss = '/* Add custom CSS styles */';
+        }
+
+        if (!this.tab.customJs) {
+          this.tab.customJs = '/* Add custom JavaScript */';
         }
       },
     },
@@ -98,5 +117,16 @@ label {
   @apply px-2 py-1 w-full;
   @apply text-grey-light leading-tight;
   @apply bg-transparent border border-grey-darker rounded-sm;
+}
+
+.prism-editor-wrapper {
+  @apply overflow-hidden rounded-sm;
+}
+
+</style>
+
+<style lang="postcss">
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+  @apply py-1 px-2 m-0 bg-black;
 }
 </style>
