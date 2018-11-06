@@ -7,6 +7,7 @@
       v-show="item.url && !isSettingsView"
       ref="view"
       :src="item.url"
+      :useragent="item.userAgent"
     />
 
     <tab-settings

@@ -25,6 +25,15 @@
         <label
           class="block mb-4"
         >
+          <div class="mb-1">User Agent</div>
+          <textarea
+            v-model="tab.userAgent"
+            class="input"
+          />
+        </label>
+        <label
+          class="block mb-4"
+        >
           <div class="mb-1">Custom CSS</div>
           <prism-editor
             v-model="tab.customCss"
