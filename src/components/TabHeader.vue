@@ -24,6 +24,12 @@
     >
       Settings
     </button>
+    <button
+      class="text-grey mr-3"
+      @click="tabDevTools"
+    >
+      Dev
+    </button>
     {{ activeTab.title }}
   </div>
 </template>
@@ -54,6 +60,9 @@ export default {
     },
     tabSettings() {
       TabEvents.$emit('settingsByIdent', this.activeTab.ident);
+    },
+    tabDevTools() {
+      TabEvents.$emit('devtoolsByIdent', this.activeTab.ident);
     },
   },
 };

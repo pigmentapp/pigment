@@ -100,6 +100,15 @@ export default {
         this.$refs.view.src = this.item.url;
       }
     });
+
+    TabEvents.$on('devtoolsByIdent', (ident) => {
+      if (this.item.ident !== ident) return;
+      if (this.$refs.view.isDevToolsOpened()) {
+        this.$refs.view.closeDevTools();
+      } else {
+        this.$refs.view.openDevTools();
+      }
+    });
   },
   methods: {
     settingsChanged(options) {
