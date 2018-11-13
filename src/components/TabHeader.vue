@@ -1,36 +1,26 @@
 <template>
-  <header class="p-2">
-    <button
-      class="text-grey mr-3"
-      @click="$emit('goToHome')"
-    >
+  <header class="flex leading-none">
+    <button @click="$emit('goToHome')">
       Home
     </button>
-    <button
-      class="text-grey mr-3"
-      @click="$emit('doReload')"
-    >
+    <button @click="$emit('doReload')">
       Reload
     </button>
-    <button
-      class="text-grey mr-3"
-      @click="isDimActive = !isDimActive"
-    >
+    <button @click="isDimActive = !isDimActive">
       Dim {{ isDimActive ? 'on' : 'off' }}
     </button>
-    <button
-      class="text-grey mr-3"
-      @click="$emit('toggleSettings')"
-    >
+    <button @click="$emit('toggleSettings')">
       Settings
     </button>
-    <button
-      class="text-grey mr-3"
-      @click="$emit('toggleDevTools')"
-    >
+    <button @click="$emit('toggleDevTools')">
       Dev
     </button>
-    {{ item.title }}
+    <div
+      class="flex-grow p-2"
+      style="-webkit-app-region: drag;"
+    >
+      {{ item.title }}
+    </div>
   </header>
 </template>
 
@@ -55,8 +45,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 header {
   background-color: #0009;
+}
+button {
+  @apply p-2 leading-none appearance-none text-grey;
 }
 </style>

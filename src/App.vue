@@ -1,8 +1,12 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :class="{
+      'flex-row-reverse': invertedLayout,
+    }"
+  >
     <aside class="aside">
       <window-controls
-        v-if="showWindowControls"
         class="aside__header"
       />
       <router-view
@@ -26,10 +30,10 @@ export default {
     WindowControls,
     WindowDim,
   },
-  data() {
-    return {
-      showWindowControls: process.platform !== 'darwin',
-    };
+  computed: {
+    invertedLayout() {
+      return this.$store.getters['Settings/invertedLayout'];
+    },
   },
 };
 </script>

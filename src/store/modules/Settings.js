@@ -7,6 +7,9 @@ export default {
     isDimActive({ isDimActive }) {
       return isDimActive;
     },
+    invertedLayout() {
+      return process.platform !== 'darwin';
+    },
   },
   mutations: {
     setDimActive(state, yesNo) {

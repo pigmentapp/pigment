@@ -1,23 +1,32 @@
 <template>
-  <div>
+  <div
+    :class="{
+      flex: true,
+      'flex-row-reverse': invertedLayout,
+    }"
+  >
     <button
-      class="p-2 appearance-none"
-      @click="window.minimize()"
-    >
-      &#128469;
-    </button>
-    <button
-      class="p-2 appearance-none"
-      @click="toggleMaximized()"
-    >
-      {{ isMaximized ? '&#128471;' : '&#128470;' }}
-    </button>
-    <button
-      class="p-2 appearance-none"
+      class="hover:text-red-lighter hover:bg-red-dark"
       @click="window.close()"
     >
-      &#128473;
+      <app-icon face="window-close" />
     </button>
+    <button
+      class="hover:text-orange-lighter hover:bg-orange-dark"
+      @click="toggleMaximized()"
+    >
+      <app-icon :face="isMaximized ? 'window-restore' : 'window-maximize'" />
+    </button>
+    <button
+      class="hover:text-green-lighter hover:bg-green-dark"
+      @click="window.minimize()"
+    >
+      <app-icon face="window-minimize" />
+    </button>
+    <div
+      class="flex-grow"
+      style="-webkit-app-region: drag;"
+    />
   </div>
 </template>
 
@@ -31,6 +40,9 @@ export default {
   computed: {
     window() {
       return this.$electron.remote.getCurrentWindow();
+    },
+    invertedLayout() {
+      return this.$store.getters['Settings/invertedLayout'];
     },
   },
   created() {
@@ -61,8 +73,6 @@ export default {
 
 <style lang="postcss" scoped>
 button {
-  @apply text-grey-dark;
-
-  -webkit-app-region: no-drag;
+  @apply p-2 appearance-none text-grey-dark;
 }
 </style>

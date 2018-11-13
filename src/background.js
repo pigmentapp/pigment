@@ -17,25 +17,6 @@ if (isDevelopment) {
   moduleReq.globalPaths.push(process.env.NODE_MODULES_PATH);
 }
 
-let osSpecificWindowOptions = {};
-
-switch (process.platform) {
-  case 'win32':
-    osSpecificWindowOptions = {
-      frame: false,
-    };
-    break;
-  case 'darwin':
-    osSpecificWindowOptions = {
-      titleBarStyle: 'hiddenInset',
-    };
-    break;
-  case 'linux':
-    osSpecificWindowOptions = {};
-    break;
-  default:
-}
-
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
 
@@ -44,7 +25,7 @@ protocol.registerStandardSchemes(['app'], { secure: true });
 function createMainWindow() {
   const window = new BrowserWindow({
     icon: path.join(__static, 'favicon.ico'), // eslint-disable-line no-undef
-    ...osSpecificWindowOptions,
+    frame: false,
   });
 
   if (isDevelopment) {
