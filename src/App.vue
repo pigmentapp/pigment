@@ -2,7 +2,7 @@
   <div
     id="app"
     :class="{
-      'flex-row-reverse': invertedLayout,
+      'flex-row-reverse': isLayoutInverted,
     }"
   >
     <aside class="aside">
@@ -31,8 +31,8 @@ export default {
     WindowDim,
   },
   computed: {
-    invertedLayout() {
-      return this.$store.getters['Settings/invertedLayout'];
+    isLayoutInverted() {
+      return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
   },
 };

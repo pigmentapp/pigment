@@ -2,7 +2,7 @@
   <div
     :class="{
       flex: true,
-      'flex-row-reverse': invertedLayout,
+      'flex-row-reverse': isLayoutInverted,
       'px-1': true,
     }"
   >
@@ -29,17 +29,19 @@
       style="-webkit-app-region: drag;"
     />
     <button
-      class="leading-none"
-      @click="isDimActive = !isDimActive"
-    >
-      Dim {{ isDimActive ? 'on' : 'off' }}
-    </button>
-    <button
+      v-if="!isSettingsView"
       class="hover:text-blue-lighter hover:bg-blue"
       @click="$store.dispatch('Tabs/add')"
     >
       <app-icon face="tab-plus" />
     </button>
+    <router-link
+      :to="{ name: isSettingsView ? 'home' : 'settings' }"
+      tag="button"
+      class="hover:text-blue-lighter hover:bg-blue"
+    >
+      <app-icon :face="isSettingsView ? 'arrow-left' : 'settings'" />
+    </router-link>
   </div>
 </template>
 
@@ -54,16 +56,11 @@ export default {
     window() {
       return this.$electron.remote.getCurrentWindow();
     },
-    invertedLayout() {
-      return this.$store.getters['Settings/invertedLayout'];
+    isLayoutInverted() {
+      return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
-    isDimActive: {
-      get() {
-        return this.$store.getters['Settings/isDimActive'];
-      },
-      set(value) {
-        this.$store.commit('Settings/setDimActive', value);
-      },
+    isSettingsView() {
+      return this.$route.name === 'settings';
     },
   },
   created() {

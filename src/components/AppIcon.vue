@@ -2,7 +2,7 @@
   <svg
     v-if="content"
     :viewBox="attributes.viewBox"
-    :class="['block', 'self-center', `w-${size}`, `h-${size}`, 'mx-auto', 'fill-current']"
+    :class="['block', 'flex-no-shrink', `w-${size}`, `h-${size}`, 'mx-auto', 'fill-current']"
     v-html="content"
   />
 </template>
