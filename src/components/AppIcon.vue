@@ -2,7 +2,7 @@
   <svg
     v-if="content"
     :viewBox="attributes.viewBox"
-    :class="['inline-flex', `w-${size}`, `h-${size}`, 'fill-current']"
+    :class="['block', 'self-center', `w-${size}`, `h-${size}`, 'mx-auto', 'fill-current']"
     v-html="content"
   />
 </template>
@@ -10,9 +10,13 @@
 <script>
 export default {
   props: {
+    face: {
+      type: String,
+      default: '',
+    },
     size: {
       type: Number,
-      default: 6,
+      default: 4,
     },
   },
   data() {
@@ -22,12 +26,16 @@ export default {
     };
   },
   watch: {
-    '$slots.default': {
+    face: {
       immediate: true,
-      handler(slot) {
-        if (!slot.length) return;
+      handler(icon) {
+        if (!icon.length) {
+          this.content = null;
+          this.attributes = {};
+          return;
+        }
 
-        import(`!svg-loader!@/assets/icons/${slot[0].text}.svg`).then((res) => {
+        import(`!svg-loader!@/assets/icons/${icon}.svg`).then((res) => {
           this.content = res.content;
           this.attributes = res.attributes;
         });
