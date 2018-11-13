@@ -1,26 +1,20 @@
 <template>
-  <header class="flex leading-none">
+  <header class="flex px-1 leading-none">
     <button @click="$emit('goToHome')">
-      Home
+      <app-icon face="home-variant" />
     </button>
     <button @click="$emit('doReload')">
-      Reload
+      <app-icon face="refresh" />
     </button>
-    <button @click="isDimActive = !isDimActive">
-      Dim {{ isDimActive ? 'on' : 'off' }}
-    </button>
-    <button @click="$emit('toggleSettings')">
-      Settings
-    </button>
-    <button @click="$emit('toggleDevTools')">
-      Dev
-    </button>
-    <div
-      class="flex-grow p-2"
-      style="-webkit-app-region: drag;"
-    >
+    <div class="title">
       {{ item.title }}
     </div>
+    <button @click="$emit('toggleDevTools')">
+      <app-icon face="code-tags" />
+    </button>
+    <button @click="$emit('toggleSettings')">
+      <app-icon face="dots-vertical" />
+    </button>
   </header>
 </template>
 
@@ -32,16 +26,6 @@ export default {
       default: () => ({}),
     },
   },
-  computed: {
-    isDimActive: {
-      get() {
-        return this.$store.getters['Settings/isDimActive'];
-      },
-      set(value) {
-        this.$store.commit('Settings/setDimActive', value);
-      },
-    },
-  },
 };
 </script>
 
@@ -51,5 +35,14 @@ header {
 }
 button {
   @apply p-2 leading-none appearance-none text-grey;
+}
+
+button:hover {
+  @apply text-blue-lighter bg-blue;
+}
+
+.title {
+  @apply flex-1 p-2 text-sm truncate;
+  -webkit-app-region: drag;
 }
 </style>

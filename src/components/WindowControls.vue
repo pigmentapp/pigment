@@ -3,6 +3,7 @@
     :class="{
       flex: true,
       'flex-row-reverse': invertedLayout,
+      'px-1': true,
     }"
   >
     <button
@@ -27,6 +28,12 @@
       class="flex-grow"
       style="-webkit-app-region: drag;"
     />
+    <button
+      class="leading-none"
+      @click="isDimActive = !isDimActive"
+    >
+      Dim {{ isDimActive ? 'on' : 'off' }}
+    </button>
   </div>
 </template>
 
@@ -43,6 +50,14 @@ export default {
     },
     invertedLayout() {
       return this.$store.getters['Settings/invertedLayout'];
+    },
+    isDimActive: {
+      get() {
+        return this.$store.getters['Settings/isDimActive'];
+      },
+      set(value) {
+        this.$store.commit('Settings/setDimActive', value);
+      },
     },
   },
   created() {

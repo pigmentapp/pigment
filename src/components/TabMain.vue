@@ -1,7 +1,7 @@
 <template>
   <div
     v-show="isActive"
-    class="flex flex-col flex-grow"
+    class="flex flex-1 flex-col"
   >
     <tab-header
       v-if="isActive && !item.isNew"

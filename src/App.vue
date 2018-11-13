@@ -40,7 +40,7 @@ export default {
 
 <style lang="postcss" scoped>
 #app {
-  @apply flex h-screen text-grey bg-black select-none;
+  @apply flex h-screen font-sans text-grey bg-black select-none;
 }
 
 .aside {
@@ -56,6 +56,6 @@ export default {
 }
 
 .main {
-  @apply z-10 flex flex-col flex-grow;
+  @apply z-10 flex flex-1 flex-col min-w-0;
 }
 </style>
