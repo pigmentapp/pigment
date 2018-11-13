@@ -35,18 +35,6 @@
         </button>
       </div>
     </vue-draggable>
-
-    <button
-      class="flex items-center w-full p-2"
-      @click="$store.dispatch('Tabs/add')"
-    >
-      <div class="flex items-center justify-center w-8 h-8 mr-3 text-4xl text-grey-dark">
-        +
-      </div>
-      <div class="text-grey-darker">
-        Create Tab
-      </div>
-    </button>
   </div>
 </template>
 

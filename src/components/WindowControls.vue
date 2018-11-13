@@ -34,6 +34,12 @@
     >
       Dim {{ isDimActive ? 'on' : 'off' }}
     </button>
+    <button
+      class="hover:text-blue-lighter hover:bg-blue"
+      @click="$store.dispatch('Tabs/add')"
+    >
+      <app-icon face="tab-plus" />
+    </button>
   </div>
 </template>
 
