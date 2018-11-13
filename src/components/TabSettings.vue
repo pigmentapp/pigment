@@ -50,7 +50,17 @@
           />
         </label>
       </template>
-      <app-button>Submit</app-button>
+      <div class="flex flex-row-reverse -mx-2">
+        <app-button
+          class="flex-1 mx-2"
+          type="submit"
+        >Save</app-button>
+        <app-button
+          class="flex-1 mx-2"
+          schema="grey-darker"
+          @click="deleteTab"
+        >Delete Tab</app-button>
+      </div>
     </div>
   </form>
 </template>
@@ -113,6 +123,9 @@ export default {
       this.$emit('submitted', {
         isNewTab: this.tab.isNew,
       });
+    },
+    deleteTab() {
+      this.$store.commit('Tabs/delete', this.item);
     },
   },
 };

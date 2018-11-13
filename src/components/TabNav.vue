@@ -33,13 +33,6 @@
             </div>
           </div>
         </button>
-        <button
-          :class="tab.ident === activeTab.ident && ['text-grey', 'bg-grey-darkest']"
-          class="pt-px pr-2 -mb-px text-grey-dark text-left"
-          @click="deleteTab(tab)"
-        >
-          &times;
-        </button>
       </div>
     </vue-draggable>
 
@@ -75,11 +68,6 @@ export default {
       set(items) {
         this.$store.commit('Tabs/setList', items);
       },
-    },
-  },
-  methods: {
-    deleteTab(item) {
-      this.$store.commit('Tabs/delete', item);
     },
   },
 };

@@ -1,6 +1,7 @@
 <template>
   <button
     :class="`bg-${schema} border-${schema}`"
+    type="button"
     class="button"
     @click="$emit('click')"
   >
