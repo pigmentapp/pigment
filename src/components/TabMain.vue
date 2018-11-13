@@ -1,13 +1,23 @@
 <template>
   <div
     v-show="isActive"
-    class="flex flex-grow"
+    class="flex flex-col flex-grow"
   >
+    <tab-header
+      v-if="isActive && !item.isNew"
+      :item="item"
+      @doReload="reloadTab"
+      @goToHome="goToHome"
+      @toggleSettings="toggleSettings"
+      @toggleDevTools="toggleDevTools"
+    />
+
     <webview
       v-show="item.url && !isSettingsView"
       ref="view"
       :src="item.url"
       :useragent="item.userAgent"
+      class="flex-grow"
     />
 
     <tab-settings
@@ -20,11 +30,12 @@
 
 <script>
 import url from 'url';
-import { TabEvents } from '@/events';
+import TabHeader from '@/components/TabHeader.vue';
 import TabSettings from '@/components/TabSettings.vue';
 
 export default {
   components: {
+    TabHeader,
     TabSettings,
   },
   props: {
@@ -83,33 +94,6 @@ export default {
         this.$electron.remote.shell.openExternal(e.url);
       }
     });
-
-    TabEvents.$on('reloadByIdent', (ident) => {
-      if (this.item.ident === ident) {
-        this.reloadTab();
-      }
-    });
-
-    TabEvents.$on('settingsByIdent', (ident) => {
-      if (this.item.ident === ident) {
-        this.isSettingsView = !this.isSettingsView;
-      }
-    });
-
-    TabEvents.$on('goHomeByIdent', (ident) => {
-      if (this.item.ident === ident) {
-        this.$refs.view.src = this.item.url;
-      }
-    });
-
-    TabEvents.$on('devtoolsByIdent', (ident) => {
-      if (this.item.ident !== ident) return;
-      if (this.$refs.view.isDevToolsOpened()) {
-        this.$refs.view.closeDevTools();
-      } else {
-        this.$refs.view.openDevTools();
-      }
-    });
   },
   methods: {
     settingsChanged(options) {
@@ -119,15 +103,22 @@ export default {
         this.reloadTab();
       }
     },
+    goToHome() {
+      this.$refs.view.loadURL(this.item.url);
+    },
     reloadTab() {
       this.$refs.view.reload();
+    },
+    toggleSettings() {
+      this.isSettingsView = !this.isSettingsView;
+    },
+    toggleDevTools() {
+      if (this.$refs.view.isDevToolsOpened()) {
+        this.$refs.view.closeDevTools();
+      } else {
+        this.$refs.view.openDevTools();
+      }
     },
   },
 };
 </script>
-
-<style lang="postcss" scoped>
-webview {
-  @apply absolute pin;
-}
-</style>

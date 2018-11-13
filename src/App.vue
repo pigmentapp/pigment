@@ -1,22 +1,15 @@
 <template>
-  <div
-    id="app"
-  >
-    <div class="nav">
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> -->
-    </div>
-    <router-view
-      name="aside"
-      class="aside"
-    />
-    <div class="header">
-      <router-view
-        name="header"
-        class="flex-grow"
+  <div id="app">
+    <aside class="aside">
+      <window-controls
+        v-if="showWindowControls"
+        class="aside__header"
       />
-      <window-controls v-if="showWindowControls" />
-    </div>
+      <router-view
+        class="aside__body"
+        name="aside"
+      />
+    </aside>
     <window-dim
       el="router-view"
       class="main"
@@ -41,51 +34,24 @@ export default {
 };
 </script>
 
-
 <style lang="postcss" scoped>
 #app {
-  @apply text-grey bg-black select-none;
-
-  display: grid;
-  height: 100vh;
-  grid-template-columns: auto 3fr;
-  grid-template-rows: auto 1fr;
-  grid-gap: 0;
-  grid-template-areas:
-    "Window Header"
-    "Aside Main"
-  ;
-}
-
-.nav {
-  @apply relative flex;
-  grid-area: Window;
-}
-
-.header {
-  @apply relative flex;
-  grid-area: Header;
-}
-
-.nav,
-.header {
-  @apply items-center h-10 text-grey-dark;
-  background-color: rgba(0, 0, 0, 0.5);
-  -webkit-app-region: drag;
-}
-
-.nav > *,
-.header > * {
-  -webkit-app-region: no-drag;
+  @apply flex h-screen text-grey bg-black select-none;
 }
 
 .aside {
-  @apply relative flex flex-col w-64;
-  grid-area: Aside;
+  @apply flex flex-col w-64;
+}
+
+.aside__header {
+  @apply flex-no-shrink;
+}
+
+.aside__body {
+  @apply flex-grow;
 }
 
 .main {
-  @apply relative z-10 flex flex-col;
-  grid-area: Main;
+  @apply z-10 flex flex-col flex-grow;
 }
 </style>

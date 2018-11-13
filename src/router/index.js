@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/views/Home.vue';
 
 Vue.use(Router);
 
@@ -10,9 +9,8 @@ export default new Router({
       path: '/',
       name: 'home',
       components: {
-        header: () => import(/* webpackChunkName: "home" */ '@/components/TabHeader.vue'),
         aside: () => import(/* webpackChunkName: "home" */ '@/components/TabNav.vue'),
-        default: Home,
+        default: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
     },
     {
