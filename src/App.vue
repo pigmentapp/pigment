@@ -35,6 +35,15 @@ export default {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
   },
+  mounted() {
+    this.$electron.remote.ipcMain.on('notification-shim', (evt, arg) => {
+      const { title, options } = arg;
+
+      // const notify = new Notification(title, options);
+
+      this.$store.commit('Notifications/add', { title, options });
+    });
+  },
 };
 </script>
 

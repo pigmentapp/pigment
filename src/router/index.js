@@ -22,6 +22,14 @@ export default new Router({
       },
     },
     {
+      path: '/notifications',
+      name: 'notifications',
+      components: {
+        aside: () => import(/* webpackChunkName: "home" */ '@/components/TabNav.vue'),
+        default: () => import(/* webpackChunkName: "notifications" */ '@/views/Notifications.vue'),
+      },
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

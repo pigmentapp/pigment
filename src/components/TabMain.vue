@@ -17,6 +17,7 @@
       ref="view"
       :src="item.url"
       :useragent="item.userAgent"
+      :preload="preload"
       class="flex-grow"
     />
 
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import path from 'path';
 import url from 'url';
 import TabHeader from '@/components/TabHeader.vue';
 import TabSettings from '@/components/TabSettings.vue';
@@ -47,6 +49,7 @@ export default {
   data() {
     return {
       isSettingsView: false,
+      preload: `file://${path.join(__static, 'webview.js')}`, // eslint-disable-line no-undef
     };
   },
   computed: {

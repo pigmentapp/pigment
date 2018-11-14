@@ -1,5 +1,10 @@
 <template>
   <div>
+    <router-link
+      :to="{ name: $route.name === 'notifications' ? 'home' : 'notifications' }"
+    >
+      Notifications
+    </router-link>
     <vue-draggable
       v-model="tabList"
       element="nav"
