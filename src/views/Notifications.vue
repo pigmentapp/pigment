@@ -1,15 +1,15 @@
 <template>
   <div class="p-4">
     <div
-      v-for="notification in notifications"
-      :key="notification.ident"
-      class="p-2 mb-2 bg-grey-darkest rounded"
+      v-for="item in notifications"
+      :key="item.timestamp"
+      class="p-2 mb-2 bg-black rounded"
     >
       <div class="flex justify-between mb-1">
-        <div class="font-bold">{{ notification.title }}</div>
-        <div>{{ new Date(notification.timestamp).toLocaleString() }}</div>
+        <div class="font-bold">{{ item.notification.title }}</div>
+        <div>{{ new Date(item.timestamp).toLocaleString() }}</div>
       </div>
-      <div>{{ notification.options.body }}</div>
+      <div>{{ item.notification.options.body }}</div>
     </div>
   </div>
 </template>

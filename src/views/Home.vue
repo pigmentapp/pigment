@@ -5,6 +5,7 @@
       :key="tab.ident"
       :item="tab"
     />
+    <router-view/>
   </div>
 </template>
 

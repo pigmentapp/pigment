@@ -11,7 +11,6 @@
     "serve:electron": "vue-cli-service serve:electron"
   },
   "dependencies": {
-    "electron-notification-shim": "^1.1.0",
     "prism-themes": "^1.0.1",
     "prismjs": "^1.15.0",
     "vue": "^2.5.17",

@@ -57,10 +57,21 @@ export default {
       return this.$store.getters['Tabs/active'];
     },
     isActive() {
-      return this.item.ident === this.activeTab.ident;
+      return this.item.ident === this.activeTab.ident && this.$route.name !== 'notifications';
     },
   },
   mounted() {
+    this.$refs.view.addEventListener('ipc-message', (event) => {
+      if (event.channel === 'notification') {
+        const [notification] = event.args;
+
+        this.$store.commit('Notifications/add', {
+          notification,
+          tab: this.item.ident,
+        });
+      }
+    });
+
     this.$refs.view.addEventListener('page-title-updated', (view) => {
       this.$store.commit('Tabs/update', {
         ident: this.item.ident,

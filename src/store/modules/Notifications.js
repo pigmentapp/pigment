@@ -9,11 +9,11 @@ export default {
     },
   },
   mutations: {
-    add(state, { options, title }) {
+    add(state, { tab, notification }) {
       state.notifications.push({
+        notification,
+        tab,
         timestamp: Date.now(),
-        options,
-        title,
       });
     },
   },

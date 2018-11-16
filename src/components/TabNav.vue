@@ -2,8 +2,21 @@
   <div>
     <router-link
       :to="{ name: $route.name === 'notifications' ? 'home' : 'notifications' }"
+      :class="($route.name === 'notifications') && ['text-grey', 'bg-grey-darkest']"
+      tag="button"
+      class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
     >
-      Notifications
+      <div
+        class="
+          flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3
+          bg-grey-darkest rounded-full shadow
+        "
+      >
+        <app-icon face="bell" />
+      </div>
+      <div
+        class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest"
+      >Notifications</div>
     </router-link>
     <vue-draggable
       v-model="tabList"
@@ -15,7 +28,10 @@
         class="flex"
       >
         <button
-          :class="tab.ident === activeTab.ident && ['text-grey', 'bg-grey-darkest']"
+          :class="
+            (tab.ident === activeTab.ident && $route.name !== 'notifications')
+              && ['text-grey', 'bg-grey-darkest']
+          "
           class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
           @click="$store.commit('Tabs/activateIdent', tab.ident)"
         >

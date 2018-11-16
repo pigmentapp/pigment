@@ -12,6 +12,13 @@ export default new Router({
         aside: () => import(/* webpackChunkName: "home" */ '@/components/TabNav.vue'),
         default: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
+      children: [
+        {
+          path: 'notifications',
+          name: 'notifications',
+          component: () => import(/* webpackChunkName: "about" */ '@/views/Notifications.vue'),
+        },
+      ],
     },
     {
       path: '/settings',
@@ -19,14 +26,6 @@ export default new Router({
       components: {
         aside: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
         default: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-      },
-    },
-    {
-      path: '/notifications',
-      name: 'notifications',
-      components: {
-        aside: () => import(/* webpackChunkName: "home" */ '@/components/TabNav.vue'),
-        default: () => import(/* webpackChunkName: "notifications" */ '@/views/Notifications.vue'),
       },
     },
     {
