@@ -53,7 +53,11 @@ export default {
     };
   },
   computed: {
+    activeTab() {
+      return this.$store.getters['Tabs/active'];
+    },
     isActive() {
+      if (this.$route.name === 'settings' && this.activeTab.ident === this.item.ident) return true;
       return parseInt(this.$route.params.ident, 0) === this.item.ident;
     },
     muteOnWindowBlur() {
