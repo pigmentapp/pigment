@@ -56,12 +56,22 @@ export default {
     isActive() {
       return parseInt(this.$route.params.ident, 0) === this.item.ident;
     },
+    muteOnWindowBlur() {
+      return this.$store.getters['Settings/muteOnWindowBlur'];
+    },
+    windowHasFocus() {
+      return this.$store.getters['Window/hasFocus'];
+    },
   },
   watch: {
     isActive(isActive) {
       if (isActive) {
         this.$store.commit('Tabs/activateIdent', this.item.ident);
       }
+    },
+    windowHasFocus(value) {
+      if (!this.muteOnWindowBlur) return;
+      this.$refs.view.setAudioMuted(!value);
     },
   },
   mounted() {
