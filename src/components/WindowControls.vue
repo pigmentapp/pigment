@@ -31,7 +31,7 @@
     <button
       v-if="!isSettingsView"
       class="hover:text-blue-lighter hover:bg-blue"
-      @click="$store.dispatch('Tabs/add')"
+      @click="createTab"
     >
       <app-icon face="tab-plus" />
     </button>
@@ -67,6 +67,16 @@ export default {
     this.watchMaximizedState();
   },
   methods: {
+    createTab() {
+      this.$store.dispatch('Tabs/add').then((newTabIdent) => {
+        this.$router.push({
+          name: 'tabs',
+          params: {
+            ident: newTabIdent,
+          },
+        });
+      });
+    },
     watchMaximizedState() {
       this.isMaximized = this.window.isMaximized();
 
