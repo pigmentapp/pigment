@@ -3,6 +3,8 @@ export default {
   state: {
     notifications: [],
     preventOnBlur: false,
+    scheduleActive: false,
+    scheduleInMs: 1200000,
   },
   getters: {
     list({ notifications }) {
@@ -10,6 +12,12 @@ export default {
     },
     preventOnBlur({ preventOnBlur }) {
       return preventOnBlur;
+    },
+    scheduleActive({ scheduleActive }) {
+      return scheduleActive;
+    },
+    scheduleInMs({ scheduleInMs }) {
+      return scheduleInMs;
     },
   },
   mutations: {
@@ -22,6 +30,12 @@ export default {
     },
     preventOnBlur(state, yesNo) {
       state.preventOnBlur = yesNo;
+    },
+    scheduleActive(state, yesNo) {
+      state.scheduleActive = yesNo;
+    },
+    scheduleInMs(state, ms) {
+      state.scheduleInMs = ms;
     },
   },
   actions: {

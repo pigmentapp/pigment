@@ -52,6 +52,31 @@
       </div>
     </button>
 
+    <button
+      :disabled="!notificationsPreventOnBlur"
+      @click="notificationsScheduleActive = !notificationsScheduleActive"
+    >
+      <app-icon
+        :size="5"
+        :class="notificationsScheduleActive && 'text-green'"
+        :face="notificationsScheduleActive ? 'toggle-switch' : 'toggle-switch-off'"
+        class="ml-6"
+      />
+      <div class="flex-grow pl-2">
+        Send summary of new notifications by schedule after leaving the window
+      </div>
+    </button>
+
+    <div class="p-3 pl-16">
+      Interval in minutes
+      <input
+        :disabled="!notificationsPreventOnBlur || !notificationsScheduleActive"
+        v-model="notificationsScheduleInMs"
+        class="w-full px-2 py-1 mt-2 text-grey bg-grey-darkest"
+        type="number"
+      >
+    </div>
+
     <router-link
       :to="{ name: 'welcome' }"
       tag="button"
@@ -94,6 +119,22 @@ export default {
       },
       set(value) {
         this.$store.commit('Notifications/preventOnBlur', value);
+      },
+    },
+    notificationsScheduleActive: {
+      get() {
+        return this.$store.getters['Notifications/scheduleActive'];
+      },
+      set(value) {
+        this.$store.commit('Notifications/scheduleActive', value);
+      },
+    },
+    notificationsScheduleInMs: {
+      get() {
+        return this.$store.getters['Notifications/scheduleInMs'] / 60 / 1000;
+      },
+      set(value) {
+        this.$store.commit('Notifications/scheduleInMs', value * 60 * 1000);
       },
     },
   },
