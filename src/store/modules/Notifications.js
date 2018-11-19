@@ -1,7 +1,18 @@
+function nextScheduleIs(timeOfWindowBlur, notificationSchedule) {
+  const nextSchedule = timeOfWindowBlur + notificationSchedule;
+
+  if (nextSchedule <= Date.now()) {
+    return nextScheduleIs(nextSchedule, notificationSchedule);
+  }
+
+  return nextSchedule;
+}
+
 export default {
   namespaced: true,
   state: {
     notifications: [],
+    nextSchedule: 0,
     preventOnBlur: false,
     scheduleActive: false,
     scheduleInMs: 1200000,
@@ -9,6 +20,9 @@ export default {
   getters: {
     list({ notifications }) {
       return notifications;
+    },
+    nextSchedule({ nextSchedule }) {
+      return nextSchedule;
     },
     preventOnBlur({ preventOnBlur }) {
       return preventOnBlur;
@@ -28,6 +42,9 @@ export default {
         timestamp: Date.now(),
       });
     },
+    nextSchedule(state, schedule) {
+      state.nextSchedule = schedule;
+    },
     preventOnBlur(state, yesNo) {
       state.preventOnBlur = yesNo;
     },
@@ -39,5 +56,14 @@ export default {
     },
   },
   actions: {
+    calcNextSchedule(store) {
+      const timeOfWindowBlur = store.rootGetters['Window/timestampOfBlur'];
+      const notificationSchedule = store.getters.scheduleInMs;
+
+      if (timeOfWindowBlur) {
+        const nextSchedule = nextScheduleIs(timeOfWindowBlur, notificationSchedule);
+        store.commit('nextSchedule', nextSchedule);
+      }
+    },
   },
 };

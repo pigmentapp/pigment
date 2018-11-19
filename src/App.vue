@@ -24,12 +24,14 @@
 <script>
 import WindowControls from '@/components/WindowControls.vue';
 import WindowDim from '@/components/WindowDim.vue';
+import NotificationSchedule from '@/utils/mixinNotificationSchedule';
 
 export default {
   components: {
     WindowControls,
     WindowDim,
   },
+  mixins: [NotificationSchedule],
   computed: {
     isLayoutInverted() {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
