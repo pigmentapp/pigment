@@ -35,13 +35,13 @@
     >
       <app-icon face="tab-plus" />
     </button>
-    <router-link
-      :to="{ name: isSettingsView ? 'home' : 'settings' }"
-      tag="button"
+    <button
+      :class="isSettingsView && 'active'"
       class="hover:text-blue-lighter hover:bg-blue"
+      @click="toggleSettings"
     >
       <app-icon :face="isSettingsView ? 'arrow-left' : 'settings'" />
-    </router-link>
+    </button>
   </div>
 </template>
 
@@ -85,6 +85,15 @@ export default {
         this.window.maximize();
       }
     },
+    toggleSettings() {
+      if (this.isSettingsView) {
+        this.$router.back();
+      } else {
+        this.$router.push({
+          name: 'settings',
+        });
+      }
+    },
   },
 };
 </script>
@@ -92,5 +101,9 @@ export default {
 <style lang="postcss" scoped>
 button {
   @apply p-2 appearance-none text-grey-dark;
+}
+
+button.active {
+  @apply text-blue-lighter bg-blue;
 }
 </style>

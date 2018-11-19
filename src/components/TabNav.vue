@@ -1,10 +1,10 @@
 <template>
   <div>
     <router-link
-      :to="{ name: $route.name === 'notifications' ? 'home' : 'notifications' }"
-      :class="($route.name === 'notifications') && ['text-grey', 'bg-grey-darkest']"
+      :to="{ name: 'notifications' }"
       tag="button"
       class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
+      active-class="text-grey bg-grey-darkest"
     >
       <div
         class="
@@ -27,13 +27,11 @@
         :key="tab.ident"
         class="flex"
       >
-        <button
-          :class="
-            (tab.ident === activeTab.ident && $route.name !== 'notifications')
-              && ['text-grey', 'bg-grey-darkest']
-          "
+        <router-link
+          :to="{ name: 'tabs', params: { ident: tab.ident } }"
+          tag="button"
           class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
-          @click="$store.commit('Tabs/activateIdent', tab.ident)"
+          active-class="text-grey bg-grey-darkest"
         >
           <div
             class="
@@ -53,7 +51,7 @@
               {{ tab.label }}
             </div>
           </div>
-        </button>
+        </router-link>
       </div>
     </vue-draggable>
   </div>
@@ -67,9 +65,6 @@ export default {
     VueDraggable,
   },
   computed: {
-    activeTab() {
-      return this.$store.getters['Tabs/active'];
-    },
     tabList: {
       get() {
         return this.$store.getters['Tabs/list'];

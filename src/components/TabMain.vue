@@ -53,11 +53,15 @@ export default {
     };
   },
   computed: {
-    activeTab() {
-      return this.$store.getters['Tabs/active'];
-    },
     isActive() {
-      return this.item.ident === this.activeTab.ident && this.$route.name !== 'notifications';
+      return parseInt(this.$route.params.ident, 0) === this.item.ident;
+    },
+  },
+  watch: {
+    isActive(isActive) {
+      if (isActive) {
+        this.$store.commit('Tabs/activateIdent', this.item.ident);
+      }
     },
   },
   mounted() {

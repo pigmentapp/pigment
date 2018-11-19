@@ -6,17 +6,22 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: '/tabs/:ident?',
+      name: 'tabs',
       components: {
-        aside: () => import(/* webpackChunkName: "home" */ '@/components/TabNav.vue'),
-        default: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        aside: () => import(/* webpackChunkName: "tabs" */ '@/components/TabNav.vue'),
+        default: () => import(/* webpackChunkName: "tabs" */ '@/views/Tabs.vue'),
       },
       children: [
         {
-          path: 'notifications',
+          path: '//',
+          name: 'welcome',
+          component: () => import(/* webpackChunkName: "welcome" */ '@/views/Welcome.vue'),
+        },
+        {
+          path: '/notifications',
           name: 'notifications',
-          component: () => import(/* webpackChunkName: "about" */ '@/views/Notifications.vue'),
+          component: () => import(/* webpackChunkName: "notifications" */ '@/views/Notifications.vue'),
         },
       ],
     },
@@ -25,7 +30,7 @@ export default new Router({
       name: 'settings',
       components: {
         aside: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
-        default: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        default: () => import(/* webpackChunkName: "tabs" */ '@/views/Tabs.vue'),
       },
     },
     {

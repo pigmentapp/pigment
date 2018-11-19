@@ -25,6 +25,13 @@
         Invert app layout
       </div>
     </button>
+
+    <router-link
+      :to="{ name: 'welcome' }"
+      tag="button"
+    >
+      Show welcome page
+    </router-link>
   </div>
 </template>
 

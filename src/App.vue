@@ -56,6 +56,6 @@ export default {
 }
 
 .main {
-  @apply z-10 flex flex-1 flex-col min-w-0;
+  @apply z-10 flex flex-1 flex-col min-w-0 bg-grey-darkest shadow-md;
 }
 </style>
