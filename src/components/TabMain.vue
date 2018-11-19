@@ -63,8 +63,8 @@ export default {
     muteOnWindowBlur() {
       return this.$store.getters['Settings/muteOnWindowBlur'];
     },
-    preventNotifications() {
-      return this.$store.getters['Settings/preventNotifications'];
+    notificationsPreventOnBlur() {
+      return this.$store.getters['Notifications/preventOnBlur'];
     },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];
@@ -92,7 +92,7 @@ export default {
         tab: this.item.ident,
       });
 
-      if (!this.preventNotifications || this.windowHasFocus) {
+      if (!this.notificationsPreventOnBlur || this.windowHasFocus) {
         new Notification(notification.title, notification.options); // eslint-disable-line no-new
       }
     });

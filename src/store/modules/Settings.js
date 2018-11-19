@@ -4,7 +4,6 @@ export default {
     isDimActive: false,
     isLayoutInverted: false,
     muteOnWindowBlur: false,
-    preventNotifications: false,
   },
   getters: {
     isDimActive({ isDimActive }) {
@@ -24,9 +23,6 @@ export default {
     muteOnWindowBlur({ muteOnWindowBlur }) {
       return muteOnWindowBlur;
     },
-    preventNotifications({ preventNotifications }) {
-      return preventNotifications;
-    },
   },
   mutations: {
     setDimActive(state, yesNo) {
@@ -37,9 +33,6 @@ export default {
     },
     setMuteOnWindowBlur(state, yesNo) {
       state.muteOnWindowBlur = yesNo;
-    },
-    setPreventNotifications(state, yesNo) {
-      state.preventNotifications = yesNo;
     },
   },
   actions: {

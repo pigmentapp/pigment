@@ -14,19 +14,6 @@
     </button>
 
     <button
-      @click="preventNotifications = !preventNotifications"
-    >
-      <app-icon
-        :size="5"
-        :class="preventNotifications && 'text-green'"
-        :face="preventNotifications ? 'toggle-switch' : 'toggle-switch-off'"
-      />
-      <div class="flex-grow pl-2">
-        Prevent notifications when leaving window
-      </div>
-    </button>
-
-    <button
       @click="muteOnWindowBlur = !muteOnWindowBlur"
     >
       <app-icon
@@ -49,6 +36,19 @@
       />
       <div class="flex-grow pl-2">
         Invert app layout
+      </div>
+    </button>
+
+    <button
+      @click="notificationsPreventOnBlur = !notificationsPreventOnBlur"
+    >
+      <app-icon
+        :size="5"
+        :class="notificationsPreventOnBlur && 'text-green'"
+        :face="notificationsPreventOnBlur ? 'toggle-switch' : 'toggle-switch-off'"
+      />
+      <div class="flex-grow pl-2">
+        Prevent notifications when leaving window
       </div>
     </button>
 
@@ -88,12 +88,12 @@ export default {
         this.$store.commit('Settings/setMuteOnWindowBlur', value);
       },
     },
-    preventNotifications: {
+    notificationsPreventOnBlur: {
       get() {
-        return this.$store.getters['Settings/preventNotifications'];
+        return this.$store.getters['Notifications/preventOnBlur'];
       },
       set(value) {
-        this.$store.commit('Settings/setPreventNotifications', value);
+        this.$store.commit('Notifications/preventOnBlur', value);
       },
     },
   },

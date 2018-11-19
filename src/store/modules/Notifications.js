@@ -2,10 +2,14 @@ export default {
   namespaced: true,
   state: {
     notifications: [],
+    preventOnBlur: false,
   },
   getters: {
     list({ notifications }) {
       return notifications;
+    },
+    preventOnBlur({ preventOnBlur }) {
+      return preventOnBlur;
     },
   },
   mutations: {
@@ -15,6 +19,9 @@ export default {
         tab,
         timestamp: Date.now(),
       });
+    },
+    preventOnBlur(state, yesNo) {
+      state.preventOnBlur = yesNo;
     },
   },
   actions: {
