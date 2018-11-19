@@ -29,7 +29,6 @@ export default {
   },
   data() {
     return {
-      windowHasFocus: true,
       dim: {
         timeout: null,
         isActive: false,
@@ -50,15 +49,18 @@ export default {
           'transition-duration': `${this.fadeIn}ms`,
         };
     },
-    isDimActive() {
+    settingsIsDimActive() {
       return this.$store.getters['Settings/isDimActive'];
+    },
+    windowHasFocus() {
+      return this.$store.getters['Window/hasFocus'];
     },
   },
   watch: {
     windowHasFocus(value) {
       clearTimeout(this.dim.timeout);
 
-      if (!value) {
+      if (!value && this.settingsIsDimActive) {
         this.dim.timeout = setTimeout(() => {
           this.dim.isActive = true;
         }, this.delay);
@@ -66,22 +68,20 @@ export default {
         this.dim.isActive = false;
       }
     },
-    isDimActive(value) {
+    settingsIsDimActive(value) {
       if (!value) {
         clearTimeout(this.dim.timeout);
-        this.windowHasFocus = true;
+        this.dim.isActive = false;
       }
     },
   },
   created() {
     this.$electron.remote.app.on('browser-window-blur', () => {
-      if (this.isDimActive) {
-        this.windowHasFocus = false;
-      }
+      this.$store.commit('Window/setHasFocus', false);
     });
 
     this.$electron.remote.app.on('browser-window-focus', () => {
-      this.windowHasFocus = true;
+      this.$store.commit('Window/setHasFocus', true);
     });
   },
 };
