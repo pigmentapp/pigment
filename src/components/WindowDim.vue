@@ -76,13 +76,21 @@ export default {
     },
   },
   created() {
-    this.$electron.remote.app.on('browser-window-blur', () => {
-      this.$store.commit('Window/setHasFocus', false);
-    });
-
-    this.$electron.remote.app.on('browser-window-focus', () => {
-      this.$store.commit('Window/setHasFocus', true);
-    });
+    this.$electron.remote.app.on('browser-window-blur', this.onBlur);
+    this.$electron.remote.app.on('browser-window-focus', this.onFocus);
+  },
+  beforeDestroy() {
+    clearTimeout(this.dim.timeout);
+    this.$electron.remote.app.off('browser-window-blur', this.onBlur);
+    this.$electron.remote.app.off('browser-window-focus', this.onFocus);
+  },
+  methods: {
+    onBlur() {
+      this.$store.dispatch('Window/hasFocus', false);
+    },
+    onFocus() {
+      this.$store.dispatch('Window/hasFocus', true);
+    },
   },
 };
 </script>
