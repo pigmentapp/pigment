@@ -58,8 +58,12 @@
     >
       <app-icon
         :size="5"
-        :class="notificationsScheduleActive && 'text-green'"
-        :face="notificationsScheduleActive ? 'toggle-switch' : 'toggle-switch-off'"
+        :class="(notificationsScheduleActive && notificationsPreventOnBlur) && 'text-green'"
+        :face="
+          notificationsScheduleActive && notificationsPreventOnBlur
+            ? 'toggle-switch'
+            : 'toggle-switch-off'
+        "
         class="ml-6"
       />
       <div class="flex-grow pl-2">
@@ -74,6 +78,7 @@
         v-model="notificationsScheduleInMs"
         class="w-full px-2 py-1 mt-2 text-grey bg-grey-darkest"
         type="number"
+        @blur="setMinimumNotificationInterval"
       >
     </div>
 
@@ -136,6 +141,13 @@ export default {
       set(value) {
         this.$store.commit('Notifications/scheduleInMs', value * 60 * 1000);
       },
+    },
+  },
+  methods: {
+    setMinimumNotificationInterval() {
+      if (this.notificationsScheduleInMs < 0.05) {
+        this.notificationsScheduleInMs = 0.05;
+      }
     },
   },
 };
