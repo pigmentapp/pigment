@@ -63,6 +63,9 @@ export default {
     muteOnWindowBlur() {
       return this.$store.getters['Settings/muteOnWindowBlur'];
     },
+    preventNotifications() {
+      return this.$store.getters['Settings/preventNotifications'];
+    },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];
     },
@@ -80,13 +83,17 @@ export default {
   },
   mounted() {
     this.$refs.view.addEventListener('ipc-message', (event) => {
-      if (event.channel === 'notification') {
-        const [notification] = event.args;
+      if (event.channel !== 'notification') return;
 
-        this.$store.commit('Notifications/add', {
-          notification,
-          tab: this.item.ident,
-        });
+      const [notification] = event.args;
+
+      this.$store.commit('Notifications/add', {
+        notification,
+        tab: this.item.ident,
+      });
+
+      if (!this.preventNotifications || this.windowHasFocus) {
+        new Notification(notification.title, notification.options); // eslint-disable-line no-new
       }
     });
 

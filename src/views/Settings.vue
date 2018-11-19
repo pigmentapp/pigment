@@ -14,6 +14,19 @@
     </button>
 
     <button
+      @click="preventNotifications = !preventNotifications"
+    >
+      <app-icon
+        :size="5"
+        :class="preventNotifications && 'text-green'"
+        :face="preventNotifications ? 'toggle-switch' : 'toggle-switch-off'"
+      />
+      <div class="flex-grow pl-2">
+        Prevent notifications when leaving window
+      </div>
+    </button>
+
+    <button
       @click="muteOnWindowBlur = !muteOnWindowBlur"
     >
       <app-icon
@@ -73,6 +86,14 @@ export default {
       },
       set(value) {
         this.$store.commit('Settings/setMuteOnWindowBlur', value);
+      },
+    },
+    preventNotifications: {
+      get() {
+        return this.$store.getters['Settings/preventNotifications'];
+      },
+      set(value) {
+        this.$store.commit('Settings/setPreventNotifications', value);
       },
     },
   },
