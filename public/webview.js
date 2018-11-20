@@ -12,7 +12,7 @@ window.Notification = function (title, options) {
     notificationOptions.icon = `${window.location.origin}/${notificationOptions.icon}`;
   }
 
-  ipcRenderer.sendToHost('notification', { title, notificationOptions });
+  ipcRenderer.sendToHost('notification', { title, options: notificationOptions });
 };
 
 Notification.permission = OriginalNotification.permission;
