@@ -1,5 +1,23 @@
 <template>
   <div>
+    <router-link
+      :to="{ name: 'notifications' }"
+      tag="button"
+      class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
+      active-class="text-grey bg-grey-darkest"
+    >
+      <div
+        class="
+          flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3
+          bg-grey-darkest rounded-full shadow
+        "
+      >
+        <app-icon face="bell" />
+      </div>
+      <div
+        class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest"
+      >Notifications</div>
+    </router-link>
     <vue-draggable
       v-model="tabList"
       element="nav"
@@ -9,10 +27,11 @@
         :key="tab.ident"
         class="flex"
       >
-        <button
-          :class="tab.ident === activeTab.ident && ['text-grey', 'bg-grey-darkest']"
+        <router-link
+          :to="{ name: 'tabs', params: { ident: tab.ident } }"
+          tag="button"
           class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
-          @click="$store.commit('Tabs/activateIdent', tab.ident)"
+          active-class="text-grey bg-grey-darkest"
         >
           <div
             class="
@@ -32,7 +51,7 @@
               {{ tab.label }}
             </div>
           </div>
-        </button>
+        </router-link>
       </div>
     </vue-draggable>
   </div>
@@ -46,9 +65,6 @@ export default {
     VueDraggable,
   },
   computed: {
-    activeTab() {
-      return this.$store.getters['Tabs/active'];
-    },
     tabList: {
       get() {
         return this.$store.getters['Tabs/list'];

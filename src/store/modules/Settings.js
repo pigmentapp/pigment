@@ -3,6 +3,7 @@ export default {
   state: {
     isDimActive: false,
     isLayoutInverted: false,
+    muteOnWindowBlur: false,
   },
   getters: {
     isDimActive({ isDimActive }) {
@@ -19,6 +20,9 @@ export default {
           return !isLayoutInverted;
       }
     },
+    muteOnWindowBlur({ muteOnWindowBlur }) {
+      return muteOnWindowBlur;
+    },
   },
   mutations: {
     setDimActive(state, yesNo) {
@@ -26,6 +30,9 @@ export default {
     },
     setLayoutInverted(state, yesNo) {
       state.isLayoutInverted = yesNo;
+    },
+    setMuteOnWindowBlur(state, yesNo) {
+      state.muteOnWindowBlur = yesNo;
     },
   },
   actions: {

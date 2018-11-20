@@ -54,7 +54,7 @@ export default {
         ident,
         ...payload,
       });
-      commit('activateIdent', ident);
+      return ident;
     },
   },
 };

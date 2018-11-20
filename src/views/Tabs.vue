@@ -1,10 +1,11 @@
 <template>
-  <div class="bg-grey-darkest shadow-md">
+  <div>
     <tab-main
       v-for="tab in $store.getters['Tabs/list']"
       :key="tab.ident"
       :item="tab"
     />
+    <router-view/>
   </div>
 </template>
 

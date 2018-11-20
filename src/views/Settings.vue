@@ -14,6 +14,19 @@
     </button>
 
     <button
+      @click="muteOnWindowBlur = !muteOnWindowBlur"
+    >
+      <app-icon
+        :size="5"
+        :class="muteOnWindowBlur && 'text-green'"
+        :face="muteOnWindowBlur ? 'toggle-switch' : 'toggle-switch-off'"
+      />
+      <div class="flex-grow pl-2">
+        Mute tab audio when leaving window
+      </div>
+    </button>
+
+    <button
       @click="isLayoutInverted = !isLayoutInverted"
     >
       <app-icon
@@ -25,6 +38,56 @@
         Invert app layout
       </div>
     </button>
+
+    <button
+      @click="notificationsPreventOnBlur = !notificationsPreventOnBlur"
+    >
+      <app-icon
+        :size="5"
+        :class="notificationsPreventOnBlur && 'text-green'"
+        :face="notificationsPreventOnBlur ? 'toggle-switch' : 'toggle-switch-off'"
+      />
+      <div class="flex-grow pl-2">
+        Prevent notifications when leaving window
+      </div>
+    </button>
+
+    <button
+      :disabled="!notificationsPreventOnBlur"
+      @click="notificationsScheduleActive = !notificationsScheduleActive"
+    >
+      <app-icon
+        :size="5"
+        :class="(notificationsScheduleActive && notificationsPreventOnBlur) && 'text-green'"
+        :face="
+          notificationsScheduleActive && notificationsPreventOnBlur
+            ? 'toggle-switch'
+            : 'toggle-switch-off'
+        "
+        class="ml-6"
+      />
+      <div class="flex-grow pl-2">
+        Send summary of new notifications by schedule after leaving the window
+      </div>
+    </button>
+
+    <div class="p-3 pl-16">
+      Interval in minutes
+      <input
+        :disabled="!notificationsPreventOnBlur || !notificationsScheduleActive"
+        v-model="notificationsScheduleInMs"
+        class="w-full px-2 py-1 mt-2 text-grey bg-grey-darkest"
+        type="number"
+        @blur="setMinimumNotificationInterval"
+      >
+    </div>
+
+    <router-link
+      :to="{ name: 'welcome' }"
+      tag="button"
+    >
+      Show welcome page
+    </router-link>
   </div>
 </template>
 
@@ -46,6 +109,45 @@ export default {
       set(value) {
         this.$store.commit('Settings/setLayoutInverted', value);
       },
+    },
+    muteOnWindowBlur: {
+      get() {
+        return this.$store.getters['Settings/muteOnWindowBlur'];
+      },
+      set(value) {
+        this.$store.commit('Settings/setMuteOnWindowBlur', value);
+      },
+    },
+    notificationsPreventOnBlur: {
+      get() {
+        return this.$store.getters['Notifications/preventOnBlur'];
+      },
+      set(value) {
+        this.$store.commit('Notifications/preventOnBlur', value);
+      },
+    },
+    notificationsScheduleActive: {
+      get() {
+        return this.$store.getters['Notifications/scheduleActive'];
+      },
+      set(value) {
+        this.$store.commit('Notifications/scheduleActive', value);
+      },
+    },
+    notificationsScheduleInMs: {
+      get() {
+        return this.$store.getters['Notifications/scheduleInMs'] / 60 / 1000;
+      },
+      set(value) {
+        this.$store.commit('Notifications/scheduleInMs', value * 60 * 1000);
+      },
+    },
+  },
+  methods: {
+    setMinimumNotificationInterval() {
+      if (this.notificationsScheduleInMs < 0.15) {
+        this.notificationsScheduleInMs = 0.15;
+      }
     },
   },
 };

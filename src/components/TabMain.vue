@@ -17,6 +17,7 @@
       ref="view"
       :src="item.url"
       :useragent="item.userAgent"
+      :preload="preload"
       class="flex-grow"
     />
 
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import path from 'path';
 import url from 'url';
 import TabHeader from '@/components/TabHeader.vue';
 import TabSettings from '@/components/TabSettings.vue';
@@ -47,6 +49,7 @@ export default {
   data() {
     return {
       isSettingsView: false,
+      preload: `file://${path.join(__static, 'webview.js')}`, // eslint-disable-line no-undef
     };
   },
   computed: {
@@ -54,10 +57,46 @@ export default {
       return this.$store.getters['Tabs/active'];
     },
     isActive() {
-      return this.item.ident === this.activeTab.ident;
+      if (this.$route.name === 'settings' && this.activeTab.ident === this.item.ident) return true;
+      return parseInt(this.$route.params.ident, 0) === this.item.ident;
+    },
+    muteOnWindowBlur() {
+      return this.$store.getters['Settings/muteOnWindowBlur'];
+    },
+    notificationsPreventOnBlur() {
+      return this.$store.getters['Notifications/preventOnBlur'];
+    },
+    windowHasFocus() {
+      return this.$store.getters['Window/hasFocus'];
+    },
+  },
+  watch: {
+    isActive(isActive) {
+      if (isActive) {
+        this.$store.commit('Tabs/activateIdent', this.item.ident);
+      }
+    },
+    windowHasFocus(value) {
+      if (!this.muteOnWindowBlur) return;
+      this.$refs.view.setAudioMuted(!value);
     },
   },
   mounted() {
+    this.$refs.view.addEventListener('ipc-message', (event) => {
+      if (event.channel !== 'notification') return;
+
+      const [notification] = event.args;
+
+      this.$store.commit('Notifications/add', {
+        notification,
+        tabIdent: this.item.ident,
+      });
+
+      if (!this.notificationsPreventOnBlur || this.windowHasFocus) {
+        new Notification(notification.title, notification.options); // eslint-disable-line no-new
+      }
+    });
+
     this.$refs.view.addEventListener('page-title-updated', (view) => {
       this.$store.commit('Tabs/update', {
         ident: this.item.ident,
