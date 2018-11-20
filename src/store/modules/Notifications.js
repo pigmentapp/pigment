@@ -21,6 +21,9 @@ export default {
     list({ notifications }) {
       return notifications;
     },
+    listAfterTimestamp({ notifications }) {
+      return timestamp => notifications.filter(item => item.timestamp > timestamp);
+    },
     nextSchedule({ nextSchedule }) {
       return nextSchedule;
     },
@@ -35,10 +38,10 @@ export default {
     },
   },
   mutations: {
-    add(state, { tab, notification }) {
+    add(state, { tabIdent, notification }) {
       state.notifications.push({
         notification,
-        tab,
+        tabIdent,
         timestamp: Date.now(),
       });
     },

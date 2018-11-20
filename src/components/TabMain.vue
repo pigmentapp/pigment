@@ -89,7 +89,7 @@ export default {
 
       this.$store.commit('Notifications/add', {
         notification,
-        tab: this.item.ident,
+        tabIdent: this.item.ident,
       });
 
       if (!this.notificationsPreventOnBlur || this.windowHasFocus) {
