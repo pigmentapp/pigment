@@ -24,3 +24,6 @@ npm run test
 ```
 npm run lint
 ```
+
+### Windows Dev
+- add `node_modules\electron\dist\electron.exe` to Start Menu to 'activate' notifications in dev mode
