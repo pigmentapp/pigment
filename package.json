@@ -11,6 +11,7 @@
     "serve:electron": "vue-cli-service serve:electron"
   },
   "dependencies": {
+    "is-url-relative-without-domain": "^1.1.1",
     "prism-themes": "^1.0.1",
     "prismjs": "^1.15.0",
     "vue": "^2.5.17",
