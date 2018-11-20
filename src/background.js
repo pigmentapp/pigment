@@ -8,6 +8,8 @@ import {
   installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib';
 
+app.setAppUserModelId(process.execPath);
+
 const moduleReq = require('module');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';

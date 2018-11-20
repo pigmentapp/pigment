@@ -145,8 +145,8 @@ export default {
   },
   methods: {
     setMinimumNotificationInterval() {
-      if (this.notificationsScheduleInMs < 0.05) {
-        this.notificationsScheduleInMs = 0.05;
+      if (this.notificationsScheduleInMs < 0.15) {
+        this.notificationsScheduleInMs = 0.15;
       }
     },
   },
