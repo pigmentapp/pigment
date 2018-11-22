@@ -1,68 +1,34 @@
 <template>
-  <div>
-    <router-link
+  <div class="flex flex-col">
+    <tabs-nav-item
       :to="{ name: 'notifications' }"
-      tag="button"
-      class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
-      active-class="text-grey bg-grey-darkest"
-    >
-      <div
-        class="
-          flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3
-          bg-grey-darkest rounded-full shadow
-        "
-      >
-        <app-icon face="bell" />
-      </div>
-      <div
-        class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest"
-      >Notifications</div>
-    </router-link>
+      label="Notifications"
+      icon="bell"
+    />
     <vue-draggable
       v-model="tabList"
       element="nav"
+      class="flex flex-col mt-2"
     >
-      <div
+      <tabs-nav-item
         v-for="tab in tabList"
         :key="tab.ident"
-        class="flex"
-      >
-        <router-link
-          :to="{ name: 'tabs', params: { ident: tab.ident } }"
-          tag="button"
-          class="flex flex-grow items-center pt-px pl-2 -mb-px w-full text-grey-dark text-left"
-          active-class="text-grey bg-grey-darkest"
-        >
-          <div
-            class="
-              flex flex-no-shrink justify-center items-center p-1 w-8 h-8 -mt-px mr-3
-              bg-grey-light rounded-full shadow
-            "
-          >
-            <img
-              :src="tab.favicon"
-              class="block max-w-full max-h-full"
-            >
-          </div>
-          <div
-            class="flex flex-grow items-center py-4 pr-2 text-overflow border-b border-grey-darkest"
-          >
-            <div class="text-overflow">
-              {{ tab.label }}
-            </div>
-          </div>
-        </router-link>
-      </div>
+        :label="tab.label"
+        :image="tab.favicon"
+        :to="{ name: 'tabs', params: { ident: tab.ident } }"
+      />
     </vue-draggable>
   </div>
 </template>
 
 <script>
 import VueDraggable from 'vuedraggable';
+import TabsNavItem from '@/components/TabsNavItem.vue';
 
 export default {
   components: {
     VueDraggable,
+    TabsNavItem,
   },
   computed: {
     tabList: {
