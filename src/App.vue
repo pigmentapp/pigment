@@ -61,3 +61,10 @@ export default {
   @apply z-10 flex flex-1 flex-col min-w-0 bg-grey-darkest shadow-md;
 }
 </style>
+
+<style>
+button:focus,
+button:active:focus {
+  outline: none !important;
+}
+</style>
