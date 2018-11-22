@@ -74,6 +74,7 @@ export default {
     isActive(isActive) {
       if (isActive) {
         this.$store.commit('Tabs/activateIdent', this.item.ident);
+        this.$refs.view.focus();
       }
     },
     windowHasFocus(value) {
