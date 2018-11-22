@@ -9,7 +9,7 @@ export default new Router({
       path: '/tabs/:ident?',
       name: 'tabs',
       components: {
-        aside: () => import(/* webpackChunkName: "tabs" */ '@/components/TabNav.vue'),
+        aside: () => import(/* webpackChunkName: "tabs" */ '@/views/TabsNav.vue'),
         default: () => import(/* webpackChunkName: "tabs" */ '@/views/Tabs.vue'),
       },
       children: [
