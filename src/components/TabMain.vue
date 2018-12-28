@@ -16,7 +16,7 @@
       v-show="item.url && !isSettingsView"
       ref="view"
       :src="item.url"
-      :useragent="item.userAgent"
+      :useragent="userAgent"
       :preload="preload"
       class="flex-grow"
     />
@@ -65,6 +65,9 @@ export default {
     },
     notificationsPreventOnBlur() {
       return this.$store.getters['Notifications/preventOnBlur'];
+    },
+    userAgent() {
+      return this.item.userAgent || navigator.userAgent;
     },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];

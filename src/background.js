@@ -8,6 +8,8 @@ import {
   installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib';
 
+import pkg from '../package.json';
+
 app.setAppUserModelId(process.execPath);
 
 const moduleReq = require('module');
@@ -29,6 +31,13 @@ function createMainWindow() {
     icon: path.join(__static, 'favicon.ico'), // eslint-disable-line no-undef
     frame: false,
   });
+
+  // remove electron and app specific user agents to prevent sideeffects like
+  // https://github.com/ramboxapp/community-edition/issues/1981
+  // https://github.com/meetfranz/franz/issues/1185
+  // https://github.com/meetfranz/franz/issues/1138
+  const removeUserAgents = `(Electron|${pkg.name})/([0-9.]+) `;
+  window.webContents.setUserAgent(window.webContents.getUserAgent().replace(new RegExp(removeUserAgents, 'g'), ''));
 
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
