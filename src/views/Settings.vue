@@ -88,6 +88,11 @@
     >
       Show welcome page
     </router-link>
+    <button
+      @click="wipeAppData"
+    >
+      Reset pigment (wipes everything)
+    </button>
   </div>
 </template>
 
@@ -147,6 +152,18 @@ export default {
     setMinimumNotificationInterval() {
       if (this.notificationsScheduleInMs < 0.15) {
         this.notificationsScheduleInMs = 0.15;
+      }
+    },
+    wipeAppData() {
+      if (confirm('Everything will be gone forever!')) { // eslint-disable-line no-alert, no-restricted-globals
+        this.$electron.remote.session.defaultSession.clearCache(() => {
+          this.$electron.remote.session.defaultSession.clearStorageData({
+            storages: ['localstorage', 'caches', 'indexdb'],
+          }, () => {
+            this.$router.replace('/');
+            this.$electron.remote.getCurrentWindow().reload();
+          });
+        });
       }
     },
   },
