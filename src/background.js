@@ -28,8 +28,10 @@ let mainWindow;
 protocol.registerStandardSchemes(['app'], { secure: true });
 function createMainWindow() {
   const window = new BrowserWindow({
-    icon: path.join(__static, 'favicon.ico'), // eslint-disable-line no-undef
+    backgroundColor: '#22292f',
     frame: false,
+    icon: path.join(__static, 'favicon.ico'), // eslint-disable-line no-undef
+    show: false,
   });
 
   // remove electron and app specific user agents to prevent sideeffects like
@@ -52,6 +54,11 @@ function createMainWindow() {
       slashes: true,
     }));
   }
+
+  window.on('ready-to-show', () => {
+    window.show();
+    window.focus();
+  });
 
   window.on('closed', () => {
     mainWindow = null;
