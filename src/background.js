@@ -1,12 +1,14 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { app, Menu, protocol, BrowserWindow } from 'electron';
+import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
+/* eslint-disable import/no-extraneous-dependencies */
+import { app, Menu, protocol, BrowserWindow } from 'electron';
 import {
   createProtocol,
   installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib';
+/* eslint-enable import/no-extraneous-dependencies */
 
 import pkg from '../package.json';
 
@@ -27,12 +29,21 @@ let mainWindow;
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], { secure: true });
 function createMainWindow() {
+  const mainWindowState = windowStateKeeper();
+
   const window = new BrowserWindow({
     backgroundColor: '#22292f',
     frame: false,
     icon: path.join(__static, 'favicon.ico'), // eslint-disable-line no-undef
     show: false,
+    // dimensions and position
+    height: mainWindowState.height,
+    width: mainWindowState.width,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
   });
+
+  mainWindowState.manage(window);
 
   // remove electron and app specific user agents to prevent sideeffects like
   // https://github.com/ramboxapp/community-edition/issues/1981

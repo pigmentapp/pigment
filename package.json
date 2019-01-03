@@ -11,6 +11,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "electron-window-state": "^5.0.3",
     "is-url-relative-without-domain": "^1.1.1",
     "prism-themes": "^1.0.1",
     "prismjs": "^1.15.0",
