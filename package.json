@@ -1,7 +1,19 @@
 {
   "name": "pigment",
   "version": "0.1.0",
-  "private": true,
+  "productName": "Pigment",
+  "description": "Manage your webapps from one central app. Including features for your well-being.",
+  "homepage": "https://pigment.leonardhertel.de",
+  "license": "",
+  "repository": {
+    "type" : "git",
+    "url": "https://gitlab.com/herteleo/pigment.git"
+  },
+  "author": {
+    "name": "Leonard Hertel",
+    "email": "leonard.hertel@gmail.com",
+    "url": "https://leonardhertel.de"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
