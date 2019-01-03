@@ -78,11 +78,12 @@ export default {
   created() {
     this.$electron.remote.app.on('browser-window-blur', this.onBlur);
     this.$electron.remote.app.on('browser-window-focus', this.onFocus);
-  },
-  beforeDestroy() {
-    clearTimeout(this.dim.timeout);
-    this.$electron.remote.app.off('browser-window-blur', this.onBlur);
-    this.$electron.remote.app.off('browser-window-focus', this.onFocus);
+
+    window.addEventListener('beforeunload', () => {
+      clearTimeout(this.dim.timeout);
+      this.$electron.remote.app.off('browser-window-blur', this.onBlur);
+      this.$electron.remote.app.off('browser-window-focus', this.onFocus);
+    });
   },
   methods: {
     onBlur() {
