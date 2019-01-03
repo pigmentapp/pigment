@@ -42,8 +42,8 @@ export default {
 
       Vue.set(list, index, {
         ...item,
-        isNew: false,
         ...data,
+        isNew: false,
       });
     },
   },
