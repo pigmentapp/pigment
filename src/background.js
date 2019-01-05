@@ -34,7 +34,6 @@ function createMainWindow() {
   const window = new BrowserWindow({
     backgroundColor: '#22292f',
     frame: false,
-    icon: path.join(__static, 'favicon.ico'), // eslint-disable-line no-undef
     show: false,
     // dimensions and position
     height: mainWindowState.height,

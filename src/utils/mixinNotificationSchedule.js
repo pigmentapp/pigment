@@ -52,6 +52,7 @@ export default {
         } else if (newNotifications.length) {
           const notificationOptions = {
             body: `[${newNotifications.length}] New Notifications`,
+            icon: `${process.env.BASE_URL}/notification.png`,
           };
 
           new Notification( // eslint-disable-line no-new

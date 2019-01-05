@@ -6,7 +6,7 @@
   "homepage": "https://pigment.leonardhertel.de",
   "license": "",
   "repository": {
-    "type" : "git",
+    "type": "git",
     "url": "https://gitlab.com/herteleo/pigment.git"
   },
   "author": {
@@ -18,9 +18,10 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "electron:build": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps"
+    "electron:build": "npm run generate-icons && vue-cli-service electron:build",
+    "electron:serve": "npm run generate-icons && vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "generate-icons": "node ./scripts/generate-icons.js"
   },
   "dependencies": {
     "electron-window-state": "^5.0.3",
@@ -41,7 +42,10 @@
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-airbnb": "^3.0.4",
     "electron": "^3.0.13",
+    "electron-icon-maker": "0.0.4",
+    "move-file": "^1.0.0",
     "node-sass": "^4.9.0",
+    "rimraf": "^2.6.3",
     "sass-loader": "^7.0.1",
     "svg-loader": "0.0.2",
     "tailwindcss": "^0.6.6",
