@@ -1,4 +1,9 @@
-import db from '@/db';
+import Connection from '@/db';
+
+const db = new Connection({
+  file: 'notifications.json',
+  defaults: { notifications: [] },
+});
 
 function nextScheduleIs(timeOfWindowBlur, notificationSchedule) {
   const nextSchedule = timeOfWindowBlur + notificationSchedule;
@@ -13,7 +18,6 @@ function nextScheduleIs(timeOfWindowBlur, notificationSchedule) {
 export default {
   namespaced: true,
   state: {
-    notifications: [],
     nextSchedule: 0,
     preventOnBlur: false,
     scheduleActive: false,
@@ -21,20 +25,14 @@ export default {
     dbUpdated: Date.now(),
   },
   getters: {
-    list({ dbUpdated }) {
-      // eslint-disable-next-line no-sequences
-      return dbUpdated, db
-        .get('notifications')
-        .orderBy('timestamp', 'desc')
-        .value();
-    },
-    listAfterTimestamp({ dbUpdated }) {
-      // eslint-disable-next-line no-sequences
-      return dbUpdated, timestamp => db
-        .get('notifications')
-        .filter(item => item.timestamp > timestamp)
-        .orderBy('timestamp', 'desc')
-        .value();
+    list: ({ dbUpdated }) => ({ newerThanTimestamp } = {}) => {
+      const items = db('notifications', dbUpdated);
+
+      if (newerThanTimestamp) {
+        items.filter(item => item.timestamp > newerThanTimestamp);
+      }
+
+      return items.orderBy('timestamp', 'desc').value();
     },
     nextSchedule({ nextSchedule }) {
       return nextSchedule;
@@ -51,7 +49,7 @@ export default {
   },
   mutations: {
     add(state, { tabIdent, notification }) {
-      db.get('notifications')
+      db('notifications')
         .push({
           notification,
           tabIdent,

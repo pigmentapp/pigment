@@ -1,40 +1,29 @@
 import { homedir } from 'os';
+import path from 'path';
 import lowdb from 'lowdb';
 import FileSync from 'lowdb/adapters/FileSync';
 
-const adapter = new FileSync(`${homedir()}/.pigment.json`);
-const db = lowdb(adapter);
+export default class {
+  constructor(options = {}) {
+    this.setOptions(options);
+    this.init();
 
-db.defaults({
-  notifications: [],
-}).write();
+    return collection => this.db.get(collection);
+  }
 
-// export const createNotification = ({ notification, tabIdent }) => {
-//   const notificationItem = {
-//     notification,
-//     tabIdent,
-//     timestamp: Date.now(),
-//   };
+  setOptions(options) {
+    this.options = {
+      path: path.join(homedir(), '.pigment'),
+      file: undefined,
+      defaults: {},
+      ...options,
+    };
+  }
 
-//   db.get('notifications')
-//     .push(notificationItem)
-//     .write();
+  init() {
+    const adapter = new FileSync(path.join(this.options.path, this.options.file));
+    this.db = lowdb(adapter);
 
-//   return notificationItem;
-// };
-
-// export const getNotifications = ({ afterTimestamp } = {}) => {
-//   const notifications = db
-//     .get('notifications')
-//     .orderBy('timestamp', 'desc');
-
-//   if (afterTimestamp) {
-//     return notifications
-//       .filter(item => item.timestamp > afterTimestamp)
-//       .value();
-//   }
-
-//   return notifications.value();
-// };
-
-export default db;
+    this.db.defaults(this.options.defaults).write();
+  }
+}

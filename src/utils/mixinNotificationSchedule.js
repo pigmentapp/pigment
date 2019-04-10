@@ -15,7 +15,9 @@ export default {
       return this.$store.getters['Notifications/nextSchedule'];
     },
     notificationsAfterWindowBlur() {
-      return this.$store.getters['Notifications/listAfterTimestamp'](this.windowTimestampOfBlur);
+      return this.$store.getters['Notifications/list']({
+        newerThanTimestamp: this.windowTimestampOfBlur,
+      });
     },
     notificationsPreventOnBlur() {
       return this.$store.getters['Notifications/preventOnBlur'];
