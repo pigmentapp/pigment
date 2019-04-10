@@ -93,6 +93,16 @@
     >
       Reset pigment (wipes everything)
     </button>
+    <div class="p-3 text-sm text-grey-darker">
+      Pigment is made by
+      <a
+        class="text-grey-darker"
+        href="//leonardhertel.de"
+        @click.prevent="$electron.remote.shell.openExternal('https://leonardhertel.de')"
+      >
+        Leonard Hertel
+      </a>
+    </div>
   </div>
 </template>
 
