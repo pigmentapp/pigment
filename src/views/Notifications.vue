@@ -17,6 +17,7 @@
         v-for="item in notifications"
         :key="item.timestamp"
         class="flex p-2 mb-2 bg-black rounded"
+        @click="$router.push({ name: 'tabs', params: { ident: item.tabIdent }})"
       >
         <div
           class="
