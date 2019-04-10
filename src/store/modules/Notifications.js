@@ -59,6 +59,14 @@ export default {
 
       state.dbUpdated = Date.now();
     },
+    removeAll(state) {
+      db('notifications').remove().write();
+      state.dbUpdated = Date.now();
+    },
+    removeItem(state, item) {
+      db('notifications').remove(i => i === item).write();
+      state.dbUpdated = Date.now();
+    },
     nextSchedule(state, schedule) {
       state.nextSchedule = schedule;
     },
