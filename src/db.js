@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 import lowdb from 'lowdb';
@@ -6,6 +7,7 @@ import FileSync from 'lowdb/adapters/FileSync';
 export default class {
   constructor(options = {}) {
     this.setOptions(options);
+    this.createFolder();
     this.init();
 
     return collection => this.db.get(collection);
@@ -18,6 +20,11 @@ export default class {
       defaults: {},
       ...options,
     };
+  }
+
+  createFolder() {
+    if (fs.existsSync(this.options.path)) return;
+    fs.mkdirSync(this.options.path);
   }
 
   init() {
