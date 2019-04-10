@@ -27,7 +27,7 @@
 export default {
   computed: {
     notifications() {
-      return [...this.$store.getters['Notifications/list']].reverse();
+      return this.$store.getters['Notifications/list'];
     },
   },
 };

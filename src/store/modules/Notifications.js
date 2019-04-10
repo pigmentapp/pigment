@@ -1,3 +1,5 @@
+import db from '@/db';
+
 function nextScheduleIs(timeOfWindowBlur, notificationSchedule) {
   const nextSchedule = timeOfWindowBlur + notificationSchedule;
 
@@ -16,13 +18,23 @@ export default {
     preventOnBlur: false,
     scheduleActive: false,
     scheduleInMs: 1200000,
+    dbUpdated: Date.now(),
   },
   getters: {
-    list({ notifications }) {
-      return notifications;
+    list({ dbUpdated }) {
+      // eslint-disable-next-line no-sequences
+      return dbUpdated, db
+        .get('notifications')
+        .orderBy('timestamp', 'desc')
+        .value();
     },
-    listAfterTimestamp({ notifications }) {
-      return timestamp => notifications.filter(item => item.timestamp > timestamp);
+    listAfterTimestamp({ dbUpdated }) {
+      // eslint-disable-next-line no-sequences
+      return dbUpdated, timestamp => db
+        .get('notifications')
+        .filter(item => item.timestamp > timestamp)
+        .orderBy('timestamp', 'desc')
+        .value();
     },
     nextSchedule({ nextSchedule }) {
       return nextSchedule;
@@ -39,11 +51,15 @@ export default {
   },
   mutations: {
     add(state, { tabIdent, notification }) {
-      state.notifications.push({
-        notification,
-        tabIdent,
-        timestamp: Date.now(),
-      });
+      db.get('notifications')
+        .push({
+          notification,
+          tabIdent,
+          timestamp: Date.now(),
+        })
+        .write();
+
+      state.dbUpdated = Date.now();
     },
     nextSchedule(state, schedule) {
       state.nextSchedule = schedule;
