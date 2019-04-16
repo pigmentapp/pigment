@@ -1,46 +1,51 @@
 <template>
-  <header class="flex px-1 leading-none">
-    <button @click="$emit('goToHome')">
-      <app-icon face="home-variant" />
-    </button>
-    <button @click="$emit('doReload')">
-      <app-icon face="refresh" />
-    </button>
-    <div class="title">
+  <title-bar :indent="isLayoutInverted">
+    <title-bar-button
+      icon="home-variant"
+      @click="$emit('goToHome')"
+    />
+    <title-bar-button
+      icon="refresh"
+      @click="$emit('doReload')"
+    />
+    <div :class="$style.title">
       {{ item.title }}
     </div>
-    <button @click="$emit('toggleDevTools')">
-      <app-icon face="code-tags" />
-    </button>
-    <button @click="$emit('toggleSettings')">
-      <app-icon face="dots-vertical" />
-    </button>
-  </header>
+    <title-bar-button
+      icon="code-tags"
+      @click="$emit('toggleDevTools')"
+    />
+    <title-bar-button
+      icon="dots-vertical"
+      @click="$emit('toggleSettings')"
+    />
+  </title-bar>
 </template>
 
 <script>
+import TitleBar from '@/components/TitleBar.vue';
+import TitleBarButton from '@/components/TitleBarButton.vue';
+
 export default {
+  components: {
+    TitleBar,
+    TitleBarButton,
+  },
   props: {
     item: {
       type: Object,
       default: () => ({}),
     },
   },
+  computed: {
+    isLayoutInverted() {
+      return this.$store.getters['Settings/isLayoutInvertedForOs'];
+    },
+  },
 };
 </script>
 
-<style lang="postcss" scoped>
-header {
-  background-color: #0009;
-}
-button {
-  @apply p-2 leading-none appearance-none text-grey;
-}
-
-button:hover {
-  @apply text-blue-lighter bg-blue;
-}
-
+<style lang="postcss" module>
 .title {
   @apply flex-1 p-2 text-sm truncate;
   -webkit-app-region: drag;

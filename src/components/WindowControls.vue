@@ -1,52 +1,54 @@
 <template>
-  <div
+  <title-bar
     :class="{
-      flex: true,
       'flex-row-reverse': isLayoutInverted,
-      'px-1': true,
     }"
+    :indent="!isLayoutInverted"
   >
-    <button
-      class="hover:text-red-lighter hover:bg-red-dark"
-      @click="window.close()"
-    >
-      <app-icon face="window-close" />
-    </button>
-    <button
-      class="hover:text-orange-lighter hover:bg-orange-dark"
-      @click="toggleMaximized()"
-    >
-      <app-icon :face="isMaximized ? 'window-restore' : 'window-maximize'" />
-    </button>
-    <button
-      class="hover:text-green-lighter hover:bg-green-dark"
-      @click="window.minimize()"
-    >
-      <app-icon face="window-minimize" />
-    </button>
+    <template v-if="!$options.isMac">
+      <title-bar-button
+        icon="window-close"
+        class="hover:text-red-lighter hover:bg-red-dark"
+        @click="window.close()"
+      />
+      <title-bar-button
+        :icon="isMaximized ? 'window-restore' : 'window-maximize'"
+        class="hover:text-orange-lighter hover:bg-orange-dark"
+        @click="toggleMaximized()"
+      />
+      <title-bar-button
+        icon="window-minimize"
+        class="hover:text-green-lighter hover:bg-green-dark"
+        @click="window.minimize()"
+      />
+    </template>
     <div
       class="flex-grow"
       style="-webkit-app-region: drag;"
     />
-    <button
+    <title-bar-button
       v-if="!isSettingsView"
-      class="hover:text-blue-lighter hover:bg-blue"
+      icon="tab-plus"
       @click="createTab"
-    >
-      <app-icon face="tab-plus" />
-    </button>
-    <button
-      :class="isSettingsView && 'active'"
-      class="hover:text-blue-lighter hover:bg-blue"
+    />
+    <title-bar-button
+      :icon="isSettingsView ? 'arrow-left' : 'settings'"
+      :active="isSettingsView"
       @click="toggleSettings"
-    >
-      <app-icon :face="isSettingsView ? 'arrow-left' : 'settings'" />
-    </button>
-  </div>
+    />
+  </title-bar>
 </template>
 
 <script>
+import TitleBar from '@/components/TitleBar.vue';
+import TitleBarButton from '@/components/TitleBarButton.vue';
+
 export default {
+  components: {
+    TitleBar,
+    TitleBarButton,
+  },
+  isMac: process.platform === 'darwin',
   data() {
     return {
       isMaximized: false,
@@ -107,13 +109,3 @@ export default {
   },
 };
 </script>
-
-<style lang="postcss" scoped>
-button {
-  @apply p-2 appearance-none text-grey-dark;
-}
-
-button.active {
-  @apply text-blue-lighter bg-blue;
-}
-</style>

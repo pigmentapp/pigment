@@ -35,6 +35,7 @@ function createMainWindow() {
     backgroundColor: '#22292f',
     frame: false,
     show: false,
+    titleBarStyle: 'hiddenInset',
     // dimensions and position
     height: mainWindowState.height,
     width: mainWindowState.width,
