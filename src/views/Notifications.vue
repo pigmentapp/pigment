@@ -43,7 +43,7 @@
             <button
               type="button"
               class="text-grey-dark"
-              @click="removeItem(item)"
+              @click.stop="removeItem(item)"
             >
               &times;
             </button>
