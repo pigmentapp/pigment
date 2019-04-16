@@ -10,7 +10,7 @@ export default class {
     this.createFolder();
     this.init();
 
-    return collection => this.db.get(collection);
+    return () => this.db;
   }
 
   setOptions(options) {

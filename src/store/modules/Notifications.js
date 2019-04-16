@@ -26,7 +26,7 @@ export default {
   },
   getters: {
     list: ({ dbUpdated }) => ({ newerThanTimestamp } = {}) => {
-      const items = db('notifications', dbUpdated);
+      const items = db(dbUpdated).get('notifications');
 
       if (newerThanTimestamp) {
         items.filter(item => item.timestamp > newerThanTimestamp);
@@ -49,7 +49,7 @@ export default {
   },
   mutations: {
     add(state, { tabIdent, notification }) {
-      db('notifications')
+      db().get('notifications')
         .push({
           notification,
           tabIdent,
@@ -60,11 +60,11 @@ export default {
       state.dbUpdated = Date.now();
     },
     removeAll(state) {
-      db('notifications').remove().write();
+      db().get('notifications').remove().write();
       state.dbUpdated = Date.now();
     },
     removeItem(state, item) {
-      db('notifications').remove(i => i === item).write();
+      db().get('notifications').remove(i => i === item).write();
       state.dbUpdated = Date.now();
     },
     nextSchedule(state, schedule) {
