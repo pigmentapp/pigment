@@ -14,22 +14,20 @@
         name="aside"
       />
     </aside>
-    <window-dim
-      el="router-view"
-      class="main"
-    />
+    <router-view class="main" />
+    <window-dimmer />
   </div>
 </template>
 
 <script>
 import WindowControls from '@/components/WindowControls.vue';
-import WindowDim from '@/components/WindowDim.vue';
+import WindowDimmer from '@/components/WindowDimmer.vue';
 import NotificationSchedule from '@/utils/mixinNotificationSchedule';
 
 export default {
   components: {
     WindowControls,
-    WindowDim,
+    WindowDimmer,
   },
   mixins: [NotificationSchedule],
   computed: {
