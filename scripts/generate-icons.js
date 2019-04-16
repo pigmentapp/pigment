@@ -12,7 +12,7 @@ const removeExistingIcons = () => {
 };
 
 const generateIcons = async () => {
-  const { stdout } = await exec('npx electron-icon-maker --input=./build/logo.png --output=./build');
+  const { stdout } = await exec('npx electron-icon-maker --input=./src/assets/logo/logo.png --output=./build');
   console.log(stdout);
 };
 
