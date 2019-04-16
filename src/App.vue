@@ -35,9 +35,6 @@ export default {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
   },
-  created() {
-    console.log(this.$style);
-  },
 };
 </script>
 
