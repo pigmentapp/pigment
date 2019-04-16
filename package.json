@@ -29,7 +29,7 @@
     "lowdb": "^1.0.0",
     "prism-themes": "^1.0.1",
     "prismjs": "^1.15.0",
-    "vue": "^2.5.17",
+    "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
     "vue-prism-editor": "^0.1.2",
     "vue-router": "^3.0.1",
@@ -51,7 +51,7 @@
     "svg-loader": "0.0.2",
     "tailwindcss": "^0.6.6",
     "vue-cli-plugin-electron-builder": "^1.2.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.6.10"
   },
   "main": "background.js"
 }
