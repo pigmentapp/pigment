@@ -1,50 +1,76 @@
-import Vue from 'vue';
+import Connection from '@/db';
+
+const db = new Connection({
+  file: 'tabs.json',
+  defaults: {
+    tabs: [],
+    sorting: [],
+  },
+});
 
 export default {
   namespaced: true,
   state: {
     activeIdent: 0,
-    list: [],
+    dbUpdated: Date.now(),
   },
   getters: {
-    active(state) {
-      const { activeIdent, list } = state;
-      return list.find(item => item.ident === activeIdent) || {};
+    active({ activeIdent, dbUpdated }) {
+      return db(dbUpdated).get('tabs').find(item => item.ident === activeIdent).value() || {};
     },
-    list(state) {
-      return state.list;
+    list({ dbUpdated }) {
+      return db(dbUpdated)
+        .get('tabs')
+        .cloneDeep()
+        .value();
+    },
+    listSorted({ dbUpdated }, { list }) {
+      const sorting = db(dbUpdated).get('sorting').value();
+
+      return list.sort((a, b) => sorting.indexOf(a.ident) - sorting.indexOf(b.ident));
     },
   },
   mutations: {
     activateIdent(state, ident) {
       state.activeIdent = ident;
+      state.dbUpdated = Date.now();
     },
-    add({ list }, { ident, label = 'New Tab', url = '' }) {
-      list.push({
-        ident,
-        label,
-        url,
-        title: '',
-        favicon: '',
-        isNew: true,
-      });
+    add(state, { ident, label = 'New Tab', url = '' }) {
+      db()
+        .get('tabs')
+        .push({
+          ident,
+          label,
+          url,
+          title: '',
+          favicon: '',
+          isNew: true,
+        })
+        .write();
+      state.dbUpdated = Date.now();
     },
     delete(state, item) {
-      Vue.delete(state.list, state.list.indexOf(item));
+      db()
+        .get('tabs')
+        .remove(i => i.ident === item.ident)
+        .write();
       state.activateIdent = 0;
+      state.dbUpdated = Date.now();
     },
-    setList(state, items) {
-      state.list = items;
+    setSorting(state, items) {
+      db().set('sorting', items.map(item => item.ident)).write();
+      state.dbUpdated = Date.now();
     },
-    update({ list }, { ident, data }) {
-      const index = list.findIndex(item => item.ident === ident);
-      const item = list[index];
+    update(state, { ident, data }) {
+      db()
+        .get('tabs')
+        .find(i => i.ident === ident).assign({
+          ...data,
+          isNew: false,
+        })
+        .write();
 
-      Vue.set(list, index, {
-        ...item,
-        ...data,
-        isNew: false,
-      });
+      state.dbUpdated = Date.now();
     },
   },
   actions: {

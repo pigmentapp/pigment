@@ -33,10 +33,10 @@ export default {
   computed: {
     tabList: {
       get() {
-        return this.$store.getters['Tabs/list'];
+        return this.$store.getters['Tabs/listSorted'];
       },
       set(items) {
-        this.$store.commit('Tabs/setList', items);
+        this.$store.commit('Tabs/setSorting', items);
       },
     },
   },
