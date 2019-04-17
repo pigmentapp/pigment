@@ -27,7 +27,7 @@ export default {
     listSorted({ dbUpdated }, { list }) {
       const sorting = db(dbUpdated).get('sorting').value();
 
-      return list.sort((a, b) => sorting.indexOf(a.ident) - sorting.indexOf(b.ident));
+      return [...list].sort((a, b) => sorting.indexOf(a.ident) - sorting.indexOf(b.ident));
     },
   },
   mutations: {

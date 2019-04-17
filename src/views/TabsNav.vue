@@ -7,7 +7,7 @@
     />
     <vue-draggable
       v-model="tabList"
-      element="nav"
+      tag="nav"
       class="flex flex-col mt-2"
     >
       <tabs-nav-item
