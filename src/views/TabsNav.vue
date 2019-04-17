@@ -7,6 +7,9 @@
     />
     <vue-draggable
       v-model="tabList"
+      :delay="400"
+      :chosen-class="$style.drag"
+      :drag-class="$style.helper"
       tag="nav"
       class="flex flex-col mt-2"
     >
@@ -47,5 +50,14 @@ export default {
 .text-overflow {
   @apply overflow-hidden whitespace-no-wrap;
   text-overflow: ellipsis;
+}
+</style>
+
+<style lang="postcss" module>
+.drag {
+  @apply cursor-move text-blue-lighter bg-blue;
+}
+.helper {
+  @apply opacity-0;
 }
 </style>
