@@ -9,23 +9,25 @@
       <window-controls
         :class="$style.aside__header"
       />
-      <router-view
-        :class="$style.aside__body"
-        name="aside"
-      />
+      <tabs-nav :class="$style.aside__body" />
     </aside>
+    <tabs-list :class="$style.main" />
     <router-view :class="$style.main" />
     <window-dimmer />
   </div>
 </template>
 
 <script>
+import TabsList from '@/components/TabsList.vue';
+import TabsNav from '@/components/TabsNav.vue';
 import WindowControls from '@/components/WindowControls.vue';
 import WindowDimmer from '@/components/WindowDimmer.vue';
 import NotificationSchedule from '@/utils/mixinNotificationSchedule';
 
 export default {
   components: {
+    TabsList,
+    TabsNav,
     WindowControls,
     WindowDimmer,
   },
@@ -69,7 +71,7 @@ export default {
 
 .main {
   @apply
-    z-10 flex flex-col overflow-y-auto
+    z-10 overflow-y-auto
     bg-grey-darkest shadow-md;
   grid-column: main;
 }

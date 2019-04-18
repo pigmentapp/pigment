@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div
+    v-show="$route.name === 'tabs'"
+    :class="$style.tabs"
+  >
     <tab-main
       v-for="tab in $store.getters['Tabs/list']"
       :key="tab.ident"
       :item="tab"
     />
-    <router-view/>
   </div>
 </template>
 
@@ -18,3 +20,9 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" module>
+.tabs {
+  @apply flex flex-col;
+}
+</style>

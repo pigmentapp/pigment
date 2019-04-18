@@ -27,14 +27,12 @@
       style="-webkit-app-region: drag;"
     />
     <title-bar-button
-      v-if="!isSettingsView"
       icon="tab-plus"
       @click="createTab"
     />
     <title-bar-button
-      :icon="isSettingsView ? 'arrow-left' : 'settings'"
-      :active="isSettingsView"
-      @click="toggleSettings"
+      icon="settings"
+      @click="showSettings"
     />
   </title-bar>
 </template>
@@ -97,14 +95,10 @@ export default {
         this.window.maximize();
       }
     },
-    toggleSettings() {
-      if (this.isSettingsView) {
-        this.$router.back();
-      } else {
-        this.$router.push({
-          name: 'settings',
-        });
-      }
+    showSettings() {
+      this.$router.push({
+        name: 'settings',
+      });
     },
   },
 };
