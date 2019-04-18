@@ -14,7 +14,7 @@ module.exports = {
       props: true,
       ignorePropertyModificationsFor: [
         'state',
-      ]
+      ],
     }],
   },
   parserOptions: {
