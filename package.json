@@ -38,6 +38,8 @@
     "vuex-persist": "^1.7.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-conventional": "^7.5.0",
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-service": "^3.5.3",
@@ -53,5 +55,8 @@
     "vue-cli-plugin-electron-builder": "^1.2.0",
     "vue-template-compiler": "^2.6.10"
   },
-  "main": "background.js"
+  "main": "background.js",
+  "gitHooks": {
+    "commit-msg": "commitlint -E GIT_PARAMS"
+  }
 }
