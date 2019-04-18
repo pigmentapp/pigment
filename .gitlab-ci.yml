@@ -1,0 +1,21 @@
+image: node
+
+stages:
+  - test
+  - release
+
+before_script:
+  - npm ci
+
+lint:
+  stage: test
+  script:
+    - npm run lint
+
+publish:
+  stage: release
+  only:
+    - dev
+    - master
+  script:
+    - npx semantic-release

@@ -1,6 +1,6 @@
 {
   "name": "pigment",
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "productName": "Pigment",
   "description": "Manage your webapps from one central app. Including features for your well-being.",
   "homepage": "https://pigment.leonardhertel.de",
@@ -40,6 +40,11 @@
   "devDependencies": {
     "@commitlint/cli": "^7.5.2",
     "@commitlint/config-conventional": "^7.5.0",
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/gitlab": "^3.1.2",
+    "@semantic-release/release-notes-generator": "^7.1.4",
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-service": "^3.5.3",
@@ -50,6 +55,7 @@
     "node-sass": "^4.9.0",
     "rimraf": "^2.6.3",
     "sass-loader": "^7.0.1",
+    "semantic-release": "^15.13.3",
     "svg-loader": "0.0.2",
     "tailwindcss": "^0.6.6",
     "vue-cli-plugin-electron-builder": "^1.2.0",
