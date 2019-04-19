@@ -1,27 +1,20 @@
 <template>
-  <div :class="$style.wrap">
+  <vue-draggable
+    v-model="tabList"
+    :class="$style.nav"
+    :delay="400"
+    :chosen-class="$style.drag"
+    :drag-class="$style.helper"
+    tag="nav"
+  >
     <tabs-nav-item
-      :to="{ name: 'notifications' }"
-      label="Notifications"
-      icon="bell"
+      v-for="tab in tabList"
+      :key="tab.ident"
+      :label="tab.label"
+      :image="tab.favicon"
+      :to="{ name: 'tabs', params: { ident: tab.ident } }"
     />
-    <vue-draggable
-      v-model="tabList"
-      :class="$style.nav"
-      :delay="400"
-      :chosen-class="$style.drag"
-      :drag-class="$style.helper"
-      tag="nav"
-    >
-      <tabs-nav-item
-        v-for="tab in tabList"
-        :key="tab.ident"
-        :label="tab.label"
-        :image="tab.favicon"
-        :to="{ name: 'tabs', params: { ident: tab.ident } }"
-      />
-    </vue-draggable>
-  </div>
+  </vue-draggable>
 </template>
 
 <script>
@@ -47,12 +40,8 @@ export default {
 </script>
 
 <style lang="postcss" module>
-.wrap {
-  @apply flex flex-col;
-}
-
 .nav {
-  @apply flex flex-col mt-2;
+  @apply flex flex-col;
 }
 
 .drag {

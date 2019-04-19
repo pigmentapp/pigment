@@ -1,15 +1,18 @@
 <template>
-  <button
+  <component
+    :is="to ? 'router-link' : tag"
+    :to="to"
+    :tag="tag"
+    :type="tag === 'button' && 'button'"
     :class="{
       [$style.btn]: true,
       [$style[schema]]: true,
       [$style.active]: active,
     }"
-    type="button"
     @click="$emit('click')"
   >
     <app-icon :face="icon" />
-  </button>
+  </component>
 </template>
 
 <script>
@@ -26,6 +29,14 @@ export default {
     schema: {
       type: String,
       default: 'blue',
+    },
+    tag: {
+      type: String,
+      default: 'button',
+    },
+    to: {
+      type: [Object, String],
+      default: undefined,
     },
   },
 };

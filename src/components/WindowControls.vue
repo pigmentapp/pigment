@@ -28,8 +28,12 @@
       @click="createTab"
     />
     <title-bar-button
+      :to="{ name: 'notifications' }"
+      icon="bell"
+    />
+    <title-bar-button
+      :to="{ name: 'settings' }"
       icon="settings"
-      @click="showSettings"
     />
   </title-bar>
 </template>
@@ -91,11 +95,6 @@ export default {
       } else {
         this.window.maximize();
       }
-    },
-    showSettings() {
-      this.$router.push({
-        name: 'settings',
-      });
     },
   },
 };
