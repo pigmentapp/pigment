@@ -1,29 +1,29 @@
 <template>
   <router-link
-    :to="to"
+    :to="{ name: 'tabs', params: { ident: item.ident } }"
+    :class="$style.item"
+    :active-class="$style.active"
     tag="button"
-    class="flex items-center p-2 mx-1 mt-1 text-grey-dark text-left rounded-sm"
-    active-class="text-grey-light bg-grey-darkest shadow"
   >
     <div
-      :class="image ? 'bg-grey-lightest' : 'text-grey bg-grey-darker'"
-      class="
-        flex flex-no-shrink justify-center items-center
-        p-1 w-8 h-8 mr-3 rounded-sm
-      "
+      :class="{
+        [$style.thumb]: true,
+        [$style.thumbIsImage]: pageState.favicon,
+        [$style.thumbIsIcon]: !pageState.favicon,
+      }"
     >
       <img
-        v-if="image"
-        :src="image"
-        class="block max-w-full max-h-full"
+        v-if="pageState.favicon"
+        :src="pageState.favicon"
+        :class="$style.image"
       >
       <app-icon
         v-else
-        :face="icon"
+        face="tab"
       />
     </div>
-    <div class="truncate">
-      {{ label }}
+    <div :class="$style.label">
+      {{ item.label }}
     </div>
   </router-link>
 </template>
@@ -31,22 +31,53 @@
 <script>
 export default {
   props: {
-    icon: {
-      type: String,
-      default: 'tab',
-    },
-    image: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    to: {
+    item: {
       type: Object,
       default: () => ({}),
     },
   },
+  computed: {
+    pageState() {
+      return this.$store.getters['Pages/state'](this.item.ident);
+    },
+  },
 };
 </script>
+
+<style lang="postcss" module>
+.item {
+  @apply
+    flex flex-no-shrink items-center p-2
+    text-grey-dark text-left rounded-sm;
+}
+
+.item + .item {
+  @apply mt-1;
+}
+
+.active {
+  @apply text-grey-light bg-grey-darkest shadow;
+}
+
+.thumb {
+  @apply
+    flex flex-no-shrink justify-center items-center
+    p-1 w-8 h-8 mr-3 rounded-sm;
+}
+
+.thumbIsImage {
+  @apply bg-grey-lightest;
+}
+
+.thumbIsIcon {
+  @apply text-grey bg-grey-darker;
+}
+
+.image {
+  @apply block max-w-full max-h-full;
+}
+
+.label {
+  @apply truncate;
+}
+</style>

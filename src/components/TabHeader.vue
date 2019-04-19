@@ -9,15 +9,15 @@
       @click="$emit('doReload')"
     />
     <div :class="$style.title">
-      {{ item.title }}
+      {{ pageState.title }}
     </div>
     <title-bar-button
       icon="code-tags"
       @click="$emit('toggleDevTools')"
     />
     <title-bar-button
+      :to="{ name: 'tabs-settings', params: { ident: item.ident } }"
       icon="dots-vertical"
-      @click="$emit('toggleSettings')"
     />
   </title-bar>
 </template>
@@ -41,6 +41,9 @@ export default {
     isLayoutInverted() {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
+    pageState() {
+      return this.$store.getters['Pages/state'](this.item.ident);
+    },
   },
 };
 </script>
@@ -48,6 +51,6 @@ export default {
 <style lang="postcss" module>
 .title {
   @apply flex-1 p-2 text-sm truncate;
-  -webkit-app-region: drag;
+  -webkit-user-select: none;
 }
 </style>

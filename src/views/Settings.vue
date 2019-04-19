@@ -5,10 +5,10 @@
     >
       <app-icon
         :size="5"
-        :class="isDimActive && 'text-green'"
+        :class="isDimActive && $style.active"
         :face="isDimActive ? 'toggle-switch' : 'toggle-switch-off'"
       />
-      <div class="flex-grow pl-2">
+      <div :class="$style.label">
         Dim contents when leaving window
       </div>
     </button>
@@ -18,10 +18,10 @@
     >
       <app-icon
         :size="5"
-        :class="muteOnWindowBlur && 'text-green'"
+        :class="muteOnWindowBlur && $style.active"
         :face="muteOnWindowBlur ? 'toggle-switch' : 'toggle-switch-off'"
       />
-      <div class="flex-grow pl-2">
+      <div :class="$style.label">
         Mute tab audio when leaving window
       </div>
     </button>
@@ -31,10 +31,10 @@
     >
       <app-icon
         :size="5"
-        :class="isLayoutInverted && 'text-green'"
+        :class="isLayoutInverted && $style.active"
         :face="isLayoutInverted ? 'toggle-switch' : 'toggle-switch-off'"
       />
-      <div class="flex-grow pl-2">
+      <div :class="$style.label">
         Invert app layout
       </div>
     </button>
@@ -44,10 +44,10 @@
     >
       <app-icon
         :size="5"
-        :class="notificationsPreventOnBlur && 'text-green'"
+        :class="notificationsPreventOnBlur && $style.active"
         :face="notificationsPreventOnBlur ? 'toggle-switch' : 'toggle-switch-off'"
       />
-      <div class="flex-grow pl-2">
+      <div :class="$style.label">
         Prevent notifications when leaving window
       </div>
     </button>
@@ -58,25 +58,27 @@
     >
       <app-icon
         :size="5"
-        :class="(notificationsScheduleActive && notificationsPreventOnBlur) && 'text-green'"
+        :class="{
+          [$style.subsetting]: true,
+          [$style.active]: notificationsScheduleActive && notificationsPreventOnBlur,
+        }"
         :face="
           notificationsScheduleActive && notificationsPreventOnBlur
             ? 'toggle-switch'
             : 'toggle-switch-off'
         "
-        class="ml-6"
       />
-      <div class="flex-grow pl-2">
+      <div :class="$style.label">
         Send summary of new notifications by schedule after leaving the window
       </div>
     </button>
 
-    <div class="p-3 pl-16">
+    <div :class="$style.interval">
       Interval in minutes
       <input
         :disabled="!notificationsPreventOnBlur || !notificationsScheduleActive"
         v-model="notificationsScheduleInMs"
-        class="w-full px-2 py-1 mt-2 text-grey bg-grey-darkest"
+        :class="$style.input"
         type="number"
         @blur="setMinimumNotificationInterval"
       >
@@ -93,10 +95,10 @@
     >
       Reset pigment (wipes everything)
     </button>
-    <div class="p-3 text-sm text-grey-darker">
+    <div :class="$style.copyright">
       Pigment is made by
       <a
-        class="text-grey-darker"
+        :class="$style.link"
         href="//leonardhertel.de"
         @click.prevent="$electron.remote.shell.openExternal('https://leonardhertel.de')"
       >
@@ -187,5 +189,35 @@ button {
 
 button + button {
     @apply border-t border-grey-darkest;
+}
+</style>
+
+<style lang="postcss" module>
+.active {
+  @apply text-green;
+}
+
+.label {
+  @apply flex-grow pl-2;
+}
+
+.subsetting {
+  @apply ml-6;
+}
+
+.interval {
+  @apply p-3 pl-16;
+}
+
+.input {
+  @apply w-full px-2 py-1 mt-2 text-grey bg-grey-darkest;
+}
+
+.copyright {
+  @apply p-3 text-sm text-grey-darker;
+}
+
+.link {
+  @apply text-grey-darker;
 }
 </style>

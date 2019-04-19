@@ -18,6 +18,9 @@ export default {
     active({ activeIdent, dbUpdated }) {
       return db(dbUpdated).get('tabs').find(item => item.ident === activeIdent).value() || {};
     },
+    byIdent({ dbUpdated }) {
+      return ident => db(dbUpdated).get('tabs').find(item => item.ident === ident).value() || {};
+    },
     list({ dbUpdated }) {
       return db(dbUpdated)
         .get('tabs')
@@ -35,18 +38,17 @@ export default {
       state.activeIdent = ident;
       state.dbUpdated = Date.now();
     },
-    add(state, { ident, label = 'New Tab', url = '' }) {
+    create(state, item) {
       db()
         .get('tabs')
-        .push({
-          ident,
-          label,
-          url,
-          title: '',
-          favicon: '',
-          isNew: true,
-        })
+        .push(item)
         .write();
+
+      db()
+        .get('sorting')
+        .push(item.ident)
+        .write();
+
       state.dbUpdated = Date.now();
     },
     delete(state, item) {
@@ -54,6 +56,12 @@ export default {
         .get('tabs')
         .remove(i => i.ident === item.ident)
         .write();
+
+      db()
+        .get('sorting')
+        .remove(i => i === item.ident)
+        .write();
+
       state.activateIdent = 0;
       state.dbUpdated = Date.now();
     },
@@ -64,23 +72,21 @@ export default {
     update(state, { ident, data }) {
       db()
         .get('tabs')
-        .find(i => i.ident === ident).assign({
-          ...data,
-          isNew: false,
-        })
+        .find(i => i.ident === ident).assign(data)
         .write();
 
       state.dbUpdated = Date.now();
     },
   },
   actions: {
-    add({ commit }, payload = {}) {
+    create({ commit }, payload = {}) {
       const ident = Date.now();
-      commit('add', {
+      const item = {
         ident,
         ...payload,
-      });
-      return ident;
+      };
+      commit('create', item);
+      return item;
     },
   },
 };

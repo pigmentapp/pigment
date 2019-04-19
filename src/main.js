@@ -6,8 +6,6 @@ import store from './store';
 import AppButton from './components/AppButton.vue';
 import AppIcon from './components/AppIcon.vue';
 
-import './assets/css/main.css';
-
 /* if (!process.env.IS_WEB) */ Vue.use(require('vue-electron'));
 
 Vue.config.productionTip = false;

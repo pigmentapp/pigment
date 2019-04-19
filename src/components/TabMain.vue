@@ -1,30 +1,22 @@
 <template>
   <div
     v-show="isActive"
-    class="flex flex-1 flex-col"
+    :class="$style.wrap"
   >
     <tab-header
-      v-if="isActive && !item.isNew"
+      v-if="isActive"
       :item="item"
       @doReload="reloadTab"
       @goToHome="goToHome"
-      @toggleSettings="toggleSettings"
       @toggleDevTools="toggleDevTools"
     />
 
     <webview
-      v-show="item.url && !isSettingsView"
       ref="view"
       :src="item.url"
       :useragent="userAgent"
       :preload="preload"
-      class="flex-grow"
-    />
-
-    <tab-settings
-      v-show="isSettingsView || !item.url"
-      :item="item"
-      @submitted="settingsChanged"
+      :class="$style.viewport"
     />
   </div>
 </template>
@@ -33,12 +25,10 @@
 import path from 'path';
 import url from 'url';
 import TabHeader from '@/components/TabHeader.vue';
-import TabSettings from '@/components/TabSettings.vue';
 
 export default {
   components: {
     TabHeader,
-    TabSettings,
   },
   props: {
     item: {
@@ -48,16 +38,11 @@ export default {
   },
   data() {
     return {
-      isSettingsView: false,
       preload: `file://${path.join(__static, 'webview.js')}`, // eslint-disable-line no-undef
     };
   },
   computed: {
-    activeTab() {
-      return this.$store.getters['Tabs/active'];
-    },
     isActive() {
-      if (this.$route.name === 'settings' && this.activeTab.ident === this.item.ident) return true;
       return parseInt(this.$route.params.ident, 0) === this.item.ident;
     },
     muteOnWindowBlur() {
@@ -101,23 +86,19 @@ export default {
       }
     });
 
-    this.$refs.view.addEventListener('page-title-updated', (view) => {
-      this.$store.commit('Tabs/update', {
-        ident: this.item.ident,
-        data: {
-          title: view.title,
-        },
+    this.$refs.view.addEventListener('page-title-updated', ({ title }) => {
+      this.$store.commit('Pages/setState', {
+        tabId: this.item.ident,
+        data: { title },
       });
     });
 
-    this.$refs.view.addEventListener('page-favicon-updated', (view) => {
-      const favicon = view.favicons[0];
+    this.$refs.view.addEventListener('page-favicon-updated', ({ favicons }) => {
+      const [favicon] = favicons;
 
-      this.$store.commit('Tabs/update', {
-        ident: this.item.ident,
-        data: {
-          favicon,
-        },
+      this.$store.commit('Pages/setState', {
+        tabId: this.item.ident,
+        data: { favicon },
       });
     });
 
@@ -139,21 +120,11 @@ export default {
     });
   },
   methods: {
-    settingsChanged(options) {
-      this.isSettingsView = false;
-
-      if (!options.isNewTab) {
-        this.reloadTab();
-      }
-    },
     goToHome() {
       this.$refs.view.loadURL(this.item.url);
     },
     reloadTab() {
       this.$refs.view.reload();
-    },
-    toggleSettings() {
-      this.isSettingsView = !this.isSettingsView;
     },
     toggleDevTools() {
       if (this.$refs.view.isDevToolsOpened()) {
@@ -165,3 +136,13 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" module>
+.wrap {
+  @apply flex flex-1 flex-col;
+}
+
+.viewport {
+  @apply flex-grow;
+}
+</style>

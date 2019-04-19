@@ -26,6 +26,7 @@ export default {
   @apply flex items-center px-1 leading-none;
   height: 2.4rem;
   background-color: #0009;
+  -webkit-app-region: drag;
 }
 
 .indent {

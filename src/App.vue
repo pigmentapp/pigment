@@ -9,23 +9,28 @@
       <window-controls
         :class="$style.aside__header"
       />
-      <router-view
-        :class="$style.aside__body"
-        name="aside"
-      />
+      <tabs-nav :class="$style.aside__body" />
     </aside>
-    <router-view :class="$style.main" />
+    <tabs-list :class="$style.main" />
+    <router-view
+      :class="$style.main"
+      :key="$route.path"
+    />
     <window-dimmer />
   </div>
 </template>
 
 <script>
+import TabsList from '@/components/TabsList.vue';
+import TabsNav from '@/components/TabsNav.vue';
 import WindowControls from '@/components/WindowControls.vue';
 import WindowDimmer from '@/components/WindowDimmer.vue';
 import NotificationSchedule from '@/utils/mixinNotificationSchedule';
 
 export default {
   components: {
+    TabsList,
+    TabsNav,
     WindowControls,
     WindowDimmer,
   },
@@ -39,6 +44,9 @@ export default {
 </script>
 
 <style lang="postcss" module>
+@tailwind preflight;
+@tailwind components;
+
 .app {
   @apply
     font-sans text-grey
@@ -69,7 +77,7 @@ export default {
 
 .main {
   @apply
-    z-10 flex flex-col overflow-y-auto
+    z-10 overflow-y-auto
     bg-grey-darkest shadow-md;
   grid-column: main;
 }

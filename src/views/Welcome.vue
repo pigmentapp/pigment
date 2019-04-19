@@ -1,3 +1,9 @@
 <template>
-  <div class="p-8 font-light text-3xl">Welcome to Pigment.</div>
+  <div :class="$style.title">Welcome to Pigment.</div>
 </template>
+
+<style lang="postcss" module>
+.title {
+  @apply p-8 font-light text-3xl;
+}
+</style>
