@@ -47,8 +47,12 @@ export default {
 <style lang="postcss" module>
 .item {
   @apply
-    flex items-center p-2 mx-1 mt-1
+    flex flex-no-shrink items-center p-2
     text-grey-dark text-left rounded-sm;
+}
+
+.item + .item {
+  @apply mt-1;
 }
 
 .active {
