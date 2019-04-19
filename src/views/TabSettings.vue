@@ -1,7 +1,7 @@
 <template>
   <form
     :class="$style.wrap"
-    @submit.prevent="saveSettings"
+    @submit.prevent="submitForm"
   >
     <div>
       <label :class="$style.item">
@@ -11,6 +11,7 @@
           :class="$style.input"
           type="text"
           placeholder="Insert tab title"
+          required
         >
       </label>
       <label :class="$style.item">
@@ -19,9 +20,10 @@
           v-model="tab.url"
           :class="$style.input"
           type="url"
+          required
         >
       </label>
-      <template v-if="!item.isNew">
+      <template v-if="!isCreateMode">
         <label :class="$style.item">
           <div :class="$style.label">User Agent</div>
           <textarea
@@ -48,12 +50,17 @@
         <app-button
           :class="$style.button"
           type="submit"
-        >Save</app-button>
+        >
+          {{ isCreateMode ? 'Create' : 'Save' }}
+        </app-button>
         <app-button
+          v-if="!isCreateMode"
           :class="$style.button"
           schema="secondary"
           @click="deleteTab"
-        >Delete Tab</app-button>
+        >
+          Delete Tab
+        </app-button>
       </div>
     </div>
   </form>
@@ -68,58 +75,58 @@ export default {
   components: {
     PrismEditor,
   },
-  props: {
-    item: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data() {
     return {
-      editors: {
-        css: null,
-        js: null,
+      tab: {
+        label: '',
+        url: 'https://',
+        customCss: '/* Add custom CSS styles */',
+        customJs: '/* Add custom JavaScript */',
+        userAgent: '',
       },
-      tab: {},
     };
   },
-  watch: {
-    item: {
-      immediate: true,
-      handler(value) {
-        this.tab = { ...value };
-
-        if (!this.tab.url) {
-          this.tab.url = 'https://';
-        }
-
-        if (!this.tab.customCss) {
-          this.tab.customCss = '/* Add custom CSS styles */';
-        }
-
-        if (!this.tab.customJs) {
-          this.tab.customJs = '/* Add custom JavaScript */';
-        }
-      },
+  computed: {
+    isCreateMode() {
+      return this.$route.name === 'tabs-create';
     },
   },
-  methods: {
-    saveSettings() {
-      if (!this.tab.url) return;
+  created() {
+    if (this.isCreateMode) return;
 
-      this.$store.commit('Tabs/update', {
-        ident: this.item.ident,
-        data: {
-          ...this.tab,
+    const { ident } = this.$route.params;
+    this.tab = this.$store.getters['Tabs/byIdent'](ident);
+  },
+  methods: {
+    submitForm() {
+      if (this.isCreateMode) {
+        this.createTab();
+      } else {
+        this.updateTab();
+      }
+    },
+    async createTab() {
+      const tab = await this.$store.dispatch('Tabs/create', this.tab);
+
+      this.$router.push({
+        name: 'tabs',
+        params: {
+          ident: tab.ident,
         },
       });
+    },
+    updateTab() {
+      const { ident, ...data } = this.tab;
+      this.$store.commit('Tabs/update', { ident, data });
 
-      this.$emit('submitted', {
-        isNewTab: this.tab.isNew,
+      this.$router.push({
+        name: 'tabs',
+        params: { ident: this.tab.ident },
       });
     },
     deleteTab() {
-      this.$store.commit('Tabs/delete', this.item);
+      this.$store.commit('Tabs/delete', this.tab);
+      this.$router.push({ name: 'welcome' });
     },
   },
 };

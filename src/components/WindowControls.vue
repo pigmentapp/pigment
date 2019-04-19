@@ -24,8 +24,8 @@
     </template>
     <div :class="$style.spacer" />
     <title-bar-button
+      :to="{ name: 'tabs-create' }"
       icon="tab-plus"
-      @click="createTab"
     />
     <title-bar-button
       :to="{ name: 'notifications' }"
@@ -60,24 +60,11 @@ export default {
     isLayoutInverted() {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
-    isSettingsView() {
-      return this.$route.name === 'settings';
-    },
   },
   created() {
     this.watchMaximizedState();
   },
   methods: {
-    createTab() {
-      this.$store.dispatch('Tabs/add').then((newTabIdent) => {
-        this.$router.push({
-          name: 'tabs',
-          params: {
-            ident: newTabIdent,
-          },
-        });
-      });
-    },
     watchMaximizedState() {
       this.isMaximized = this.window.isMaximized();
 

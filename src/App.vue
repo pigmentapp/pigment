@@ -12,7 +12,10 @@
       <tabs-nav :class="$style.aside__body" />
     </aside>
     <tabs-list :class="$style.main" />
-    <router-view :class="$style.main" />
+    <router-view
+      :class="$style.main"
+      :key="$route.path"
+    />
     <window-dimmer />
   </div>
 </template>

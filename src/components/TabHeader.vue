@@ -16,8 +16,8 @@
       @click="$emit('toggleDevTools')"
     />
     <title-bar-button
+      :to="{ name: 'tabs-settings', params: { ident: item.ident } }"
       icon="dots-vertical"
-      @click="$emit('toggleSettings')"
     />
   </title-bar>
 </template>

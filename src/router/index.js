@@ -11,6 +11,16 @@ export default new Router({
       component: () => import(/* webpackChunkName: "welcome" */ '@/views/Welcome.vue'),
     },
     {
+      path: '/tabs/create',
+      name: 'tabs-create',
+      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabSettings.vue'),
+    },
+    {
+      path: '/tabs/:ident/settings',
+      name: 'tabs-settings',
+      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabSettings.vue'),
+    },
+    {
       path: '/tabs/:ident?',
       name: 'tabs',
     },
