@@ -107,6 +107,5 @@ export default {
 
 .spacer {
   @apply flex-grow;
-  -webkit-app-region: drag;
 }
 </style>

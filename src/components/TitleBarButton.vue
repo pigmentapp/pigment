@@ -45,6 +45,7 @@ export default {
 <style lang="postcss" module>
 .btn {
   @apply p-2 leading-none appearance-none text-grey-dark;
+  -webkit-app-region: no-drag;
 }
 
 .blue:hover {

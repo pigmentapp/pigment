@@ -48,6 +48,6 @@ export default {
 <style lang="postcss" module>
 .title {
   @apply flex-1 p-2 text-sm truncate;
-  -webkit-app-region: drag;
+  -webkit-user-select: none;
 }
 </style>
