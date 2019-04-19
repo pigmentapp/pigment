@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div :class="$style.wrap">
     <tabs-nav-item
       :to="{ name: 'notifications' }"
       label="Notifications"
@@ -7,11 +7,11 @@
     />
     <vue-draggable
       v-model="tabList"
+      :class="$style.nav"
       :delay="400"
       :chosen-class="$style.drag"
       :drag-class="$style.helper"
       tag="nav"
-      class="flex flex-col mt-2"
     >
       <tabs-nav-item
         v-for="tab in tabList"
@@ -46,14 +46,15 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
-.text-overflow {
-  @apply overflow-hidden whitespace-no-wrap;
-  text-overflow: ellipsis;
-}
-</style>
-
 <style lang="postcss" module>
+.wrap {
+  @apply flex flex-col;
+}
+
+.nav {
+  @apply flex flex-col mt-2;
+}
+
 .drag {
   @apply cursor-move text-blue-lighter bg-blue;
 }

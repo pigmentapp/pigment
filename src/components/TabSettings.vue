@@ -1,63 +1,57 @@
 <template>
   <form
-    class="flex flex-grow items-center justify-center"
+    :class="$style.wrap"
     @submit.prevent="saveSettings"
   >
     <div>
-      <label class="block mb-4">
-        <div class="mb-1">Label</div>
+      <label :class="$style.item">
+        <div :class="$style.label">Label</div>
         <input
           v-model="tab.label"
-          class="input"
+          :class="$style.input"
           type="text"
           placeholder="Insert tab title"
         >
       </label>
-      <label class="block mb-4">
-        <div class="mb-1">URL</div>
+      <label :class="$style.item">
+        <div :class="$style.label">URL</div>
         <input
           v-model="tab.url"
-          class="input"
+          :class="$style.input"
           type="url"
         >
       </label>
       <template v-if="!item.isNew">
-        <label
-          class="block mb-4"
-        >
-          <div class="mb-1">User Agent</div>
+        <label :class="$style.item">
+          <div :class="$style.label">User Agent</div>
           <textarea
             v-model="tab.userAgent"
-            class="input"
+            :class="$style.input"
           />
         </label>
-        <label
-          class="block mb-4"
-        >
-          <div class="mb-1">Custom CSS</div>
+        <label :class="$style.item">
+          <div :class="$style.label">Custom CSS</div>
           <prism-editor
             v-model="tab.customCss"
             language="css"
           />
         </label>
-        <label
-          class="block mb-4"
-        >
-          <div class="mb-1">Custom JavaScript</div>
+        <label :class="$style.item">
+          <div :class="$style.label">Custom JavaScript</div>
           <prism-editor
             v-model="tab.customJs"
             language="js"
           />
         </label>
       </template>
-      <div class="flex flex-row-reverse -mx-2">
+      <div :class="$style.actions">
         <app-button
-          class="flex-1 mx-2"
+          :class="$style.button"
           type="submit"
         >Save</app-button>
         <app-button
-          class="flex-1 mx-2"
-          schema="grey-darker"
+          :class="$style.button"
+          schema="secondary"
           @click="deleteTab"
         >Delete Tab</app-button>
       </div>
@@ -131,14 +125,32 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
-label {
+<style lang="postcss" module>
+.wrap {
+  @apply flex flex-grow items-center justify-center;
+}
+
+.item {
+  @apply block mb-4;
+}
+
+.label {
+  @apply mb-1;
   min-width: 33vw;
 }
+
 .input {
   @apply px-2 py-1 w-full;
   @apply text-grey-light leading-tight;
   @apply bg-transparent border border-grey-darker rounded-sm;
+}
+
+.button {
+  @apply flex-1 mx-2;
+}
+
+.actions {
+  @apply flex flex-row-reverse -mx-2;
 }
 
 .prism-editor-wrapper {

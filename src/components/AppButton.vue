@@ -1,8 +1,7 @@
 <template>
   <button
-    :class="`bg-${schema} border-${schema}`"
+    :class="[$style.button, $style[schema]]"
     type="button"
-    class="button"
     @click="$emit('click')"
   >
     <slot />
@@ -18,16 +17,25 @@ export default {
     },
     schema: {
       type: String,
-      default: 'blue',
+      default: 'primary',
     },
   },
 };
 </script>
 
-<style lang="postcss" scoped>
+<style lang="postcss" module>
 .button {
-  @apply px-2 py-1 w-full;
-  @apply text-white leading-tight;
-  @apply border rounded-sm;
+  @apply
+    px-2 py-1 w-full
+    text-white leading-tight
+    border rounded-sm;
+}
+
+.primary {
+  @apply bg-blue border-blue;
+}
+
+.secondary {
+  @apply bg-grey-darker border-grey-darker;
 }
 </style>

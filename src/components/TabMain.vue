@@ -1,7 +1,7 @@
 <template>
   <div
     v-show="isActive"
-    class="flex flex-1 flex-col"
+    :class="$style.wrap"
   >
     <tab-header
       v-if="isActive && !item.isNew"
@@ -18,7 +18,7 @@
       :src="item.url"
       :useragent="userAgent"
       :preload="preload"
-      class="flex-grow"
+      :class="$style.viewport"
     />
 
     <tab-settings
@@ -165,3 +165,13 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" module>
+.wrap {
+  @apply flex flex-1 flex-col;
+}
+
+.viewport {
+  @apply flex-grow;
+}
+</style>

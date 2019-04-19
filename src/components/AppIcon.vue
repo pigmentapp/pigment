@@ -2,7 +2,7 @@
   <svg
     v-if="content"
     :viewBox="attributes.viewBox"
-    :class="['block', 'flex-no-shrink', `w-${size}`, `h-${size}`, 'mx-auto', 'fill-current']"
+    :class="[$style.icon, $style[`size-${size}`]]"
     v-html="content"
   />
 </template>
@@ -45,6 +45,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang="postcss" module>
+.icon {
+  @apply block flex-no-shrink mx-auto fill-current;
+}
 
+.size-4 {
+  @apply w-4 h-4;
+}
+
+.size-5 {
+  @apply w-5 h-5;
+}
 </style>
