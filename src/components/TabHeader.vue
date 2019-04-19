@@ -16,7 +16,7 @@
       @click="$emit('toggleDevTools')"
     />
     <title-bar-button
-      :to="{ name: 'tabs-settings', params: { ident: item.ident } }"
+      :to="{ name: 'tabs-settings', params: { id: item.id } }"
       icon="dots-vertical"
     />
   </title-bar>
@@ -42,7 +42,7 @@ export default {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
     pageState() {
-      return this.$store.getters['Pages/state'](this.item.ident);
+      return this.$store.getters['Pages/state'](this.item.id);
     },
   },
 };

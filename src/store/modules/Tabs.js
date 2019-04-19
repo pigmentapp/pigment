@@ -11,15 +11,15 @@ const db = new Connection({
 export default {
   namespaced: true,
   state: {
-    activeIdent: 0,
+    activeId: 0,
     dbUpdated: Date.now(),
   },
   getters: {
-    active({ activeIdent, dbUpdated }) {
-      return db(dbUpdated).get('tabs').find(item => item.ident === activeIdent).value() || {};
+    active({ activeId, dbUpdated }) {
+      return db(dbUpdated).get('tabs').find(item => item.id === activeId).value() || {};
     },
-    byIdent({ dbUpdated }) {
-      return ident => db(dbUpdated).get('tabs').find(item => item.ident === ident).value() || {};
+    byId({ dbUpdated }) {
+      return id => db(dbUpdated).get('tabs').find(item => item.id === id).value() || {};
     },
     list({ dbUpdated }) {
       return db(dbUpdated)
@@ -30,12 +30,12 @@ export default {
     listSorted({ dbUpdated }, { list }) {
       const sorting = db(dbUpdated).get('sorting').value();
 
-      return [...list].sort((a, b) => sorting.indexOf(a.ident) - sorting.indexOf(b.ident));
+      return [...list].sort((a, b) => sorting.indexOf(a.id) - sorting.indexOf(b.id));
     },
   },
   mutations: {
-    activateIdent(state, ident) {
-      state.activeIdent = ident;
+    activateId(state, id) {
+      state.activeId = id;
       state.dbUpdated = Date.now();
     },
     create(state, item) {
@@ -46,7 +46,7 @@ export default {
 
       db()
         .get('sorting')
-        .push(item.ident)
+        .push(item.id)
         .write();
 
       state.dbUpdated = Date.now();
@@ -54,25 +54,25 @@ export default {
     delete(state, item) {
       db()
         .get('tabs')
-        .remove(i => i.ident === item.ident)
+        .remove(i => i.id === item.id)
         .write();
 
       db()
         .get('sorting')
-        .remove(i => i === item.ident)
+        .remove(i => i === item.id)
         .write();
 
-      state.activateIdent = 0;
+      state.activateId = 0;
       state.dbUpdated = Date.now();
     },
     setSorting(state, items) {
-      db().set('sorting', items.map(item => item.ident)).write();
+      db().set('sorting', items.map(item => item.id)).write();
       state.dbUpdated = Date.now();
     },
-    update(state, { ident, data }) {
+    update(state, { id, data }) {
       db()
         .get('tabs')
-        .find(i => i.ident === ident).assign(data)
+        .find(i => i.id === id).assign(data)
         .write();
 
       state.dbUpdated = Date.now();
@@ -80,9 +80,9 @@ export default {
   },
   actions: {
     create({ commit }, payload = {}) {
-      const ident = Date.now();
+      const id = Date.now();
       const item = {
-        ident,
+        id,
         ...payload,
       };
       commit('create', item);

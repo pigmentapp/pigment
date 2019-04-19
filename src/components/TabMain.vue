@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     isActive() {
-      return parseInt(this.$route.params.ident, 0) === this.item.ident;
+      return parseInt(this.$route.params.id, 0) === this.item.id;
     },
     webview() {
       return this.$refs.webview.$refs.webview;
@@ -44,7 +44,7 @@ export default {
   watch: {
     isActive(isActive) {
       if (isActive) {
-        this.$store.commit('Tabs/activateIdent', this.item.ident);
+        this.$store.commit('Tabs/activateId', this.item.id);
         this.webview.focus();
       }
     },

@@ -48,7 +48,7 @@ export default {
 
       this.$store.commit('Notifications/add', {
         notification,
-        tabIdent: this.item.ident,
+        tabId: this.item.id,
       });
 
       if (!this.notificationsPreventOnBlur || this.windowHasFocus) {
@@ -58,7 +58,7 @@ export default {
 
     this.$refs.webview.addEventListener('page-title-updated', ({ title }) => {
       this.$store.commit('Pages/setState', {
-        tabId: this.item.ident,
+        tabId: this.item.id,
         data: { title },
       });
     });
@@ -67,7 +67,7 @@ export default {
       const [favicon] = favicons;
 
       this.$store.commit('Pages/setState', {
-        tabId: this.item.ident,
+        tabId: this.item.id,
         data: { favicon },
       });
     });

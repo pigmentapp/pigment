@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'tabs', params: { ident: item.ident } }"
+    :to="{ name: 'tabs', params: { id: item.id } }"
     :class="$style.item"
     :active-class="$style.active"
     tag="button"
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     pageState() {
-      return this.$store.getters['Pages/state'](this.item.ident);
+      return this.$store.getters['Pages/state'](this.item.id);
     },
   },
 };

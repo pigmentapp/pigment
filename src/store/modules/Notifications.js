@@ -48,11 +48,11 @@ export default {
     },
   },
   mutations: {
-    add(state, { tabIdent, notification }) {
+    add(state, { tabId, notification }) {
       db().get('notifications')
         .push({
           notification,
-          tabIdent,
+          tabId,
           timestamp: Date.now(),
         })
         .write();
