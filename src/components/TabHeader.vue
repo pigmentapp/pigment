@@ -9,7 +9,7 @@
       @click="$emit('doReload')"
     />
     <div :class="$style.title">
-      {{ item.title }}
+      {{ pageState.title }}
     </div>
     <title-bar-button
       icon="code-tags"
@@ -40,6 +40,9 @@ export default {
   computed: {
     isLayoutInverted() {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
+    },
+    pageState() {
+      return this.$store.getters['Pages/state'](this.item.ident);
     },
   },
 };

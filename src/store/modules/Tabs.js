@@ -41,11 +41,7 @@ export default {
     create(state, item) {
       db()
         .get('tabs')
-        .push({
-          ...item,
-          title: '',
-          favicon: '',
-        })
+        .push(item)
         .write();
 
       db()

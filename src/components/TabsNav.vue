@@ -10,9 +10,7 @@
     <tabs-nav-item
       v-for="tab in tabList"
       :key="tab.ident"
-      :label="tab.label"
-      :image="tab.favicon"
-      :to="{ name: 'tabs', params: { ident: tab.ident } }"
+      :item="tab"
     />
   </vue-draggable>
 </template>

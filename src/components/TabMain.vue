@@ -86,23 +86,19 @@ export default {
       }
     });
 
-    this.$refs.view.addEventListener('page-title-updated', (view) => {
-      this.$store.commit('Tabs/update', {
-        ident: this.item.ident,
-        data: {
-          title: view.title,
-        },
+    this.$refs.view.addEventListener('page-title-updated', ({ title }) => {
+      this.$store.commit('Pages/setState', {
+        tabId: this.item.ident,
+        data: { title },
       });
     });
 
-    this.$refs.view.addEventListener('page-favicon-updated', (view) => {
-      const favicon = view.favicons[0];
+    this.$refs.view.addEventListener('page-favicon-updated', ({ favicons }) => {
+      const [favicon] = favicons;
 
-      this.$store.commit('Tabs/update', {
-        ident: this.item.ident,
-        data: {
-          favicon,
-        },
+      this.$store.commit('Pages/setState', {
+        tabId: this.item.ident,
+        data: { favicon },
       });
     });
 

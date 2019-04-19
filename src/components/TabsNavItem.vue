@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="to"
+    :to="{ name: 'tabs', params: { ident: item.ident } }"
     :class="$style.item"
     :active-class="$style.active"
     tag="button"
@@ -8,22 +8,22 @@
     <div
       :class="{
         [$style.thumb]: true,
-        [$style.thumbIsImage]: image,
-        [$style.thumbIsIcon]: !image,
+        [$style.thumbIsImage]: pageState.favicon,
+        [$style.thumbIsIcon]: !pageState.favicon,
       }"
     >
       <img
-        v-if="image"
-        :src="image"
+        v-if="pageState.favicon"
+        :src="pageState.favicon"
         :class="$style.image"
       >
       <app-icon
         v-else
-        :face="icon"
+        face="tab"
       />
     </div>
     <div :class="$style.label">
-      {{ label }}
+      {{ item.label }}
     </div>
   </router-link>
 </template>
@@ -31,21 +31,14 @@
 <script>
 export default {
   props: {
-    icon: {
-      type: String,
-      default: 'tab',
-    },
-    image: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    to: {
+    item: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  computed: {
+    pageState() {
+      return this.$store.getters['Pages/state'](this.item.ident);
     },
   },
 };
