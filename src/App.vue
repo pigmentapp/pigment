@@ -41,6 +41,9 @@ export default {
 </script>
 
 <style lang="postcss" module>
+@tailwind preflight;
+@tailwind components;
+
 .app {
   @apply
     font-sans text-grey
