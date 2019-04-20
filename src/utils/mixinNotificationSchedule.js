@@ -19,11 +19,14 @@ export default {
         newerThanTimestamp: this.windowTimestampOfBlur,
       });
     },
+    notificationsSettings() {
+      return this.$store.getters['Settings/inGroup']('notifications');
+    },
     notificationsPreventOnBlur() {
-      return this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus');
+      return this.notificationsSettings.holdBackIfWindowIsNotInFocus;
     },
     notificationsScheduleActive() {
-      return this.$store.getters['Settings/byKey']('notifications.sendSummaryIfWindowIsNotInFocus');
+      return this.notificationsSettings.sendSummaryIfWindowIsNotInFocus;
     },
   },
   watch: {
