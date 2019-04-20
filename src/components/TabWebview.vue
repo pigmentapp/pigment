@@ -33,15 +33,18 @@ export default {
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];
     },
+    webview() {
+      return this.$refs.webview;
+    },
   },
   watch: {
     windowHasFocus(value) {
       if (!this.muteOnWindowBlur) return;
-      this.$refs.webview.setAudioMuted(!value);
+      this.webview.setAudioMuted(!value);
     },
   },
   mounted() {
-    this.$refs.webview.addEventListener('ipc-message', (event) => {
+    this.webview.addEventListener('ipc-message', (event) => {
       if (event.channel !== 'notification') return;
 
       const [notification] = event.args;
@@ -56,14 +59,14 @@ export default {
       }
     });
 
-    this.$refs.webview.addEventListener('page-title-updated', ({ title }) => {
+    this.webview.addEventListener('page-title-updated', ({ title }) => {
       this.$store.commit('Pages/setState', {
         tabId: this.item.id,
         data: { title },
       });
     });
 
-    this.$refs.webview.addEventListener('page-favicon-updated', ({ favicons }) => {
+    this.webview.addEventListener('page-favicon-updated', ({ favicons }) => {
       const [favicon] = favicons;
 
       this.$store.commit('Pages/setState', {
@@ -72,7 +75,7 @@ export default {
       });
     });
 
-    this.$refs.webview.addEventListener('dom-ready', (view) => {
+    this.webview.addEventListener('dom-ready', (view) => {
       if ('customCss' in this.item) {
         view.target.insertCSS(this.item.customCss);
       }
@@ -81,7 +84,7 @@ export default {
       }
     });
 
-    this.$refs.webview.addEventListener('new-window', (e) => {
+    this.webview.addEventListener('new-window', (e) => {
       const { protocol } = url.parse(e.url);
 
       if (protocol === 'http:' || protocol === 'https:') {

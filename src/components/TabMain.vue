@@ -38,7 +38,7 @@ export default {
       return this.$route.params.id === this.item.id;
     },
     webview() {
-      return this.$refs.webview.$refs.webview;
+      return this.$refs.webview.webview;
     },
   },
   watch: {
