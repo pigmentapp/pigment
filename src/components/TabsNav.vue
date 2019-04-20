@@ -9,7 +9,7 @@
   >
     <tabs-nav-item
       v-for="tab in tabList"
-      :key="tab.ident"
+      :key="tab.id"
       :item="tab"
     />
   </vue-draggable>

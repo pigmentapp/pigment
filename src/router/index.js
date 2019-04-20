@@ -16,12 +16,12 @@ export default new Router({
       component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabSettings.vue'),
     },
     {
-      path: '/tabs/:ident/settings',
+      path: '/tabs/:id/settings',
       name: 'tabs-settings',
       component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabSettings.vue'),
     },
     {
-      path: '/tabs/:ident?',
+      path: '/tabs/:id?',
       name: 'tabs',
     },
     {

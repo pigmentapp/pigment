@@ -2,6 +2,7 @@ import fs from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 import lowdb from 'lowdb';
+import lodashId from 'lodash-id';
 import FileSync from 'lowdb/adapters/FileSync';
 
 export default class {
@@ -30,6 +31,7 @@ export default class {
   init() {
     const adapter = new FileSync(path.join(this.options.path, this.options.file));
     this.db = lowdb(adapter);
+    this.db._.mixin(lodashId);
 
     this.db.defaults(this.options.defaults).write();
   }

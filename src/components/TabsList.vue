@@ -5,7 +5,7 @@
   >
     <tab-main
       v-for="tab in $store.getters['Tabs/list']"
-      :key="tab.ident"
+      :key="tab.id"
       :item="tab"
     />
   </div>

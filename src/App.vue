@@ -54,17 +54,18 @@ export default {
 
   display: grid;
   grid-auto-flow: dense;
-  grid-template-columns: [aside] config('width.64') [main] auto;
+  grid-template-columns: [aside] min-content [main] auto;
   grid-template-rows: 100vh;
 }
 
 .app--sidebar-right {
-  grid-template-columns: [main] auto [aside] config('width.64');
+  grid-template-columns: [main] auto [aside] min-content;
 }
 
 .aside {
   @apply flex flex-col;
   grid-column: aside;
+  max-width: config('width.64');
 }
 
 .aside__header {

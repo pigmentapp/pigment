@@ -8,6 +8,16 @@
       icon="refresh"
       @click="$emit('doReload')"
     />
+    <title-bar-button
+      :disabled="!canGoBack"
+      icon="arrow-left"
+      @click="$emit('goBack')"
+    />
+    <title-bar-button
+      :disabled="!canGoForward"
+      icon="arrow-right"
+      @click="$emit('goForward')"
+    />
     <div :class="$style.title">
       {{ pageState.title }}
     </div>
@@ -16,7 +26,7 @@
       @click="$emit('toggleDevTools')"
     />
     <title-bar-button
-      :to="{ name: 'tabs-settings', params: { ident: item.ident } }"
+      :to="{ name: 'tabs-settings', params: { id: item.id } }"
       icon="dots-vertical"
     />
   </title-bar>
@@ -36,13 +46,21 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    canGoBack: {
+      type: Boolean,
+      default: false,
+    },
+    canGoForward: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isLayoutInverted() {
       return this.$store.getters['Settings/isLayoutInvertedForOs'];
     },
     pageState() {
-      return this.$store.getters['Pages/state'](this.item.ident);
+      return this.$store.getters['Pages/state'](this.item.id);
     },
   },
 };

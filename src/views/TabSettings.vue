@@ -94,8 +94,8 @@ export default {
   created() {
     if (this.isCreateMode) return;
 
-    const { ident } = this.$route.params;
-    this.tab = this.$store.getters['Tabs/byIdent'](ident);
+    const { id } = this.$route.params;
+    this.tab = { ...this.$store.getters['Tabs/byId'](id) };
   },
   methods: {
     submitForm() {
@@ -111,17 +111,17 @@ export default {
       this.$router.push({
         name: 'tabs',
         params: {
-          ident: tab.ident,
+          id: tab.id,
         },
       });
     },
     updateTab() {
-      const { ident, ...data } = this.tab;
-      this.$store.commit('Tabs/update', { ident, data });
+      const { id, ...data } = this.tab;
+      this.$store.commit('Tabs/update', { id, data });
 
       this.$router.push({
         name: 'tabs',
-        params: { ident: this.tab.ident },
+        params: { id: this.tab.id },
       });
     },
     deleteTab() {

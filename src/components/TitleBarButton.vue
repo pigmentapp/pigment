@@ -48,6 +48,10 @@ export default {
   -webkit-app-region: no-drag;
 }
 
+.btn[disabled] {
+  @apply opacity-50 pointer-events-none;
+}
+
 .blue:hover {
   @apply text-blue-lighter bg-blue;
 }

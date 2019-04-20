@@ -18,7 +18,7 @@
         v-for="item in notifications"
         :key="item.timestamp"
         :class="$style.item"
-        @click="$router.push({ name: 'tabs', params: { ident: item.tabIdent }})"
+        @click="$router.push({ name: 'tabs', params: { id: item.tabId }})"
       >
         <div :class="$style.thumb">
           <img

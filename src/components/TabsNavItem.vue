@@ -1,10 +1,14 @@
 <template>
   <router-link
-    :to="{ name: 'tabs', params: { ident: item.ident } }"
+    :to="{ name: 'tabs', params: { id: item.id } }"
     :class="$style.item"
     :active-class="$style.active"
     tag="button"
   >
+    <div
+      v-if="pageState.hasNotificationBadge"
+      :class="$style.badge"
+    />
     <div
       :class="{
         [$style.thumb]: true,
@@ -38,7 +42,7 @@ export default {
   },
   computed: {
     pageState() {
-      return this.$store.getters['Pages/state'](this.item.ident);
+      return this.$store.getters['Pages/state'](this.item.id);
     },
   },
 };
@@ -57,6 +61,11 @@ export default {
 
 .active {
   @apply text-grey-light bg-grey-darkest shadow;
+}
+
+.badge {
+  @apply absolute pin-l w-2 h-2 bg-grey-darker rounded-full;
+  transform: translateX(-50%);
 }
 
 .thumb {

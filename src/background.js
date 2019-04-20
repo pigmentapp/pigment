@@ -49,7 +49,7 @@ function createMainWindow() {
   // https://github.com/ramboxapp/community-edition/issues/1981
   // https://github.com/meetfranz/franz/issues/1185
   // https://github.com/meetfranz/franz/issues/1138
-  const removeUserAgents = `(Electron|${pkg.name}|${pkg.productName})/([0-9.]+) `;
+  const removeUserAgents = `(Electron|${pkg.name}|${pkg.productName})/([0-9a-z-.]+) `;
   window.webContents.setUserAgent(window.webContents.getUserAgent().replace(new RegExp(removeUserAgents, 'g'), ''));
 
   if (isDevelopment) {
