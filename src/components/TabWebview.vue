@@ -67,7 +67,7 @@ export default {
     });
 
     this.webview.addEventListener('page-favicon-updated', ({ favicons }) => {
-      const [favicon] = favicons;
+      const favicon = favicons.pop();
 
       this.$store.commit('Pages/setState', {
         tabId: this.item.id,
