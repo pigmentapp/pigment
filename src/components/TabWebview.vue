@@ -33,10 +33,10 @@ export default {
   },
   computed: {
     muteOnWindowBlur() {
-      return this.$store.getters['Settings/muteOnWindowBlur'];
+      return this.$store.getters['Settings/byKey']('window.muteAudioIfWindowIsNotInFocus');
     },
     notificationsPreventOnBlur() {
-      return this.$store.getters['Notifications/preventOnBlur'];
+      return this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus');
     },
     userAgent() {
       return this.item.userAgent || navigator.userAgent;

@@ -58,7 +58,7 @@ export default {
       return this.$electron.remote.getCurrentWindow();
     },
     isLayoutInverted() {
-      return this.$store.getters['Settings/isLayoutInverted'];
+      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
   },
   created() {

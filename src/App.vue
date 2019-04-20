@@ -37,7 +37,7 @@ export default {
   mixins: [NotificationSchedule],
   computed: {
     isLayoutInverted() {
-      return this.$store.getters['Settings/isLayoutInverted'];
+      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
   },
 };

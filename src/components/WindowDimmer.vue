@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     settingsIsDimActive() {
-      return this.$store.getters['Settings/isDimActive'];
+      return this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus');
     },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];

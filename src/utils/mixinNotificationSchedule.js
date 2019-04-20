@@ -20,10 +20,10 @@ export default {
       });
     },
     notificationsPreventOnBlur() {
-      return this.$store.getters['Notifications/preventOnBlur'];
+      return this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus');
     },
     notificationsScheduleActive() {
-      return this.$store.getters['Notifications/scheduleActive'];
+      return this.$store.getters['Settings/byKey']('notifications.sendSummaryIfWindowIsNotInFocus');
     },
   },
   watch: {

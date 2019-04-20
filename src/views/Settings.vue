@@ -27,12 +27,12 @@
     </button>
 
     <button
-      @click="isLayoutInverted = !isLayoutInverted"
+      @click="toggleSideBarLocation"
     >
       <app-icon
         :size="5"
-        :class="isLayoutInverted && $style.active"
-        :face="isLayoutInverted ? 'toggle-switch' : 'toggle-switch-off'"
+        :class="isLayoutInverted === 'right' && $style.active"
+        :face="isLayoutInverted === 'right' ? 'toggle-switch' : 'toggle-switch-off'"
       />
       <div :class="$style.label">
         Invert app layout
@@ -113,50 +113,50 @@ export default {
   computed: {
     isDimActive: {
       get() {
-        return this.$store.getters['Settings/isDimActive'];
+        return this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus');
       },
       set(value) {
-        this.$store.commit('Settings/setDimActive', value);
+        this.$store.dispatch('Settings/set', ['dimmer.dimIfWindowIsNotInFocus', value]);
       },
     },
     isLayoutInverted: {
       get() {
-        return this.$store.getters['Settings/isLayoutInverted'];
+        return this.$store.getters['Settings/byKey']('layout.sideBarLocation');
       },
       set(value) {
-        this.$store.commit('Settings/setLayoutInverted', value);
+        this.$store.dispatch('Settings/set', ['layout.sideBarLocation', value]);
       },
     },
     muteOnWindowBlur: {
       get() {
-        return this.$store.getters['Settings/muteOnWindowBlur'];
+        return this.$store.getters['Settings/byKey']('window.muteAudioIfWindowIsNotInFocus');
       },
       set(value) {
-        this.$store.commit('Settings/setMuteOnWindowBlur', value);
+        this.$store.dispatch('Settings/set', ['window.muteAudioIfWindowIsNotInFocus', value]);
       },
     },
     notificationsPreventOnBlur: {
       get() {
-        return this.$store.getters['Notifications/preventOnBlur'];
+        return this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus');
       },
       set(value) {
-        this.$store.commit('Notifications/preventOnBlur', value);
+        this.$store.dispatch('Settings/set', ['notifications.holdBackIfWindowIsNotInFocus', value]);
       },
     },
     notificationsScheduleActive: {
       get() {
-        return this.$store.getters['Notifications/scheduleActive'];
+        return this.$store.getters['Settings/byKey']('notifications.sendSummaryIfWindowIsNotInFocus');
       },
       set(value) {
-        this.$store.commit('Notifications/scheduleActive', value);
+        this.$store.dispatch('Settings/set', ['notifications.sendSummaryIfWindowIsNotInFocus', value]);
       },
     },
     notificationsScheduleInMs: {
       get() {
-        return this.$store.getters['Notifications/scheduleInMs'] / 60 / 1000;
+        return this.$store.getters['Settings/byKey']('notifications.summaryIntervalInMs') / 60 / 1000;
       },
       set(value) {
-        this.$store.commit('Notifications/scheduleInMs', value * 60 * 1000);
+        this.$store.dispatch('Settings/set', ['notifications.summaryIntervalInMs', value * 60 * 1000]);
       },
     },
   },
@@ -165,6 +165,9 @@ export default {
       if (this.notificationsScheduleInMs < 0.15) {
         this.notificationsScheduleInMs = 0.15;
       }
+    },
+    toggleSideBarLocation() {
+      this.isLayoutInverted = this.isLayoutInverted === 'left' ? 'right' : 'left';
     },
     wipeAppData() {
       if (confirm('Everything will be gone forever!')) { // eslint-disable-line no-alert, no-restricted-globals
