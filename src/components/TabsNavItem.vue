@@ -6,6 +6,10 @@
     tag="button"
   >
     <div
+      v-if="pageState.hasNotificationBadge"
+      :class="$style.badge"
+    />
+    <div
       :class="{
         [$style.thumb]: true,
         [$style.thumbIsImage]: pageState.favicon,
@@ -57,6 +61,11 @@ export default {
 
 .active {
   @apply text-grey-light bg-grey-darkest shadow;
+}
+
+.badge {
+  @apply absolute pin-l w-2 h-2 bg-grey-darker rounded-full;
+  transform: translateX(-50%);
 }
 
 .thumb {

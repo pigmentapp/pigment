@@ -14,6 +14,7 @@
     <tab-webview
       ref="webview"
       :item="item"
+      :is-active="isActive"
     />
   </div>
 </template>
@@ -44,6 +45,11 @@ export default {
   watch: {
     isActive(isActive) {
       if (isActive) {
+        this.$store.commit('Pages/setState', {
+          tabId: this.item.id,
+          data: { hasNotificationBadge: false },
+        });
+
         this.webview.focus();
       }
     },

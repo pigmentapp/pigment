@@ -19,6 +19,15 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isActive: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      isLoaded: false,
+    };
   },
   computed: {
     muteOnWindowBlur() {
@@ -44,6 +53,14 @@ export default {
     },
   },
   mounted() {
+    this.webview.addEventListener('did-stop-loading', () => {
+      this.isLoaded = true;
+    });
+
+    this.webview.addEventListener('did-start-loading', () => {
+      this.isLoaded = false;
+    });
+
     this.webview.addEventListener('ipc-message', (event) => {
       if (event.channel !== 'notification') return;
 
@@ -53,6 +70,8 @@ export default {
         notification,
         tabId: this.item.id,
       });
+
+      this.evaluateIfHasNotifications();
 
       if (!this.notificationsPreventOnBlur || this.windowHasFocus) {
         new Notification(notification.title, notification.options); // eslint-disable-line no-new
@@ -64,6 +83,8 @@ export default {
         tabId: this.item.id,
         data: { title },
       });
+
+      this.evaluateIfHasNotifications();
     });
 
     this.webview.addEventListener('page-favicon-updated', ({ favicons }) => {
@@ -73,6 +94,8 @@ export default {
         tabId: this.item.id,
         data: { favicon },
       });
+
+      this.evaluateIfHasNotifications();
     });
 
     this.webview.addEventListener('dom-ready', (view) => {
@@ -91,6 +114,16 @@ export default {
         this.$electron.remote.shell.openExternal(e.url);
       }
     });
+  },
+  methods: {
+    evaluateIfHasNotifications() {
+      this.$store.commit('Pages/setState', {
+        tabId: this.item.id,
+        data: {
+          hasNotificationBadge: this.isLoaded && !this.isActive,
+        },
+      });
+    },
   },
 };
 </script>

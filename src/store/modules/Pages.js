@@ -12,7 +12,13 @@ export default {
     setState({ pages }, { tabId, data = {} }) {
       const pageIndex = pages.findIndex(page => page.tabId === tabId);
       const pageState = pages[pageIndex] || {};
-      const newState = { ...pageState, ...data };
+
+      const newState = {
+        title: '',
+        hasNotificationBadge: false,
+        ...pageState,
+        ...data,
+      };
 
       if (pageIndex !== -1) {
         this._vm.$set(pages, pageIndex, newState);
