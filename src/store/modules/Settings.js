@@ -12,14 +12,6 @@ export default {
     isLayoutInverted({ isLayoutInverted }) {
       return isLayoutInverted;
     },
-    isLayoutInvertedForOs({ isLayoutInverted }) {
-      switch (process.platform) {
-        case 'darwin':
-          return isLayoutInverted;
-        default:
-          return !isLayoutInverted;
-      }
-    },
     muteOnWindowBlur({ muteOnWindowBlur }) {
       return muteOnWindowBlur;
     },

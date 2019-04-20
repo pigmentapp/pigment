@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     isLayoutInverted() {
-      return this.$store.getters['Settings/isLayoutInvertedForOs'];
+      return this.$store.getters['Settings/isLayoutInverted'];
     },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);

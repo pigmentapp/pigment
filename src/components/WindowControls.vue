@@ -58,7 +58,7 @@ export default {
       return this.$electron.remote.getCurrentWindow();
     },
     isLayoutInverted() {
-      return this.$store.getters['Settings/isLayoutInvertedForOs'];
+      return this.$store.getters['Settings/isLayoutInverted'];
     },
   },
   created() {
