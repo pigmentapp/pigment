@@ -28,7 +28,7 @@ export default {
       return this.$store.getters['Notifications/preventOnBlur'];
     },
     userAgent() {
-      return this.item.userAgent || undefined;
+      return this.item.userAgent || navigator.userAgent;
     },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];
