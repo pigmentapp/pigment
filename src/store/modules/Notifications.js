@@ -23,10 +23,10 @@ export default {
   },
   getters: {
     list: ({ dbUpdated }) => ({ newerThanTimestamp } = {}) => {
-      const items = db(dbUpdated).get('notifications');
+      let items = db(dbUpdated).get('notifications');
 
       if (newerThanTimestamp) {
-        items.filter(item => item.timestamp > newerThanTimestamp);
+        items = items.filter(item => item.timestamp > newerThanTimestamp);
       }
 
       return items.orderBy('timestamp', 'desc').value();
