@@ -95,7 +95,7 @@ export default {
     if (this.isCreateMode) return;
 
     const { id } = this.$route.params;
-    this.tab = this.$store.getters['Tabs/byId'](id);
+    this.tab = { ...this.$store.getters['Tabs/byId'](id) };
   },
   methods: {
     submitForm() {
