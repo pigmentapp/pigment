@@ -16,10 +16,10 @@ export default {
   },
   getters: {
     active({ activeId, dbUpdated }) {
-      return db(dbUpdated).get('tabs').find(item => item.id === activeId).value() || {};
+      return db(dbUpdated).get('tabs').getById(activeId).value() || {};
     },
     byId({ dbUpdated }) {
-      return id => db(dbUpdated).get('tabs').find(item => item.id === id).value() || {};
+      return id => db(dbUpdated).get('tabs').getById(id).value() || {};
     },
     list({ dbUpdated }) {
       return db(dbUpdated)
@@ -38,15 +38,15 @@ export default {
       state.activeId = id;
       state.dbUpdated = Date.now();
     },
-    create(state, item) {
-      db()
-        .get('tabs')
-        .push(item)
-        .write();
-
+    create(state, tab) {
+      /*
+        the actual tab creation is processed in action
+        because mutations don't return values but we need the id
+        to forward the user to the newly created tab
+      */
       db()
         .get('sorting')
-        .push(item.id)
+        .push(tab.id)
         .write();
 
       state.dbUpdated = Date.now();
@@ -54,7 +54,7 @@ export default {
     delete(state, item) {
       db()
         .get('tabs')
-        .remove(i => i.id === item.id)
+        .removeById(item.id)
         .write();
 
       db()
@@ -72,21 +72,18 @@ export default {
     update(state, { id, data }) {
       db()
         .get('tabs')
-        .find(i => i.id === id).assign(data)
+        .updateById(id, data)
         .write();
 
       state.dbUpdated = Date.now();
     },
   },
   actions: {
-    create({ commit }, payload = {}) {
-      const id = Date.now();
-      const item = {
-        id,
-        ...payload,
-      };
-      commit('create', item);
-      return item;
+    create({ commit }, item) {
+      const tab = db().get('tabs').insert(item).write();
+
+      commit('create', tab);
+      return tab;
     },
   },
 };

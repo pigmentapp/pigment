@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     isActive() {
-      return parseInt(this.$route.params.id, 0) === this.item.id;
+      return this.$route.params.id === this.item.id;
     },
     webview() {
       return this.$refs.webview.$refs.webview;
