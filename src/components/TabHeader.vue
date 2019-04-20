@@ -8,6 +8,16 @@
       icon="refresh"
       @click="$emit('doReload')"
     />
+    <title-bar-button
+      :disabled="!canGoBack"
+      icon="arrow-left"
+      @click="$emit('goBack')"
+    />
+    <title-bar-button
+      :disabled="!canGoForward"
+      icon="arrow-right"
+      @click="$emit('goForward')"
+    />
     <div :class="$style.title">
       {{ pageState.title }}
     </div>
@@ -35,6 +45,14 @@ export default {
     item: {
       type: Object,
       default: () => ({}),
+    },
+    canGoBack: {
+      type: Boolean,
+      default: false,
+    },
+    canGoForward: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

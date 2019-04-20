@@ -26,6 +26,8 @@ export default {
   },
   data() {
     return {
+      canGoBack: false,
+      canGoForward: false,
       isLoaded: false,
     };
   },
@@ -53,6 +55,11 @@ export default {
     },
   },
   mounted() {
+    this.webview.addEventListener('load-commit', () => {
+      this.canGoBack = this.webview.canGoBack();
+      this.canGoForward = this.webview.canGoForward();
+    });
+
     this.webview.addEventListener('did-stop-loading', () => {
       this.isLoaded = true;
     });

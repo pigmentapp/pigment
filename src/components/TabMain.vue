@@ -6,8 +6,12 @@
     <tab-header
       v-if="isActive"
       :item="item"
+      :can-go-back="webviewData.canGoBack"
+      :can-go-forward="webviewData.canGoForward"
       @doReload="reloadTab"
       @goToHome="goToHome"
+      @goBack="goBack"
+      @goForward="goForward"
       @toggleDevTools="toggleDevTools"
     />
 
@@ -34,12 +38,15 @@ export default {
       default: () => ({}),
     },
   },
+  data() {
+    return {
+      webviewData: {},
+      webviewEl: {},
+    };
+  },
   computed: {
     isActive() {
       return this.$route.params.id === this.item.id;
-    },
-    webview() {
-      return this.$refs.webview.webview;
     },
   },
   watch: {
@@ -50,22 +57,32 @@ export default {
           data: { hasNotificationBadge: false },
         });
 
-        this.webview.focus();
+        this.webviewEl.focus();
       }
     },
   },
+  mounted() {
+    this.webviewData = this.$refs.webview;
+    this.webviewEl = this.webviewData.webview;
+  },
   methods: {
     goToHome() {
-      this.webview.loadURL(this.item.url);
+      this.webviewEl.loadURL(this.item.url);
+    },
+    goBack() {
+      this.webviewEl.goBack();
+    },
+    goForward() {
+      this.webviewEl.goForward();
     },
     reloadTab() {
-      this.webview.reload();
+      this.webviewEl.reload();
     },
     toggleDevTools() {
-      if (this.webview.isDevToolsOpened()) {
-        this.webview.closeDevTools();
+      if (this.webviewEl.isDevToolsOpened()) {
+        this.webviewEl.closeDevTools();
       } else {
-        this.webview.openDevTools();
+        this.webviewEl.openDevTools();
       }
     },
   },
