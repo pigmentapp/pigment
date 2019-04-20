@@ -11,7 +11,6 @@ const db = new Connection({
 export default {
   namespaced: true,
   state: {
-    activeId: 0,
     dbUpdated: Date.now(),
   },
   getters: {
@@ -34,10 +33,6 @@ export default {
     },
   },
   mutations: {
-    activateId(state, id) {
-      state.activeId = id;
-      state.dbUpdated = Date.now();
-    },
     create(state, tab) {
       /*
         the actual tab creation is processed in action
@@ -62,7 +57,6 @@ export default {
         .remove(i => i === item.id)
         .write();
 
-      state.activateId = 0;
       state.dbUpdated = Date.now();
     },
     setSorting(state, items) {

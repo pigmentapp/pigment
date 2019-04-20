@@ -44,7 +44,6 @@ export default {
   watch: {
     isActive(isActive) {
       if (isActive) {
-        this.$store.commit('Tabs/activateId', this.item.id);
         this.webview.focus();
       }
     },
