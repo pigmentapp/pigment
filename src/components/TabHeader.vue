@@ -1,5 +1,8 @@
 <template>
-  <title-bar :indent="isLayoutInverted">
+  <title-bar
+    :indent="isLayoutInverted"
+    area="main"
+  >
     <title-bar-button
       icon="home-variant"
       @click="$emit('goToHome')"

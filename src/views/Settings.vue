@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <app-content>
     <button
       @click="isDimActive = !isDimActive"
     >
@@ -105,7 +105,7 @@
         Leonard Hertel
       </a>
     </div>
-  </div>
+  </app-content>
 </template>
 
 <script>

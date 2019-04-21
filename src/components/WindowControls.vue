@@ -4,6 +4,7 @@
       [$style.inverted]: isLayoutInverted,
     }"
     :indent="!isLayoutInverted"
+    area="aside"
   >
     <template v-if="!$options.isMac">
       <title-bar-button

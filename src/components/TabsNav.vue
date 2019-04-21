@@ -40,6 +40,7 @@ export default {
 <style lang="postcss" module>
 .nav {
   @apply flex flex-col p-1 overflow-y-auto;
+  background-color: #0002;
 }
 
 .drag {
