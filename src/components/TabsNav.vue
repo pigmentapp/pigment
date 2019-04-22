@@ -39,7 +39,7 @@ export default {
 
 <style lang="postcss" module>
 .nav {
-  @apply flex flex-col p-1 overflow-y-auto;
+  @apply relative flex flex-col p-1 overflow-x-hidden overflow-y-auto;
   background-color: #0002;
 }
 
