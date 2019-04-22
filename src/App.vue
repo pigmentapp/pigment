@@ -58,13 +58,14 @@ export default {
 }
 
 .app--sidebar-right {
-  grid-template-columns: [main] auto [aside] min-content;
+  direction: rtl;
 }
 
 .aside {
   @apply relative flex flex-col;
   grid-column: aside;
   max-width: config('width.64');
+  direction: ltr;
 }
 
 .aside__header {
@@ -78,6 +79,7 @@ export default {
 .main {
   @apply relative z-10 overflow-hidden;
   grid-column: main;
+  direction: ltr;
 }
 
 .main:after {
