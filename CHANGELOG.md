@@ -1,3 +1,20 @@
+# [0.4.0](https://gitlab.com/herteleo/pigment/compare/0.3.0...0.4.0) (2019-04-22)
+
+
+### Bug Fixes
+
+* **navigation:** scroll badge + cut badge if sidebar is right aligned ([fddf81a](https://gitlab.com/herteleo/pigment/commit/fddf81a))
+* **notifications:** item remove button was not working ([b2e8901](https://gitlab.com/herteleo/pigment/commit/b2e8901))
+* **notifications:** scheduler did not filter new notifications properly ([98e2913](https://gitlab.com/herteleo/pigment/commit/98e2913))
+
+
+### Features
+
+* general layout improvements ([52602c0](https://gitlab.com/herteleo/pigment/commit/52602c0))
+* **settings:** moved from localStorage to filebased settings storage ([e74d6c8](https://gitlab.com/herteleo/pigment/commit/e74d6c8))
+* **settings:** new structure and saved as settings.json ([b42e171](https://gitlab.com/herteleo/pigment/commit/b42e171))
+* **settings:** removed platform-dependent layout inversion ([34ba2bf](https://gitlab.com/herteleo/pigment/commit/34ba2bf))
+
 # [0.3.0](https://gitlab.com/herteleo/pigment/compare/0.2.0...0.3.0) (2019-04-20)
 
 
