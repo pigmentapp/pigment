@@ -4,6 +4,7 @@
       [$style.inverted]: isLayoutInverted,
     }"
     :indent="!isLayoutInverted"
+    area="aside"
   >
     <template v-if="!$options.isMac">
       <title-bar-button
@@ -58,7 +59,7 @@ export default {
       return this.$electron.remote.getCurrentWindow();
     },
     isLayoutInverted() {
-      return this.$store.getters['Settings/isLayoutInvertedForOs'];
+      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
   },
   created() {

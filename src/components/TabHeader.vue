@@ -1,5 +1,8 @@
 <template>
-  <title-bar :indent="isLayoutInverted">
+  <title-bar
+    :indent="isLayoutInverted"
+    area="main"
+  >
     <title-bar-button
       icon="home-variant"
       @click="$emit('goToHome')"
@@ -57,7 +60,7 @@ export default {
   },
   computed: {
     isLayoutInverted() {
-      return this.$store.getters['Settings/isLayoutInvertedForOs'];
+      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);

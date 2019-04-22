@@ -134,7 +134,7 @@ export default {
 
 <style lang="postcss" module>
 .wrap {
-  @apply flex flex-grow items-center justify-center;
+  @apply flex items-center justify-center h-full;
 }
 
 .item {

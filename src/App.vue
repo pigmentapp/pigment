@@ -12,10 +12,9 @@
       <tabs-nav :class="$style.aside__body" />
     </aside>
     <tabs-list :class="$style.main" />
-    <router-view
-      :class="$style.main"
-      :key="$route.path"
-    />
+    <div :class="$style.main">
+      <router-view :key="$route.path" />
+    </div>
     <window-dimmer />
   </div>
 </template>
@@ -37,7 +36,7 @@ export default {
   mixins: [NotificationSchedule],
   computed: {
     isLayoutInverted() {
-      return this.$store.getters['Settings/isLayoutInvertedForOs'];
+      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
   },
 };
@@ -59,13 +58,14 @@ export default {
 }
 
 .app--sidebar-right {
-  grid-template-columns: [main] auto [aside] min-content;
+  direction: rtl;
 }
 
 .aside {
-  @apply flex flex-col;
+  @apply relative flex flex-col;
   grid-column: aside;
   max-width: config('width.64');
+  direction: ltr;
 }
 
 .aside__header {
@@ -77,10 +77,23 @@ export default {
 }
 
 .main {
-  @apply
-    z-10 overflow-y-auto
-    bg-grey-darkest shadow-md;
+  @apply relative z-10 overflow-hidden;
   grid-column: main;
+  direction: ltr;
+}
+
+.main:after {
+  @apply absolute pin-y z-20 w-px pointer-events-none;
+  content: "";
+  background-color: #fff1;
+}
+
+.app:not(.app--sidebar-right) .main:after {
+  @apply pin-l;
+}
+
+.app.app--sidebar-right .main:after {
+  @apply pin-r;
 }
 </style>
 

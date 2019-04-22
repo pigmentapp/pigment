@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.wrap">
+  <app-content :class="$style.wrap">
     <div :class="$style.header">
       <div :class="$style.title">
         Notifications
@@ -59,7 +59,7 @@
     >
       No notifications available.
     </div>
-  </div>
+  </app-content>
 </template>
 
 <script>
@@ -94,7 +94,7 @@ export default {
 }
 
 .item {
-  @apply flex p-2 mb-2 bg-black rounded;
+  @apply flex p-2 mb-2 bg-grey-darkest rounded;
 }
 
 .itemTitle {
@@ -125,7 +125,7 @@ export default {
 }
 
 .content {
-  @apply mt-2 text-grey-dark;
+  @apply mt-2 text-grey;
 }
 
 .empty {

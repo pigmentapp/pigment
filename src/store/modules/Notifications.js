@@ -19,32 +19,20 @@ export default {
   namespaced: true,
   state: {
     nextSchedule: 0,
-    preventOnBlur: false,
-    scheduleActive: false,
-    scheduleInMs: 1200000,
     dbUpdated: Date.now(),
   },
   getters: {
     list: ({ dbUpdated }) => ({ newerThanTimestamp } = {}) => {
-      const items = db(dbUpdated).get('notifications');
+      let items = db(dbUpdated).get('notifications');
 
       if (newerThanTimestamp) {
-        items.filter(item => item.timestamp > newerThanTimestamp);
+        items = items.filter(item => item.timestamp > newerThanTimestamp);
       }
 
       return items.orderBy('timestamp', 'desc').value();
     },
     nextSchedule({ nextSchedule }) {
       return nextSchedule;
-    },
-    preventOnBlur({ preventOnBlur }) {
-      return preventOnBlur;
-    },
-    scheduleActive({ scheduleActive }) {
-      return scheduleActive;
-    },
-    scheduleInMs({ scheduleInMs }) {
-      return scheduleInMs;
     },
   },
   mutations: {
@@ -70,24 +58,15 @@ export default {
     nextSchedule(state, schedule) {
       state.nextSchedule = schedule;
     },
-    preventOnBlur(state, yesNo) {
-      state.preventOnBlur = yesNo;
-    },
-    scheduleActive(state, yesNo) {
-      state.scheduleActive = yesNo;
-    },
-    scheduleInMs(state, ms) {
-      state.scheduleInMs = ms;
-    },
   },
   actions: {
-    calcNextSchedule(store) {
-      const timeOfWindowBlur = store.rootGetters['Window/timestampOfBlur'];
-      const notificationSchedule = store.getters.scheduleInMs;
+    calcNextSchedule({ commit, rootGetters }) {
+      const timeOfWindowBlur = rootGetters['Window/timestampOfBlur'];
+      const notificationSchedule = rootGetters['Settings/byKey']('notifications.summaryIntervalInMs');
 
       if (timeOfWindowBlur) {
         const nextSchedule = nextScheduleIs(timeOfWindowBlur, notificationSchedule);
-        store.commit('nextSchedule', nextSchedule);
+        commit('nextSchedule', nextSchedule);
       }
     },
   },

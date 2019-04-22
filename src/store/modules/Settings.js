@@ -1,40 +1,46 @@
+import Connection from '@/db';
+
+const db = new Connection({
+  file: 'settings.json',
+  defaults: {
+    'dimmer.dimDelayInMs': 5000,
+    'dimmer.dimIfWindowIsNotInFocus': false,
+    'layout.sideBarLocation': 'left',
+    'notifications.holdBackIfWindowIsNotInFocus': false,
+    'notifications.sendSummaryIfWindowIsNotInFocus': false,
+    'notifications.summaryIntervalInMs': 1200000,
+    'window.muteAudioIfWindowIsNotInFocus': false,
+  },
+});
+
 export default {
   namespaced: true,
   state: {
-    isDimActive: false,
-    isLayoutInverted: false,
-    muteOnWindowBlur: false,
+    dbUpdated: Date.now(),
   },
   getters: {
-    isDimActive({ isDimActive }) {
-      return isDimActive;
+    all({ dbUpdated }) {
+      return db(dbUpdated).value();
     },
-    isLayoutInverted({ isLayoutInverted }) {
-      return isLayoutInverted;
+    byKey({ dbUpdated }) {
+      return key => db(dbUpdated).get(key).value();
     },
-    isLayoutInvertedForOs({ isLayoutInverted }) {
-      switch (process.platform) {
-        case 'darwin':
-          return isLayoutInverted;
-        default:
-          return !isLayoutInverted;
-      }
-    },
-    muteOnWindowBlur({ muteOnWindowBlur }) {
-      return muteOnWindowBlur;
+    inGroup({ dbUpdated }) {
+      return group => db(dbUpdated)
+        .pickBy((v, k) => k.split('.')[0] === group)
+        .mapKeys((v, k) => k.split('.').splice(1).join('.'))
+        .value();
     },
   },
   mutations: {
-    setDimActive(state, yesNo) {
-      state.isDimActive = yesNo;
-    },
-    setLayoutInverted(state, yesNo) {
-      state.isLayoutInverted = yesNo;
-    },
-    setMuteOnWindowBlur(state, yesNo) {
-      state.muteOnWindowBlur = yesNo;
+    triggerDbUpdate(state) {
+      state.dbUpdated = Date.now();
     },
   },
   actions: {
+    set({ commit }, [key, value]) {
+      db().set(key, value).write();
+      commit('triggerDbUpdate');
+    },
   },
 };
