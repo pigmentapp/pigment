@@ -20,10 +20,17 @@
     <title-bar-button icon="dots-vertical">
       <template slot="dropdown">
         <title-bar-button
-          icon="home-variant"
+          icon="home"
           @click="$emit('goToHome')"
         >
           Go to homepage
+        </title-bar-button>
+        <title-bar-button
+          :disabled="item.url === pageState.url"
+          icon="home-heart"
+          @click="setAsHome"
+        >
+          Set as homepage
         </title-bar-button>
         <title-bar-button
           icon="code-tags"
@@ -70,6 +77,16 @@ export default {
   computed: {
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
+    },
+  },
+  methods: {
+    setAsHome() {
+      this.$store.commit('Tabs/update', {
+        id: this.item.id,
+        data: {
+          url: this.pageState.url,
+        },
+      });
     },
   },
 };

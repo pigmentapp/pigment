@@ -55,13 +55,18 @@ export default {
     },
   },
   mounted() {
-    this.webview.addEventListener('load-commit', () => {
+    this.webview.addEventListener('load-commit', (event) => {
       this.canGoBack = this.webview.canGoBack();
       this.canGoForward = this.webview.canGoForward();
     });
 
-    this.webview.addEventListener('did-stop-loading', () => {
+    this.webview.addEventListener('did-stop-loading', (e) => {
       this.isLoaded = true;
+
+      this.$store.commit('Pages/setState', {
+        tabId: this.item.id,
+        data: { url: this.webview.getURL() },
+      });
     });
 
     this.webview.addEventListener('did-start-loading', () => {
