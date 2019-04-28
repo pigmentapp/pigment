@@ -153,7 +153,7 @@ export default {
 }
 
 .titleBar {
-  @apply: relative z-30;
+  @apply relative z-30;
   grid-area: title;
 }
 
