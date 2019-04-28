@@ -11,11 +11,13 @@
       v-for="tab in tabList"
       :key="tab.id"
       :item="tab"
+      :show-label="displaysTabLabels"
     />
     <div
       slot="footer"
       :class="{
         [$style.footer]: true,
+        [$style.footer__extended]: displaysTabLabels,
       }"
     >
       <side-bar-button
@@ -54,6 +56,9 @@ export default {
         this.$store.commit('Tabs/setSorting', items);
       },
     },
+    displaysTabLabels() {
+      return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+    },
   },
 };
 </script>
@@ -68,6 +73,10 @@ export default {
 
 .footer {
   @apply mt-auto;
+}
+
+.footer__extended {
+  @apply flex flex-row-reverse;
 }
 
 .drag {

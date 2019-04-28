@@ -4,8 +4,10 @@
       [$style.app]: true,
       [$style.app__osMac]: $options.isMac,
       [$style.app__osWin]: $options.isWin,
-      [$style.app__layoutLeft_extended]: !isLayoutInverted,
-      [$style.app__layoutRight_extended]: isLayoutInverted,
+      [$style.app__layoutLeft_compact]: !isLayoutInverted && !displaysTabLabels,
+      [$style.app__layoutLeft_extended]: !isLayoutInverted && displaysTabLabels,
+      [$style.app__layoutRight_compact]: isLayoutInverted && !displaysTabLabels,
+      [$style.app__layoutRight_extended]: isLayoutInverted && displaysTabLabels,
     }"
   >
     <div
@@ -46,6 +48,9 @@ export default {
     isLayoutInverted() {
       return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
+    displaysTabLabels() {
+      return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+    },
   },
 };
 </script>
@@ -65,10 +70,24 @@ export default {
   height: 100vh;
 }
 
+.app__osMac.app__layoutLeft_compact {
+  grid-template-areas:
+    "space space title title title"
+    "aside main  main  main  main"
+  ;
+}
+
 .app__osMac.app__layoutLeft_extended {
   grid-template-areas:
     "space space title title title"
     "aside aside main  main  main"
+  ;
+}
+
+.app__osMac.app__layoutRight_compact {
+  grid-template-areas:
+    "space space title title ....."
+    "main  main  main  main  aside"
   ;
 }
 
@@ -79,10 +98,24 @@ export default {
   ;
 }
 
+.app__osWin.app__layoutLeft_compact {
+  grid-template-areas:
+    "title title title space space"
+    "aside main  main  main  main"
+  ;
+}
+
 .app__osWin.app__layoutLeft_extended {
   grid-template-areas:
     "title title title space space"
     "aside aside main  main  main"
+  ;
+}
+
+.app__osWin.app__layoutRight_compact {
+  grid-template-areas:
+    "title title title space space"
+    "main  main  main  main  aside"
   ;
 }
 

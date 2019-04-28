@@ -45,6 +45,19 @@
     </button>
 
     <button
+      @click="displaysTabLabels = !displaysTabLabels"
+    >
+      <app-icon
+        :size="5"
+        :class="displaysTabLabels && $style.active"
+        :face="displaysTabLabels ? 'toggle-switch' : 'toggle-switch-off'"
+      />
+      <div :class="$style.label">
+        Display navigation labels
+      </div>
+    </button>
+
+    <button
       @click="notificationsPreventOnBlur = !notificationsPreventOnBlur"
     >
       <app-icon
@@ -137,6 +150,14 @@ export default {
       },
       set(value) {
         this.$store.dispatch('Settings/set', ['layout.sideBarLocation', value]);
+      },
+    },
+    displaysTabLabels: {
+      get() {
+        return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+      },
+      set(value) {
+        this.$store.dispatch('Settings/set', ['navigation.displayTabLabels', value]);
       },
     },
     muteOnWindowBlur: {
