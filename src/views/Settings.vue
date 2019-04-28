@@ -1,6 +1,6 @@
 <template>
   <app-content>
-    <title-bar>
+    <title-bar :back-button="true">
       <title-bar-text>
         Settings
       </title-bar-text>

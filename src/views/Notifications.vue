@@ -1,6 +1,6 @@
 <template>
   <app-content :class="$style.wrap">
-    <title-bar>
+    <title-bar :back-button="true">
       <title-bar-text>
         Notifications
       </title-bar-text>
