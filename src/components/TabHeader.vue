@@ -68,9 +68,6 @@ export default {
     },
   },
   computed: {
-    isLayoutInverted() {
-      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
-    },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
