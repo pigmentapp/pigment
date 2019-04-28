@@ -153,6 +153,7 @@ export default {
 }
 
 .titleBar {
+  @apply: relative z-30;
   grid-area: title;
 }
 
@@ -161,13 +162,13 @@ export default {
 }
 
 .sideBar {
-  @apply flex flex-col overflow-y-auto;
+  @apply relative z-20 flex flex-col overflow-y-auto;
   grid-area: aside;
   max-width: config('width.64');
 }
 
 .main {
-  @apply overflow-y-auto bg-grey-darkest;
+  @apply relative z-10 overflow-y-auto bg-grey-darkest;
   grid-area: main;
 }
 

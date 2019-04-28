@@ -73,7 +73,7 @@ export default {
   right: 0;
   left: 0;
   height: 400vh;
-  z-index: 20;
+  z-index: 40;
   background-image: linear-gradient(
     config('colors.black'),
     config('colors.black') 25%,
