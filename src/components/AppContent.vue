@@ -1,11 +1,9 @@
 <template>
-  <div :class="$style.wrap">
+  <div :class="$style.content">
     <slot />
   </div>
 </template>
 
 <style lang="postcss" module>
-.wrap {
-  @apply h-full overflow-y-auto;
-}
+.content {}
 </style>
