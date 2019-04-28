@@ -64,12 +64,8 @@ export default {
   @apply text-red-lighter bg-red-dark;
 }
 
-.orange:hover {
-  @apply text-orange-lighter bg-orange-dark;
-}
-
-.green:hover {
-  @apply text-green-lighter bg-green-dark;
+.grey:hover {
+  @apply bg-grey-darkest;
 }
 
 .active {

@@ -1,19 +1,19 @@
 <template>
-  <div v-if="$options.isWin">
+  <div :class="$style.wrap">
+    <title-bar-button
+      icon="window-minimize"
+      schema="grey"
+      @click="window.minimize()"
+    />
+    <title-bar-button
+      :icon="isMaximized ? 'window-restore' : 'window-maximize'"
+      schema="grey"
+      @click="toggleMaximized()"
+    />
     <title-bar-button
       icon="window-close"
       schema="red"
       @click="window.close()"
-    />
-    <title-bar-button
-      :icon="isMaximized ? 'window-restore' : 'window-maximize'"
-      schema="orange"
-      @click="toggleMaximized()"
-    />
-    <title-bar-button
-      icon="window-minimize"
-      schema="green"
-      @click="window.minimize()"
     />
   </div>
 </template>
@@ -27,7 +27,6 @@ export default {
     TitleBar,
     TitleBarButton,
   },
-  isWin: process.platform !== 'darwin',
   data() {
     return {
       isMaximized: false,
@@ -63,3 +62,9 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" module>
+.wrap {
+  @apply flex justify-end pl-2;
+}
+</style>

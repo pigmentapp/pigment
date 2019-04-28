@@ -3,7 +3,7 @@
     :class="{
       [$style.app]: true,
       [$style.app__osMac]: $options.isMac,
-      [$style.app__osWin]: $options.isWin,
+      [$style.app__osNotMac]: !$options.isMac,
       [$style.app__layoutLeft_compact]: !isLayoutInverted && !displaysTabLabels,
       [$style.app__layoutLeft_extended]: !isLayoutInverted && displaysTabLabels,
       [$style.app__layoutRight_compact]: isLayoutInverted && !displaysTabLabels,
@@ -14,10 +14,18 @@
       :class="{
         [$style.titleBarSpacer]: true,
         [$style.titleBarSpacer__osMac]: $options.isMac,
-        [$style.titleBarSpacer__osWin]: $options.isWin,
+        [$style.titleBarSpacer__osNotMac]: !$options.isMac,
+      }"
+    >
+      <window-controls v-if="!$options.isMac" />
+    </div>
+    <the-title-bar
+      :class="{
+        [$style.titleBar]: true,
+        [$style.titleBar__osMac]: $options.isMac,
+        [$style.titleBar__osNotMac]: !$options.isMac,
       }"
     />
-    <the-title-bar :class="$style.titleBar" />
     <the-side-bar :class="$style.sideBar" />
     <div
       :class="{
@@ -36,13 +44,14 @@
 <script>
 import TheSideBar from '@/components/TheSideBar.vue';
 import TheTitleBar from '@/components/TheTitleBar.vue';
+import WindowControls from '@/components/WindowControls.vue';
 
 export default {
   isMac: process.platform === 'darwin',
-  isWin: process.platform !== 'darwin',
   components: {
     TheSideBar,
     TheTitleBar,
+    WindowControls,
   },
   computed: {
     isLayoutInverted() {
@@ -68,6 +77,14 @@ export default {
   grid-template-columns: min-content min-content 1fr min-content min-content;
   grid-template-rows: 2.4rem auto;
   height: 100vh;
+}
+
+.app__osMac {
+  grid-template-rows: 2.4rem auto;
+}
+
+.app__osNotMac {
+  grid-template-rows: min-content auto;
 }
 
 .app__osMac.app__layoutLeft_compact {
@@ -98,28 +115,28 @@ export default {
   ;
 }
 
-.app__osWin.app__layoutLeft_compact {
+.app__osNotMac.app__layoutLeft_compact {
   grid-template-areas:
     "title title title space space"
     "aside main  main  main  main"
   ;
 }
 
-.app__osWin.app__layoutLeft_extended {
+.app__osNotMac.app__layoutLeft_extended {
   grid-template-areas:
     "title title title space space"
     "aside aside main  main  main"
   ;
 }
 
-.app__osWin.app__layoutRight_compact {
+.app__osNotMac.app__layoutRight_compact {
   grid-template-areas:
     "title title title space space"
     "main  main  main  main  aside"
   ;
 }
 
-.app__osWin.app__layoutRight_extended {
+.app__osNotMac.app__layoutRight_extended {
   grid-template-areas:
     "title title title space space"
     "main  main  main  aside aside"
@@ -135,12 +152,12 @@ export default {
   min-width: 5rem;
 }
 
-.titleBarSpacer__osWin {
-  min-width: config('width.32');
-}
-
 .titleBar {
   grid-area: title;
+}
+
+.titleBar__osNotMac {
+  @apply pl-3;
 }
 
 .sideBar {
