@@ -11,7 +11,11 @@
     }"
     @click="$emit('click')"
   >
-    <app-icon :face="icon" />
+    <app-icon
+      v-if="icon"
+      :face="icon"
+    />
+    <slot />
   </component>
 </template>
 

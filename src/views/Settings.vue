@@ -1,5 +1,10 @@
 <template>
   <app-content>
+    <title-bar>
+      <title-bar-text>
+        Settings
+      </title-bar-text>
+    </title-bar>
     <button
       @click="isDimActive = !isDimActive"
     >
@@ -109,7 +114,14 @@
 </template>
 
 <script>
+import TitleBar from '@/components/TitleBar.vue';
+import TitleBarText from '@/components/TitleBarText.vue';
+
 export default {
+  components: {
+    TitleBar,
+    TitleBarText,
+  },
   computed: {
     isDimActive: {
       get() {
@@ -191,7 +203,7 @@ button {
 }
 
 button + button {
-    @apply border-t border-grey-darkest;
+    @apply border-t border-black;
 }
 </style>
 
@@ -213,7 +225,7 @@ button + button {
 }
 
 .input {
-  @apply w-full px-2 py-1 mt-2 text-grey bg-grey-darkest;
+  @apply w-full px-2 py-1 mt-2 text-grey bg-black;
 }
 
 .copyright {

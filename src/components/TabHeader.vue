@@ -1,16 +1,8 @@
 <template>
-  <title-bar
-    :indent="isLayoutInverted"
-    area="main"
-  >
-    <title-bar-button
-      icon="home-variant"
-      @click="$emit('goToHome')"
-    />
-    <title-bar-button
-      icon="refresh"
-      @click="$emit('doReload')"
-    />
+  <title-bar>
+    <title-bar-text>
+      {{ pageState.title }}
+    </title-bar-text>
     <title-bar-button
       :disabled="!canGoBack"
       icon="arrow-left"
@@ -21,9 +13,14 @@
       icon="arrow-right"
       @click="$emit('goForward')"
     />
-    <div :class="$style.title">
-      {{ pageState.title }}
-    </div>
+    <title-bar-button
+      icon="refresh"
+      @click="$emit('doReload')"
+    />
+    <title-bar-button
+      icon="home-variant"
+      @click="$emit('goToHome')"
+    />
     <title-bar-button
       icon="code-tags"
       @click="$emit('toggleDevTools')"
@@ -38,11 +35,13 @@
 <script>
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
+import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   components: {
     TitleBar,
     TitleBarButton,
+    TitleBarText,
   },
   props: {
     item: {
@@ -68,10 +67,3 @@ export default {
   },
 };
 </script>
-
-<style lang="postcss" module>
-.title {
-  @apply flex-1 p-2 text-sm truncate;
-  -webkit-user-select: none;
-}
-</style>
