@@ -34,5 +34,10 @@ export default new Router({
       name: 'settings',
       component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
     },
+    {
+      path: '/changelog',
+      name: 'changelog',
+      component: () => import(/* webpackChunkName: "changelog" */ '@/views/Changelog.vue'),
+    },
   ],
 });

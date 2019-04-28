@@ -108,6 +108,14 @@
     >
       Show welcome page
     </router-link>
+
+    <router-link
+      :to="{ name: 'changelog' }"
+      tag="button"
+    >
+      See changelog
+    </router-link>
+
     <button
       @click="wipeAppData"
     >
