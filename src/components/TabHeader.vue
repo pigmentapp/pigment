@@ -17,18 +17,28 @@
       icon="refresh"
       @click="$emit('doReload')"
     />
-    <title-bar-button
-      icon="home-variant"
-      @click="$emit('goToHome')"
-    />
-    <title-bar-button
-      icon="code-tags"
-      @click="$emit('toggleDevTools')"
-    />
-    <title-bar-button
-      :to="{ name: 'tabs-settings', params: { id: item.id } }"
-      icon="dots-vertical"
-    />
+    <title-bar-button icon="dots-vertical">
+      <template slot="dropdown">
+        <title-bar-button
+          icon="home-variant"
+          @click="$emit('goToHome')"
+        >
+          Go to homepage
+        </title-bar-button>
+        <title-bar-button
+          icon="code-tags"
+          @click="$emit('toggleDevTools')"
+        >
+          Show devtools
+        </title-bar-button>
+        <title-bar-button
+          :to="{ name: 'tabs-settings', params: { id: item.id } }"
+          icon="pencil"
+        >
+          Edit tab
+        </title-bar-button>
+      </template>
+    </title-bar-button>
   </title-bar>
 </template>
 
