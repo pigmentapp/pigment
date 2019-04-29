@@ -1,24 +1,50 @@
 <template>
-  <component
-    :is="to ? 'router-link' : tag"
-    :to="to"
-    :tag="tag"
-    :type="tag === 'button' && 'button'"
-    :class="{
-      [$style.btn]: true,
-      [$style[schema]]: true,
-      [$style.active]: active,
-    }"
-    @click="$emit('click')"
-  >
-    <app-icon :face="icon" />
-  </component>
+  <div :class="$style.wrap">
+    <component
+      :is="to ? 'router-link' : tag"
+      :to="to"
+      :tag="tag"
+      :type="tag === 'button' && 'button'"
+      :disabled="disabled"
+      :class="{
+        [$style.btn]: true,
+        [$style[schema]]: true,
+        [$style.active]: active || isDropdownActive,
+      }"
+      @click="triggerClick($event)"
+    >
+      <app-icon
+        v-if="icon"
+        :face="icon"
+        :class="$style.icon"
+      />
+      <div
+        v-if="$slots.default"
+        :class="$style.label"
+      >
+        <slot />
+      </div>
+    </component>
+    <div
+      v-if="$slots.dropdown"
+      v-show="isDropdownActive"
+      ref="dropdown"
+      :class="$style.dropdown"
+    >
+      <div :class="$style.dropdown_shadow" />
+      <slot name="dropdown" />
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
     active: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -39,17 +65,55 @@ export default {
       default: undefined,
     },
   },
+  data() {
+    return {
+      isDropdownActive: false,
+    };
+  },
+  mounted() {
+    if (this.$slots.dropdown) {
+      this.$refs.dropdown.addEventListener('click', this.toggleDropdown);
+    }
+  },
+  methods: {
+    triggerClick(e) {
+      this.$emit('click', e);
+
+      if (this.$slots.dropdown) {
+        this.toggleDropdown();
+      }
+    },
+    toggleDropdown() {
+      this.isDropdownActive = !this.isDropdownActive;
+    },
+  },
 };
 </script>
 
 <style lang="postcss" module>
+.wrap {
+  @apply relative;
+}
+
 .btn {
-  @apply p-2 leading-none appearance-none text-grey-dark;
+  @apply flex p-2 w-full leading-none appearance-none text-left text-grey-dark whitespace-no-wrap;
   -webkit-app-region: no-drag;
 }
 
 .btn[disabled] {
   @apply opacity-50 pointer-events-none;
+}
+
+.icon {
+  @apply flex-no-shrink;
+}
+
+.icon + .label {
+  @apply ml-2;
+}
+
+.label {
+  @apply flex-grow;
 }
 
 .blue:hover {
@@ -60,15 +124,19 @@ export default {
   @apply text-red-lighter bg-red-dark;
 }
 
-.orange:hover {
-  @apply text-orange-lighter bg-orange-dark;
-}
-
-.green:hover {
-  @apply text-green-lighter bg-green-dark;
+.grey:hover {
+  @apply bg-grey-darkest;
 }
 
 .active {
   @apply text-blue-lighter bg-blue;
+}
+
+.dropdown {
+  @apply absolute pin-r flex flex-col overflow-hidden bg-grey-darkest rounded shadow-md;
+}
+
+.dropdown_shadow {
+  @apply fixed pin;
 }
 </style>

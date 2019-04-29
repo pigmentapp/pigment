@@ -1,109 +1,27 @@
 <template>
-  <div
-    :class="{
-      [$style.app]: true,
-      [$style['app--sidebar-right']]: isLayoutInverted,
-    }"
-  >
-    <aside :class="$style.aside">
-      <window-controls
-        :class="$style.aside__header"
-      />
-      <tabs-nav :class="$style.aside__body" />
-    </aside>
-    <tabs-list :class="$style.main" />
-    <div :class="$style.main">
+  <app-layout>
+    <template slot="main">
+      <tabs-list />
       <router-view :key="$route.path" />
-    </div>
-    <window-dimmer />
-  </div>
+    </template>
+    <template slot="overlays">
+      <window-dimmer />
+    </template>
+  </app-layout>
 </template>
 
 <script>
+import AppLayout from '@/components/AppLayout.vue';
 import TabsList from '@/components/TabsList.vue';
-import TabsNav from '@/components/TabsNav.vue';
-import WindowControls from '@/components/WindowControls.vue';
 import WindowDimmer from '@/components/WindowDimmer.vue';
 import NotificationSchedule from '@/utils/mixinNotificationSchedule';
 
 export default {
   components: {
+    AppLayout,
     TabsList,
-    TabsNav,
-    WindowControls,
     WindowDimmer,
   },
   mixins: [NotificationSchedule],
-  computed: {
-    isLayoutInverted() {
-      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
-    },
-  },
 };
 </script>
-
-<style lang="postcss" module>
-@tailwind preflight;
-@tailwind components;
-
-.app {
-  @apply
-    font-sans text-grey
-    bg-black select-none;
-
-  display: grid;
-  grid-auto-flow: dense;
-  grid-template-columns: [aside] min-content [main] auto;
-  grid-template-rows: 100vh;
-}
-
-.app--sidebar-right {
-  direction: rtl;
-}
-
-.aside {
-  @apply relative flex flex-col;
-  grid-column: aside;
-  max-width: config('width.64');
-  direction: ltr;
-}
-
-.aside__header {
-  @apply flex-no-shrink;
-}
-
-.aside__body {
-  @apply flex-grow;
-}
-
-.main {
-  @apply relative z-10 overflow-hidden;
-  grid-column: main;
-  direction: ltr;
-}
-
-.main:after {
-  @apply absolute pin-y z-20 w-px pointer-events-none;
-  content: "";
-  background-color: #fff1;
-}
-
-.app:not(.app--sidebar-right) .main:after {
-  @apply pin-l;
-}
-
-.app.app--sidebar-right .main:after {
-  @apply pin-r;
-}
-</style>
-
-<style lang="postcss">
-body {
-  @apply h-screen overflow-hidden bg-black;
-}
-
-button:focus,
-button:active:focus {
-  outline: none !important;
-}
-</style>

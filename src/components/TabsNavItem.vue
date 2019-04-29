@@ -26,7 +26,10 @@
         face="tab"
       />
     </div>
-    <div :class="$style.label">
+    <div
+      v-if="showLabel"
+      :class="$style.label"
+    >
       {{ item.label }}
     </div>
   </router-link>
@@ -38,6 +41,10 @@ export default {
     item: {
       type: Object,
       default: () => ({}),
+    },
+    showLabel: {
+      type: Boolean,
+      required: true,
     },
   },
   computed: {
@@ -71,7 +78,7 @@ export default {
 .thumb {
   @apply
     flex flex-no-shrink justify-center items-center
-    p-1 w-8 h-8 mr-3 rounded-sm;
+    p-1 w-8 h-8 rounded-sm;
 }
 
 .thumbIsImage {
@@ -87,6 +94,6 @@ export default {
 }
 
 .label {
-  @apply truncate;
+  @apply ml-3 truncate;
 }
 </style>

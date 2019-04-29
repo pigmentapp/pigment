@@ -46,7 +46,8 @@ export default {
   },
   computed: {
     isActive() {
-      return this.$route.params.id === this.item.id;
+      const { params, name } = this.$route;
+      return params.id === this.item.id && name === 'tabs';
     },
   },
   watch: {

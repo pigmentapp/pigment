@@ -11,17 +11,40 @@
       v-for="tab in tabList"
       :key="tab.id"
       :item="tab"
+      :show-label="displaysTabLabels"
     />
+    <div
+      slot="footer"
+      :class="{
+        [$style.footer]: true,
+        [$style.footer__extended]: displaysTabLabels,
+      }"
+    >
+      <side-bar-button
+        :to="{ name: 'tabs-create' }"
+        icon="tab-plus"
+      />
+      <side-bar-button
+        :to="{ name: 'notifications' }"
+        icon="bell"
+      />
+      <side-bar-button
+        :to="{ name: 'settings' }"
+        icon="settings"
+      />
+    </div>
   </vue-draggable>
 </template>
 
 <script>
 import VueDraggable from 'vuedraggable';
+import SideBarButton from '@/components/SideBarButton.vue';
 import TabsNavItem from '@/components/TabsNavItem.vue';
 
 export default {
   components: {
     VueDraggable,
+    SideBarButton,
     TabsNavItem,
   },
   computed: {
@@ -33,19 +56,33 @@ export default {
         this.$store.commit('Tabs/setSorting', items);
       },
     },
+    displaysTabLabels() {
+      return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+    },
   },
 };
 </script>
 
 <style lang="postcss" module>
 .nav {
-  @apply relative flex flex-col p-1 overflow-x-hidden overflow-y-auto;
-  background-color: #0002;
+  @apply
+    relative flex flex-col flex-grow justify-start
+    px-1 pb-1 overflow-x-hidden overflow-y-auto
+  ;
+}
+
+.footer {
+  @apply mt-auto;
+}
+
+.footer__extended {
+  @apply flex flex-row-reverse;
 }
 
 .drag {
   @apply cursor-move text-blue-lighter bg-blue;
 }
+
 .helper {
   @apply opacity-0;
 }

@@ -6,6 +6,7 @@ const db = new Connection({
     'dimmer.dimDelayInMs': 5000,
     'dimmer.dimIfWindowIsNotInFocus': false,
     'layout.sideBarLocation': 'left',
+    'navigation.displayTabLabels': true,
     'notifications.holdBackIfWindowIsNotInFocus': false,
     'notifications.sendSummaryIfWindowIsNotInFocus': false,
     'notifications.summaryIntervalInMs': 1200000,

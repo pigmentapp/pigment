@@ -1,5 +1,10 @@
 <template>
   <app-content>
+    <title-bar :back-button="true">
+      <title-bar-text>
+        Settings
+      </title-bar-text>
+    </title-bar>
     <button
       @click="isDimActive = !isDimActive"
     >
@@ -36,6 +41,19 @@
       />
       <div :class="$style.label">
         Invert app layout
+      </div>
+    </button>
+
+    <button
+      @click="displaysTabLabels = !displaysTabLabels"
+    >
+      <app-icon
+        :size="5"
+        :class="displaysTabLabels && $style.active"
+        :face="displaysTabLabels ? 'toggle-switch' : 'toggle-switch-off'"
+      />
+      <div :class="$style.label">
+        Display navigation labels
       </div>
     </button>
 
@@ -90,6 +108,14 @@
     >
       Show welcome page
     </router-link>
+
+    <router-link
+      :to="{ name: 'changelog' }"
+      tag="button"
+    >
+      See changelog
+    </router-link>
+
     <button
       @click="wipeAppData"
     >
@@ -109,7 +135,14 @@
 </template>
 
 <script>
+import TitleBar from '@/components/TitleBar.vue';
+import TitleBarText from '@/components/TitleBarText.vue';
+
 export default {
+  components: {
+    TitleBar,
+    TitleBarText,
+  },
   computed: {
     isDimActive: {
       get() {
@@ -125,6 +158,14 @@ export default {
       },
       set(value) {
         this.$store.dispatch('Settings/set', ['layout.sideBarLocation', value]);
+      },
+    },
+    displaysTabLabels: {
+      get() {
+        return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+      },
+      set(value) {
+        this.$store.dispatch('Settings/set', ['navigation.displayTabLabels', value]);
       },
     },
     muteOnWindowBlur: {
@@ -191,7 +232,7 @@ button {
 }
 
 button + button {
-    @apply border-t border-grey-darkest;
+    @apply border-t border-black;
 }
 </style>
 
@@ -213,7 +254,7 @@ button + button {
 }
 
 .input {
-  @apply w-full px-2 py-1 mt-2 text-grey bg-grey-darkest;
+  @apply w-full px-2 py-1 mt-2 text-grey bg-black;
 }
 
 .copyright {

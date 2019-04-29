@@ -16,6 +16,7 @@ export default {
       const newState = {
         title: '',
         hasNotificationBadge: false,
+        url: '',
         ...pageState,
         ...data,
       };

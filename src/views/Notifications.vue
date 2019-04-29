@@ -1,18 +1,15 @@
 <template>
   <app-content :class="$style.wrap">
-    <div :class="$style.header">
-      <div :class="$style.title">
+    <title-bar :back-button="true">
+      <title-bar-text>
         Notifications
-      </div>
-      <div>
-        <app-button
-          schema="secondary"
-          @click="removeAll"
-        >
-          Clear all
-        </app-button>
-      </div>
-    </div>
+      </title-bar-text>
+      <title-bar-button
+        @click="removeAll"
+      >
+        Clear all
+      </title-bar-button>
+    </title-bar>
     <template v-if="notifications.length">
       <div
         v-for="item in notifications"
@@ -63,7 +60,16 @@
 </template>
 
 <script>
+import TitleBar from '@/components/TitleBar.vue';
+import TitleBarButton from '@/components/TitleBarButton.vue';
+import TitleBarText from '@/components/TitleBarText.vue';
+
 export default {
+  components: {
+    TitleBar,
+    TitleBarButton,
+    TitleBarText,
+  },
   computed: {
     notifications() {
       return this.$store.getters['Notifications/list']();
@@ -82,7 +88,7 @@ export default {
 
 <style lang="postcss" module>
 .wrap {
-  @apply p-8;
+  @apply p-2;
 }
 
 .header {
@@ -94,7 +100,7 @@ export default {
 }
 
 .item {
-  @apply flex p-2 mb-2 bg-grey-darkest rounded;
+  @apply flex p-2 mb-2 bg-black rounded;
 }
 
 .itemTitle {

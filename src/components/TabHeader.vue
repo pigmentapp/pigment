@@ -1,16 +1,8 @@
 <template>
-  <title-bar
-    :indent="isLayoutInverted"
-    area="main"
-  >
-    <title-bar-button
-      icon="home-variant"
-      @click="$emit('goToHome')"
-    />
-    <title-bar-button
-      icon="refresh"
-      @click="$emit('doReload')"
-    />
+  <title-bar>
+    <title-bar-text>
+      {{ pageState.title }}
+    </title-bar-text>
     <title-bar-button
       :disabled="!canGoBack"
       icon="arrow-left"
@@ -21,28 +13,52 @@
       icon="arrow-right"
       @click="$emit('goForward')"
     />
-    <div :class="$style.title">
-      {{ pageState.title }}
-    </div>
     <title-bar-button
-      icon="code-tags"
-      @click="$emit('toggleDevTools')"
+      icon="refresh"
+      @click="$emit('doReload')"
     />
-    <title-bar-button
-      :to="{ name: 'tabs-settings', params: { id: item.id } }"
-      icon="dots-vertical"
-    />
+    <title-bar-button icon="dots-vertical">
+      <template slot="dropdown">
+        <title-bar-button
+          icon="home"
+          @click="$emit('goToHome')"
+        >
+          Go to homepage
+        </title-bar-button>
+        <title-bar-button
+          :disabled="item.url === pageState.url"
+          icon="home-heart"
+          @click="setAsHome"
+        >
+          Set as homepage
+        </title-bar-button>
+        <title-bar-button
+          icon="code-tags"
+          @click="$emit('toggleDevTools')"
+        >
+          Show devtools
+        </title-bar-button>
+        <title-bar-button
+          :to="{ name: 'tabs-settings', params: { id: item.id } }"
+          icon="pencil"
+        >
+          Edit tab
+        </title-bar-button>
+      </template>
+    </title-bar-button>
   </title-bar>
 </template>
 
 <script>
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
+import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   components: {
     TitleBar,
     TitleBarButton,
+    TitleBarText,
   },
   props: {
     item: {
@@ -59,19 +75,19 @@ export default {
     },
   },
   computed: {
-    isLayoutInverted() {
-      return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
-    },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
   },
+  methods: {
+    setAsHome() {
+      this.$store.commit('Tabs/update', {
+        id: this.item.id,
+        data: {
+          url: this.pageState.url,
+        },
+      });
+    },
+  },
 };
 </script>
-
-<style lang="postcss" module>
-.title {
-  @apply flex-1 p-2 text-sm truncate;
-  -webkit-user-select: none;
-}
-</style>

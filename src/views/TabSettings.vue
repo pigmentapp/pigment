@@ -3,6 +3,11 @@
     :class="$style.wrap"
     @submit.prevent="submitForm"
   >
+    <title-bar :back-button="true">
+      <title-bar-text>
+        {{ isCreateMode ? 'Create new tab' : `Edit ${tab.label}` }}
+      </title-bar-text>
+    </title-bar>
     <div>
       <label :class="$style.item">
         <div :class="$style.label">Label</div>
@@ -70,10 +75,14 @@
 import 'prismjs';
 import 'prism-themes/themes/prism-darcula.css';
 import PrismEditor from 'vue-prism-editor';
+import TitleBar from '@/components/TitleBar.vue';
+import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   components: {
     PrismEditor,
+    TitleBar,
+    TitleBarText,
   },
   data() {
     return {

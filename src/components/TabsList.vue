@@ -23,6 +23,6 @@ export default {
 
 <style lang="postcss" module>
 .tabs {
-  @apply flex flex-col;
+  @apply flex flex-col h-full;
 }
 </style>
