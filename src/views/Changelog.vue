@@ -31,7 +31,11 @@ export default {
   },
   methods: {
     async fetchChangelog() {
-      const response = await fetch('/changelog.html');
+      const path = process.env.NODE_ENV === 'development'
+        ? '/changelog.html'
+        : `${process.env.BASE_URL}/changelog.html`;
+
+      const response = await fetch(path);
       const contents = await response.text();
 
       this.changelog = contents;
