@@ -7,25 +7,35 @@
     </title-bar>
     <div
       :class="$style.changelog"
-      v-html="$options.changelog"
+      v-html="changelog"
     />
   </app-content>
 </template>
 
 <script>
-import striptags from 'striptags';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
-import file from 'html-loader!markdown-loader!@/../CHANGELOG.md'; // eslint-disable-line import/no-webpack-loader-syntax
-
-let cleanFile = striptags(file, ['h1', 'h3', 'ul', 'li', 'strong']);
-cleanFile = cleanFile.replace(/\([0-9a-z]*\)/g, '');
 
 export default {
-  changelog: cleanFile,
   components: {
     TitleBar,
     TitleBarText,
+  },
+  data() {
+    return {
+      changelog: '',
+    };
+  },
+  created() {
+    this.fetchChangelog();
+  },
+  methods: {
+    async fetchChangelog() {
+      const response = await fetch('/changelog.html');
+      const contents = await response.text();
+
+      this.changelog = contents;
+    },
   },
 };
 </script>

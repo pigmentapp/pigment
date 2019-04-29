@@ -2,6 +2,7 @@
 node_modules
 /dist
 /build
+/public/changelog.html
 /public/notification.png
 
 # local env files
