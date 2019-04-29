@@ -1,3 +1,23 @@
+# [0.5.0](https://gitlab.com/herteleo/pigment/compare/0.4.0...0.5.0) (2019-04-29)
+
+
+### Bug Fixes
+
+* corrected changelog file path for build ([ad00d4b](https://gitlab.com/herteleo/pigment/commit/ad00d4b))
+* **tabs:** do not show browser controls in tab settings view ([933cbe7](https://gitlab.com/herteleo/pigment/commit/933cbe7))
+
+
+### Features
+
+* introduced changelog page ([cda67a9](https://gitlab.com/herteleo/pigment/commit/cda67a9))
+* revised changelog integration ([c991e71](https://gitlab.com/herteleo/pigment/commit/c991e71))
+* **settings:** hideable tab labels in navigation ([ea95c72](https://gitlab.com/herteleo/pigment/commit/ea95c72))
+* **tabs:** moved home, devtools and edit button to dropdown menu ([8a1df57](https://gitlab.com/herteleo/pigment/commit/8a1df57))
+* **tabs:** set active page as homepage in dropdown menu ([1381156](https://gitlab.com/herteleo/pigment/commit/1381156))
+* **titlebar:** optional 'back to previous view' button ([fa812ad](https://gitlab.com/herteleo/pigment/commit/fa812ad))
+* introduced cleaner layout strategy ([996b18f](https://gitlab.com/herteleo/pigment/commit/996b18f))
+* new layout improvements for windows ([7b89997](https://gitlab.com/herteleo/pigment/commit/7b89997))
+
 # [0.4.0](https://gitlab.com/herteleo/pigment/compare/0.3.0...0.4.0) (2019-04-22)
 
 
