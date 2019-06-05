@@ -58,8 +58,8 @@ export default {
 <style lang="postcss" module>
 .item {
   @apply
-    flex flex-no-shrink items-center p-2
-    text-grey-dark text-left rounded-sm;
+    flex flex-shrink-0 items-center p-2
+    text-gray-600 text-left rounded-sm;
 }
 
 .item + .item {
@@ -67,26 +67,26 @@ export default {
 }
 
 .active {
-  @apply text-grey-light bg-grey-darkest shadow;
+  @apply text-gray-400 bg-gray-800 shadow;
 }
 
 .badge {
-  @apply absolute pin-l w-2 h-2 bg-grey-darker rounded-full;
+  @apply absolute left-0 w-2 h-2 bg-gray-700 rounded-full;
   transform: translateX(-50%);
 }
 
 .thumb {
   @apply
-    flex flex-no-shrink justify-center items-center
+    flex flex-shrink-0 justify-center items-center
     p-1 w-8 h-8 rounded-sm;
 }
 
 .thumbIsImage {
-  @apply bg-grey-lightest;
+  @apply bg-gray-100;
 }
 
 .thumbIsIcon {
-  @apply text-grey bg-grey-darker;
+  @apply text-gray-500 bg-gray-700;
 }
 
 .image {

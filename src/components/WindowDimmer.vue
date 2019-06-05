@@ -75,8 +75,8 @@ export default {
   height: 400vh;
   z-index: 40;
   background-image: linear-gradient(
-    config('colors.black'),
-    config('colors.black') 25%,
+    theme('colors.gray.900'),
+    theme('colors.gray.900') 25%,
     transparent 100%,
   );
 
@@ -96,7 +96,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 192px, contain;
   opacity: 0;
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
 
   .active & {
     opacity: 0.5;

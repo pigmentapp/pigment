@@ -65,13 +65,13 @@ export default {
 </script>
 
 <style lang="postcss" module>
-@tailwind preflight;
+@tailwind base;
 @tailwind components;
 
 .app {
   @apply
-    font-sans text-grey
-    bg-black select-none;
+    font-sans text-gray-400
+    bg-gray-900 select-none;
 
   display: grid;
   grid-template-columns: min-content min-content 1fr min-content min-content;
@@ -145,7 +145,7 @@ export default {
 
 .titleBarSpacer {
   grid-area: space;
-  max-width: config('width.64');
+  max-width: theme('width.64');
 }
 
 .titleBarSpacer__osMac {
@@ -164,11 +164,11 @@ export default {
 .sideBar {
   @apply relative z-20 flex flex-col overflow-y-auto;
   grid-area: aside;
-  max-width: config('width.64');
+  max-width: theme('width.64');
 }
 
 .main {
-  @apply relative z-10 overflow-y-auto bg-grey-darkest;
+  @apply relative z-10 overflow-y-auto bg-gray-800;
   grid-area: main;
 }
 
@@ -183,7 +183,7 @@ export default {
 
 <style lang="postcss">
 body {
-  @apply h-screen overflow-hidden bg-black;
+  @apply h-screen overflow-hidden bg-gray-900;
 }
 
 button:focus,

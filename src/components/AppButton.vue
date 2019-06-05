@@ -26,16 +26,24 @@ export default {
 <style lang="postcss" module>
 .button {
   @apply
-    px-2 py-1 w-full
-    text-white leading-tight
-    border rounded-sm;
+    px-4 py-2 w-full
+    font-medium leading-tight uppercase
+    border rounded;
 }
 
 .primary {
-  @apply bg-blue border-blue;
+  @apply text-white bg-gray-600 border-gray-500 shadow;
+}
+
+.primary:hover {
+  @apply bg-gray-700 border-gray-600;
 }
 
 .secondary {
-  @apply bg-grey-darker border-grey-darker;
+  @apply text-gray-500 border-gray-600;
+}
+
+.secondary:hover {
+  @apply text-white bg-gray-700 border-gray-600;
 }
 </style>

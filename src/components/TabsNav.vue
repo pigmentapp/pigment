@@ -80,7 +80,7 @@ export default {
 }
 
 .drag {
-  @apply cursor-move text-blue-lighter bg-blue;
+  @apply cursor-move text-gray-300 bg-gray-500;
 }
 
 .helper {

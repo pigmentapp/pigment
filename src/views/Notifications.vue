@@ -5,6 +5,7 @@
         Notifications
       </title-bar-text>
       <title-bar-button
+        v-if="notifications.length"
         @click="removeAll"
       >
         Clear all
@@ -100,7 +101,7 @@ export default {
 }
 
 .item {
-  @apply flex p-2 mb-2 bg-black rounded;
+  @apply flex p-2 mb-2 bg-gray-900 rounded;
 }
 
 .itemTitle {
@@ -108,14 +109,14 @@ export default {
 }
 
 .itemTime {
-  @apply mx-2 text-grey-dark;
+  @apply mx-2 text-gray-600;
 }
 
 .thumb {
   @apply
-    flex flex-no-shrink justify-center items-center
+    flex flex-shrink-0 justify-center items-center
     p-1 w-8 h-8 mr-3 rounded-sm
-    bg-grey-lightest;
+    bg-gray-100;
 }
 
 .image {
@@ -131,10 +132,10 @@ export default {
 }
 
 .content {
-  @apply mt-2 text-grey;
+  @apply mt-2 text-gray-500;
 }
 
 .empty {
-  @apply p-2 mb-2 bg-black rounded;
+  @apply p-4 mb-2 bg-gray-900 rounded;
 }
 </style>

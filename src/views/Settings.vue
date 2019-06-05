@@ -228,17 +228,17 @@ export default {
 
 <style lang="postcss" scoped>
 button {
-  @apply flex items-start w-full p-3 text-left text-grey;
+  @apply flex items-start w-full p-3 text-left;
 }
 
 button + button {
-    @apply border-t border-black;
+    @apply border-t border-gray-900;
 }
 </style>
 
 <style lang="postcss" module>
 .active {
-  @apply text-green;
+  @apply text-green-500;
 }
 
 .label {
@@ -254,14 +254,14 @@ button + button {
 }
 
 .input {
-  @apply w-full px-2 py-1 mt-2 text-grey bg-black;
+  @apply w-full px-2 py-1 mt-2 text-gray-500 bg-gray-900 rounded-sm;
 }
 
 .copyright {
-  @apply p-3 text-sm text-grey-darker;
+  @apply p-3 text-sm text-gray-600;
 }
 
 .link {
-  @apply text-grey-darker;
+  @apply text-gray-600;
 }
 </style>

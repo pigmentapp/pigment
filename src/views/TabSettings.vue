@@ -157,8 +157,8 @@ export default {
 
 .input {
   @apply px-2 py-1 w-full;
-  @apply text-grey-light leading-tight;
-  @apply bg-transparent border border-grey-darker rounded-sm;
+  @apply text-gray-400 leading-tight;
+  @apply bg-transparent border border-gray-700 rounded-sm;
 }
 
 .button {
@@ -177,6 +177,6 @@ export default {
 
 <style lang="postcss">
 :not(pre) > code[class*="language-"], pre[class*="language-"] {
-  @apply py-1 px-2 m-0 bg-black;
+  @apply py-1 px-2 m-0 bg-gray-900 border border-gray-700 rounded-sm;
 }
 </style>

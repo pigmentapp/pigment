@@ -47,7 +47,7 @@ export default {
 
 <style lang="postcss" module>
 .icon {
-  @apply block flex-no-shrink mx-auto fill-current;
+  @apply block flex-shrink-0 mx-auto fill-current;
 }
 
 .size-4 {

@@ -62,15 +62,15 @@ export default {
 <style lang="postcss" module>
 .wrap {
   display: grid;
-  grid-column-gap: config('padding.8');
-  grid-row-gap: config('padding.4');
-  grid-template-columns: repeat(auto-fill, minmax(config('width.24'), 1fr));
+  grid-column-gap: theme('padding.8');
+  grid-row-gap: theme('padding.4');
+  grid-template-columns: repeat(auto-fill, minmax(theme('width.24'), 1fr));
 }
 
 .btn {
   @apply
     relative mb-8
-    text-center bg-grey-dark rounded shadow-lg;
+    text-center bg-gray-600 rounded shadow-lg;
 }
 
 .btn::before {
@@ -81,17 +81,17 @@ export default {
 
 .btn:hover::after {
   @apply
-    absolute pin flex flex-col justify-center
+    absolute inset-0 flex flex-col justify-center
     text-4xl text-white leading-none
-    opacity-75 bg-grey-darker rounded;
+    opacity-75 bg-gray-700 rounded;
   content: "+";
 }
 
 .thumb {
   @apply
     absolute block p-3
-    text-4xl text-grey-darker leading-none
-    bg-grey-lightest rounded-full;
+    text-4xl text-gray-700 leading-none
+    bg-gray-100 rounded-full shadow;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -104,7 +104,7 @@ export default {
 .label {
   @apply
     absolute pt-2 min-w-0
-    text-center text-grey truncate;
+    text-center text-gray-500 truncate;
   top: 100%;
   left: 0;
   right: 0;

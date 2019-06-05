@@ -54,7 +54,7 @@ export default {
     },
     schema: {
       type: String,
-      default: 'blue',
+      default: 'gray',
     },
     tag: {
       type: String,
@@ -96,7 +96,9 @@ export default {
 }
 
 .btn {
-  @apply flex p-2 w-full leading-none appearance-none text-left text-grey-dark whitespace-no-wrap;
+  @apply
+    flex p-2 w-full
+    leading-none appearance-none text-left text-gray-500 whitespace-no-wrap;
   -webkit-app-region: no-drag;
 }
 
@@ -105,7 +107,7 @@ export default {
 }
 
 .icon {
-  @apply flex-no-shrink;
+  @apply flex-shrink-0;
 }
 
 .icon + .label {
@@ -116,27 +118,30 @@ export default {
   @apply flex-grow;
 }
 
-.blue:hover {
-  @apply text-blue-lighter bg-blue;
-}
-
 .red:hover {
-  @apply text-red-lighter bg-red-dark;
+  @apply text-red-200 bg-red-600;
 }
 
-.grey:hover {
-  @apply bg-grey-darkest;
-}
-
+.gray:hover,
 .active {
-  @apply text-blue-lighter bg-blue;
+  @apply text-gray-300 bg-gray-700;
 }
 
 .dropdown {
-  @apply absolute pin-r flex flex-col overflow-hidden bg-grey-darkest rounded shadow-md;
+  @apply
+    absolute right-0 flex flex-col overflow-hidden
+    bg-gray-700 rounded-b shadow-md;
+}
+
+.dropdown .btn {
+  @apply text-gray-300;
+}
+
+.dropdown .btn:hover {
+  @apply text-gray-400 bg-gray-800;
 }
 
 .dropdown_shadow {
-  @apply fixed pin;
+  @apply fixed inset-0;
 }
 </style>
