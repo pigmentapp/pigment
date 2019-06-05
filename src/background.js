@@ -27,11 +27,15 @@ if (isDevelopment) {
 let mainWindow;
 
 // Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['app'], { secure: true });
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true } }]);
 function createMainWindow() {
   const mainWindowState = windowStateKeeper();
 
   const window = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+      webviewTag: true,
+    },
     backgroundColor: '#22292f',
     frame: false,
     show: false,
