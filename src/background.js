@@ -118,6 +118,7 @@ app.on('ready', async () => {
       submenu: [
         { role: 'about' },
         { type: 'separator' },
+        { role: 'minimize' },
         { role: 'hide' },
         { role: 'hideothers' },
         { role: 'unhide' },
