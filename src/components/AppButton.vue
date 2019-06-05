@@ -1,8 +1,12 @@
 <template>
   <button
-    :class="[$style.button, $style[schema]]"
+    :class="{
+      [$style.button]: true,
+      [$style.primary]: primary,
+      [$style.secondary]: secondary,
+    }"
     type="button"
-    @click="$emit('click', $event)"
+    v-on="$listeners"
   >
     <slot />
   </button>
@@ -11,13 +15,13 @@
 <script>
 export default {
   props: {
-    label: {
-      type: String,
-      default: '',
+    primary: {
+      type: Boolean,
+      default: false,
     },
-    schema: {
-      type: String,
-      default: 'primary',
+    secondary: {
+      type: Boolean,
+      default: false,
     },
   },
 };

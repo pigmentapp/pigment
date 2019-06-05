@@ -35,7 +35,7 @@
             <div :class="$style.itemTime">{{ new Date(item.timestamp).toLocaleString() }}</div>
             <div>
               <app-button
-                schema="secondary"
+                secondary
                 @click.stop="removeItem(item)"
               >
                 &times;

@@ -54,6 +54,7 @@
       <div :class="$style.actions">
         <app-button
           :class="$style.button"
+          primary
           type="submit"
         >
           {{ isCreateMode ? 'Create' : 'Save' }}
@@ -61,7 +62,7 @@
         <app-button
           v-if="!isCreateMode"
           :class="$style.button"
-          schema="secondary"
+          secondary
           @click="deleteTab"
         >
           Delete Tab
