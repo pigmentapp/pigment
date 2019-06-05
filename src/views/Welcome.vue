@@ -6,10 +6,10 @@
       </title-bar-text>
     </title-bar>
     <div :class="$style.content">
-      <div :class="$style.title">Welcome to Pigment</div>
+      <app-heading>Welcome to Pigment</app-heading>
     </div>
     <div :class="$style.content">
-      <div :class="$style.title">Get started with these suggested apps</div>
+      <app-heading>Get started with these suggested apps</app-heading>
       <p>
         Maybe some of these apps are interesting for you.
         Just click on the icons of apps you like, to add them to Pigment.
@@ -44,9 +44,5 @@ export default {
 
 .content {
   @apply mb-8;
-}
-
-.title {
-  @apply mb-2 font-light text-3xl;
 }
 </style>
