@@ -131,6 +131,11 @@ app.on('ready', async () => {
         { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
         { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' },
       ],
+    }, {
+      label: 'Window',
+      submenu: [
+        { label: 'Hide', accelerator: 'CmdOrCtrl+H', selector: 'hide:' },
+      ],
     },
   ]));
 });
