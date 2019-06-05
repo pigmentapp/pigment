@@ -111,6 +111,10 @@ export default {
     });
 
     this.webview.addEventListener('dom-ready', (view) => {
+      // Remove this once https://github.com/electron/electron/issues/14474 is fixed
+      this.webview.blur();
+      this.webview.focus();
+
       if ('customCss' in this.item) {
         view.target.insertCSS(this.item.customCss);
       }
