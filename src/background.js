@@ -3,7 +3,9 @@ import * as path from 'path';
 import { format as formatUrl } from 'url';
 
 /* eslint-disable import/no-extraneous-dependencies */
-import { app, Menu, protocol, BrowserWindow } from 'electron';
+import {
+  app, Menu, protocol, BrowserWindow,
+} from 'electron';
 import {
   createProtocol,
   installVueDevtools,
