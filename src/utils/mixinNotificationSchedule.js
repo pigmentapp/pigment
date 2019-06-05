@@ -40,7 +40,7 @@ export default {
       }
 
       this.notificationInterval = setInterval(() => {
-        const notificationTitle = 'Pigment: Scheduled Notification';
+        const notificationTitle = `${this.$productInfo.productName}: Scheduled Notification`;
 
         if (this.nextSchedule > Date.now()) return;
 

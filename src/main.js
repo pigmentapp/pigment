@@ -10,6 +10,8 @@ import AppContent from './components/AppContent.vue';
 import AppHeading from './components/AppHeading.vue';
 import AppIcon from './components/AppIcon.vue';
 
+import './utils/pluginProductInfo';
+
 Vue.use(VueElectron);
 Vue.use(PortalVue);
 

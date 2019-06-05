@@ -119,10 +119,10 @@
     <button
       @click="wipeAppData"
     >
-      Reset pigment (wipes everything)
+      Reset {{ $productInfo.productName }} (wipes everything)
     </button>
     <div :class="$style.copyright">
-      Pigment is made by
+      {{ $productInfo.productName }} is made by
       <a
         :class="$style.link"
         href="//leonardhertel.de"

@@ -4,6 +4,7 @@ import path from 'path';
 import lowdb from 'lowdb';
 import lodashId from 'lodash-id';
 import FileSync from 'lowdb/adapters/FileSync';
+import { name } from '@/../package.json';
 
 export default class {
   constructor(options = {}) {
@@ -16,7 +17,7 @@ export default class {
 
   setOptions(options) {
     this.options = {
-      path: path.join(homedir(), '.pigment'),
+      path: path.join(homedir(), `.${name}`),
       file: undefined,
       defaults: {},
       ...options,

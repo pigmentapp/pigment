@@ -2,17 +2,18 @@
   <app-content :class="$style.wrap">
     <title-bar>
       <title-bar-text>
-        Pigment
+        {{ $productInfo.productName }}
       </title-bar-text>
     </title-bar>
     <div :class="$style.content">
-      <app-heading>Welcome to Pigment</app-heading>
+      <app-heading>Welcome to {{ $productInfo.productName }}</app-heading>
     </div>
     <div :class="$style.content">
       <app-heading>Get started with these suggested apps</app-heading>
       <p>
         Maybe some of these apps are interesting for you.
-        Just click on the icons of apps you like, to add them to Pigment.
+        Just click on the icons of apps you like,
+        to add them to {{ $productInfo.productName }}.
         Or create a custom tab by clicking on the "+"-Button
         down below in the navigation.
       </p>
