@@ -61,4 +61,8 @@ export default {
 .size-6 {
   @apply w-6 h-6;
 }
+
+.size-8 {
+  @apply w-8 h-8;
+}
 </style>
