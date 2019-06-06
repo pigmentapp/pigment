@@ -7,6 +7,7 @@ import store from './store';
 
 import AppButton from './components/AppButton.vue';
 import AppContent from './components/AppContent.vue';
+import AppContentSection from './components/AppContentSection.vue';
 import AppHeading from './components/AppHeading.vue';
 import AppIcon from './components/AppIcon.vue';
 
@@ -19,6 +20,7 @@ Vue.config.productionTip = false;
 
 Vue.component('AppButton', AppButton);
 Vue.component('AppContent', AppContent);
+Vue.component('AppContentSection', AppContentSection);
 Vue.component('AppHeading', AppHeading);
 Vue.component('AppIcon', AppIcon);
 

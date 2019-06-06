@@ -141,4 +141,24 @@ app.on('ready', async () => {
       ],
     },
   ]));
+
+  const settingsMenu = Menu.buildFromTemplate([
+    {
+      label: 'Welcome page',
+      click: () => app.emit('app-router-goto-welcome'),
+    },
+    {
+      label: 'Release notes',
+      click: () => app.emit('app-router-goto-changelog'),
+    },
+    { type: 'separator' },
+    {
+      label: 'Settings',
+      click: () => app.emit('app-router-goto-settings'),
+    },
+  ]);
+
+  app.on('app-show-settings-menu', () => {
+    settingsMenu.popup();
+  });
 });

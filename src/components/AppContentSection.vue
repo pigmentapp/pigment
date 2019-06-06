@@ -1,11 +1,11 @@
 <template>
-  <div :class="$style.content">
+  <div :class="$style.wrap">
     <slot />
   </div>
 </template>
 
 <style lang="postcss" module>
-.content {
-  @apply p-8;
+.wrap + .wrap {
+  @apply mt-8;
 }
 </style>

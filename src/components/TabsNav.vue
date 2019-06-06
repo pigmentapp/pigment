@@ -29,8 +29,8 @@
         icon="bell"
       />
       <side-bar-button
-        :to="{ name: 'settings' }"
         icon="settings"
+        @click="$electron.remote.app.emit('app-show-settings-menu')"
       />
     </div>
   </vue-draggable>
@@ -59,6 +59,13 @@ export default {
     displaysTabLabels() {
       return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
     },
+  },
+  created() {
+    const { app } = this.$electron.remote;
+    const r = this.$router;
+    app.on('app-router-goto-settings', () => r.push({ name: 'settings' }));
+    app.on('app-router-goto-welcome', () => r.push({ name: 'welcome' }));
+    app.on('app-router-goto-changelog', () => r.push({ name: 'changelog' }));
   },
 };
 </script>

@@ -5,122 +5,130 @@
         Settings
       </title-bar-text>
     </title-bar>
-    <button
-      @click="isDimActive = !isDimActive"
-    >
-      <app-icon
-        :size="5"
-        :class="isDimActive && $style.active"
-        :face="isDimActive ? 'toggle-switch' : 'toggle-switch-off'"
-      />
-      <div :class="$style.label">
-        Dim contents when leaving window
-      </div>
-    </button>
 
-    <button
-      @click="muteOnWindowBlur = !muteOnWindowBlur"
-    >
-      <app-icon
-        :size="5"
-        :class="muteOnWindowBlur && $style.active"
-        :face="muteOnWindowBlur ? 'toggle-switch' : 'toggle-switch-off'"
-      />
-      <div :class="$style.label">
-        Mute tab audio when leaving window
-      </div>
-    </button>
+    <app-content-section>
+      <app-heading>
+        Layout
+        <template slot="sub">General layout settings</template>
+      </app-heading>
 
-    <button
-      @click="toggleSideBarLocation"
-    >
-      <app-icon
-        :size="5"
-        :class="isLayoutInverted === 'right' && $style.active"
-        :face="isLayoutInverted === 'right' ? 'toggle-switch' : 'toggle-switch-off'"
-      />
-      <div :class="$style.label">
-        Invert app layout
-      </div>
-    </button>
+      <settings-item-toggle setting="navigation.displayTabLabels">
+        <template slot="label">Display navigation labels</template>
+        <template slot="descr">
+          Do you know your tabs? Disable labels to get more work space.
+        </template>
+      </settings-item-toggle>
 
-    <button
-      @click="displaysTabLabels = !displaysTabLabels"
-    >
-      <app-icon
-        :size="5"
-        :class="displaysTabLabels && $style.active"
-        :face="displaysTabLabels ? 'toggle-switch' : 'toggle-switch-off'"
-      />
-      <div :class="$style.label">
-        Display navigation labels
-      </div>
-    </button>
-
-    <button
-      @click="notificationsPreventOnBlur = !notificationsPreventOnBlur"
-    >
-      <app-icon
-        :size="5"
-        :class="notificationsPreventOnBlur && $style.active"
-        :face="notificationsPreventOnBlur ? 'toggle-switch' : 'toggle-switch-off'"
-      />
-      <div :class="$style.label">
-        Prevent notifications when leaving window
-      </div>
-    </button>
-
-    <button
-      :disabled="!notificationsPreventOnBlur"
-      @click="notificationsScheduleActive = !notificationsScheduleActive"
-    >
-      <app-icon
-        :size="5"
-        :class="{
-          [$style.subsetting]: true,
-          [$style.active]: notificationsScheduleActive && notificationsPreventOnBlur,
-        }"
-        :face="
-          notificationsScheduleActive && notificationsPreventOnBlur
-            ? 'toggle-switch'
-            : 'toggle-switch-off'
-        "
-      />
-      <div :class="$style.label">
-        Send summary of new notifications by schedule after leaving the window
-      </div>
-    </button>
-
-    <div :class="$style.interval">
-      Interval in minutes
-      <input
-        :disabled="!notificationsPreventOnBlur || !notificationsScheduleActive"
-        v-model="notificationsScheduleInMs"
-        :class="$style.input"
-        type="number"
-        @blur="setMinimumNotificationInterval"
+      <settings-item-select
+        :options="[
+          { value: 'left', label: 'Left'},
+          { value: 'right', label: 'Right'},
+        ]"
+        setting="layout.sideBarLocation"
       >
-    </div>
+        <template slot="label">Navigation location</template>
+        <template slot="descr">
+          Sometimes it just fits better on the other side.
+        </template>
+      </settings-item-select>
+    </app-content-section>
 
-    <router-link
-      :to="{ name: 'welcome' }"
-      tag="button"
-    >
-      Show welcome page
-    </router-link>
+    <app-content-section>
+      <app-heading>
+        Dimmer
+        <template slot="sub">
+          Overlays all contents if the app loses focus
+        </template>
+      </app-heading>
 
-    <router-link
-      :to="{ name: 'changelog' }"
-      tag="button"
-    >
-      See changelog
-    </router-link>
+      <settings-item-toggle setting="dimmer.dimIfWindowIsNotInFocus">
+        <template slot="label">Dim contents</template>
+        <template slot="descr">
+          Will fade out all contents if you work outside the app.
+          It helps you to stay focused, can help to reduce stress
+          and saves you from unwanted glances.
+        </template>
+      </settings-item-toggle>
+    </app-content-section>
 
-    <button
-      @click="wipeAppData"
-    >
-      Reset {{ $productInfo.productName }} (wipes everything)
-    </button>
+    <app-content-section>
+      <app-heading>
+        Audio
+        <template slot="sub">General audio settings</template>
+      </app-heading>
+
+      <settings-item-toggle setting="window.muteAudioIfWindowIsNotInFocus">
+        <template slot="label">Mute tabs if the app loses focus</template>
+        <template slot="descr">
+          Will mute all audio if you work outside the app.
+          That way you won't get distracted by notification sounds.
+        </template>
+      </settings-item-toggle>
+    </app-content-section>
+
+    <app-content-section>
+      <app-heading>
+        Notifications
+        <template slot="sub">Schedule notifications to stay focused</template>
+      </app-heading>
+
+      <settings-item-toggle setting="notifications.holdBackIfWindowIsNotInFocus">
+        <template slot="label">Hold back notifications</template>
+        <template slot="descr">
+          Will prevent all incoming notifications if you work outside the app.
+        </template>
+      </settings-item-toggle>
+
+      <settings-item-toggle
+        :disabled-if-not-setting="['notifications.holdBackIfWindowIsNotInFocus']"
+        setting="notifications.sendSummaryIfWindowIsNotInFocus"
+      >
+        <template slot="label">Send summary of new notifications</template>
+        <template slot="descr">
+          Get a summary of all prevented notifications
+          based on a self-defined schedule.
+        </template>
+      </settings-item-toggle>
+
+      <settings-item-input
+        :get-modifier="(value) => value / 60 / 1000"
+        :set-modifier="(value) => Math.max(0.15, value) * 60 * 1000"
+        :disabled-if-not-setting="[
+          'notifications.holdBackIfWindowIsNotInFocus',
+          'notifications.sendSummaryIfWindowIsNotInFocus',
+        ]"
+        type="number"
+        setting="notifications.summaryIntervalInMs"
+      >
+        <template slot="label">Schedule of the summary</template>
+        <template slot="descr">
+          As soon as you work outside the app,
+          you will be notified of withheld notifications
+          after the specified interval (in minutes).
+        </template>
+      </settings-item-input>
+    </app-content-section>
+
+    <app-content-section>
+      <app-heading>
+        Reset
+        <template slot="sub">
+          Danger zone: Deleted things will be gone forever
+        </template>
+      </app-heading>
+
+      <settings-item-button
+        secondary
+        @click="wipeAppData"
+      >
+        <template slot="label">Cache</template>
+        <template slot="descr">
+          Will reset all app and tab caches.
+        </template>
+        <template slot="control">Clear</template>
+      </settings-item-button>
+    </app-content-section>
+
     <div :class="$style.copyright">
       {{ $productInfo.productName }} is made by
       <a
@@ -135,83 +143,25 @@
 </template>
 
 <script>
+import SettingsItemButton from '@/components/SettingsItemButton.vue';
+import SettingsItemSelect from '@/components/SettingsItemSelect.vue';
+import SettingsItemInput from '@/components/SettingsItemInput.vue';
+import SettingsItemToggle from '@/components/SettingsItemToggle.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   components: {
+    SettingsItemButton,
+    SettingsItemSelect,
+    SettingsItemInput,
+    SettingsItemToggle,
     TitleBar,
     TitleBarText,
   },
-  computed: {
-    isDimActive: {
-      get() {
-        return this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus');
-      },
-      set(value) {
-        this.$store.dispatch('Settings/set', ['dimmer.dimIfWindowIsNotInFocus', value]);
-      },
-    },
-    isLayoutInverted: {
-      get() {
-        return this.$store.getters['Settings/byKey']('layout.sideBarLocation');
-      },
-      set(value) {
-        this.$store.dispatch('Settings/set', ['layout.sideBarLocation', value]);
-      },
-    },
-    displaysTabLabels: {
-      get() {
-        return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
-      },
-      set(value) {
-        this.$store.dispatch('Settings/set', ['navigation.displayTabLabels', value]);
-      },
-    },
-    muteOnWindowBlur: {
-      get() {
-        return this.$store.getters['Settings/byKey']('window.muteAudioIfWindowIsNotInFocus');
-      },
-      set(value) {
-        this.$store.dispatch('Settings/set', ['window.muteAudioIfWindowIsNotInFocus', value]);
-      },
-    },
-    notificationsPreventOnBlur: {
-      get() {
-        return this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus');
-      },
-      set(value) {
-        this.$store.dispatch('Settings/set', ['notifications.holdBackIfWindowIsNotInFocus', value]);
-      },
-    },
-    notificationsScheduleActive: {
-      get() {
-        return this.$store.getters['Settings/byKey']('notifications.sendSummaryIfWindowIsNotInFocus');
-      },
-      set(value) {
-        this.$store.dispatch('Settings/set', ['notifications.sendSummaryIfWindowIsNotInFocus', value]);
-      },
-    },
-    notificationsScheduleInMs: {
-      get() {
-        return this.$store.getters['Settings/byKey']('notifications.summaryIntervalInMs') / 60 / 1000;
-      },
-      set(value) {
-        this.$store.dispatch('Settings/set', ['notifications.summaryIntervalInMs', value * 60 * 1000]);
-      },
-    },
-  },
   methods: {
-    setMinimumNotificationInterval() {
-      if (this.notificationsScheduleInMs < 0.15) {
-        this.notificationsScheduleInMs = 0.15;
-      }
-    },
-    toggleSideBarLocation() {
-      this.isLayoutInverted = this.isLayoutInverted === 'left' ? 'right' : 'left';
-    },
     wipeAppData() {
-      if (confirm('Everything will be gone forever!')) { // eslint-disable-line no-alert, no-restricted-globals
+      if (window.confirm('Are you sure you want to to that?')) { // eslint-disable-line no-alert
         this.$electron.remote.session.defaultSession.clearCache(() => {
           this.$electron.remote.session.defaultSession.clearStorageData({
             storages: ['localstorage', 'caches', 'indexdb'],
@@ -226,39 +176,9 @@ export default {
 };
 </script>
 
-<style lang="postcss" scoped>
-button {
-  @apply flex items-start w-full p-3 text-left;
-}
-
-button + button {
-    @apply border-t border-gray-900;
-}
-</style>
-
 <style lang="postcss" module>
-.active {
-  @apply text-green-500;
-}
-
-.label {
-  @apply flex-grow pl-2;
-}
-
-.subsetting {
-  @apply ml-6;
-}
-
-.interval {
-  @apply p-3 pl-16;
-}
-
-.input {
-  @apply w-full px-2 py-1 mt-2 text-gray-500 bg-gray-900 rounded-sm;
-}
-
 .copyright {
-  @apply p-3 text-sm text-gray-600;
+  @apply pt-4 text-sm text-gray-600;
 }
 
 .link {
