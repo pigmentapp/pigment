@@ -49,6 +49,19 @@
           and saves you from unwanted glances.
         </template>
       </settings-item-toggle>
+
+      <settings-item-input
+        :get-modifier="(value) => value / 1000"
+        :set-modifier="(value) => Math.max(0, value) * 1000"
+        :disabled-if-not-setting="['dimmer.dimIfWindowIsNotInFocus']"
+        type="number"
+        setting="dimmer.dimDelayInMs"
+      >
+        <template slot="label">Dimmer delay</template>
+        <template slot="descr">
+          Set a delay before the dimmer starts (in seconds).
+        </template>
+      </settings-item-input>
     </app-content-section>
 
     <app-content-section>
