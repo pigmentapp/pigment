@@ -1,24 +1,42 @@
 <template>
-  <app-content :class="$style.wrap">
+  <app-content>
     <title-bar>
       <title-bar-text>
-        {{ $productInfo.productName }}
+        Welcome to {{ $productInfo.productName }}
       </title-bar-text>
     </title-bar>
-    <div :class="$style.content">
-      <app-heading>Welcome to {{ $productInfo.productName }}</app-heading>
-    </div>
-    <div :class="$style.content">
-      <app-heading>Get started with these suggested apps</app-heading>
-      <p>
-        Maybe some of these apps are interesting for you.
-        Just click on the icons of apps you like,
-        to add them to {{ $productInfo.productName }}.
-        Or create a custom tab by clicking on the "+"-Button
-        down below in the navigation.
-      </p>
-    </div>
-    <suggested-apps />
+
+    <app-content-section :class="$style.brandWrap">
+      <img
+        :class="$style.brandLogo"
+        :alt="$productInfo.productName"
+        src="@/assets/logo/logo.png"
+      >
+      <app-heading :class="$style.brandLabel">
+        {{ $productInfo.productName }}
+        <template slot="sub">
+          {{ $productInfo.version }}
+        </template>
+      </app-heading>
+    </app-content-section>
+
+    <app-content-section>
+      <app-heading>
+        Get started
+        <template slot="sub">
+          Maybe some of these suggested apps are interesting for you.
+          Just click on the icons of apps you like,
+          to add them to {{ $productInfo.productName }}.
+          Or create a custom tab by clicking on the
+          <app-icon
+            face="tab-plus"
+            inline
+          />-Button
+          down below in the navigation.
+        </template>
+      </app-heading>
+      <suggested-apps />
+    </app-content-section>
   </app-content>
 </template>
 
@@ -37,13 +55,16 @@ export default {
 };
 </script>
 
-
 <style lang="postcss" module>
-.wrap {
-  @apply p-8;
+.brandWrap {
+  @apply flex items-center pb-8 border-b-2 border-gray-700;
 }
 
-.content {
-  @apply mb-8;
+.brandLogo {
+  @apply block p-3 mr-4 w-16 h-16 bg-gray-300 rounded-full;
+}
+
+.brandLabel {
+  @apply mb-0;
 }
 </style>

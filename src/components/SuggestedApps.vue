@@ -61,6 +61,7 @@ export default {
 
 <style lang="postcss" module>
 .wrap {
+  @apply p-8 pb-6 bg-gray-900 rounded;
   display: grid;
   grid-column-gap: theme('padding.8');
   grid-row-gap: theme('padding.4');
@@ -70,7 +71,7 @@ export default {
 .btn {
   @apply
     relative mb-8
-    text-center bg-gray-600 rounded shadow-lg;
+    text-center bg-gray-700 rounded shadow-lg;
 }
 
 .btn::before {
@@ -104,7 +105,7 @@ export default {
 .label {
   @apply
     absolute pt-2 min-w-0
-    text-center text-gray-500 truncate;
+    text-center text-gray-600 truncate;
   top: 100%;
   left: 0;
   right: 0;
