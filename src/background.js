@@ -1,3 +1,4 @@
+import electronLocalshortcut from 'electron-localshortcut';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
@@ -114,6 +115,8 @@ app.on('ready', async () => {
   }
   mainWindow = createMainWindow();
 
+  electronLocalshortcut.register('CmdOrCtrl+T', () => app.emit('app-router-goto-tabs-create'));
+
   Menu.setApplicationMenu(Menu.buildFromTemplate([
     {
       label: app.getName(),
@@ -127,7 +130,18 @@ app.on('ready', async () => {
         { type: 'separator' },
         { role: 'quit' },
       ],
-    }, {
+    },
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'New Tab',
+          accelerator: 'CmdOrCtrl+N',
+          click: () => app.emit('app-router-goto-tabs-create'),
+        },
+      ],
+    },
+    {
       label: 'Edit',
       submenu: [
         { role: 'undo' },
