@@ -10,6 +10,6 @@ module.exports = {
       npmPublish: false,
     }],
     '@semantic-release/git',
-    '@semantic-release/gitlab',
+    '@semantic-release/github',
   ],
 };
