@@ -8,7 +8,7 @@ Pigment is currently available for Mac and Windows.
 
 # Download
 
-You can download the latest version from the [Releases](releases/latest) page. Also visit [getpigment.app](https://getpigment.app) for more information.
+You can download the latest version from the [Releases](/releases/latest) page. Also visit [getpigment.app](https://getpigment.app) for more information.
 
 # Development
 
