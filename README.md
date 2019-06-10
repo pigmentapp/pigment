@@ -6,6 +6,10 @@ How Pigment reduces stress and improves your privacy: If you're leaving the app 
 
 Pigment is currently available for Mac and Windows.
 
+# Download
+
+You can download the latest version from the [Releases](releases/latest) page. Also visit [getpigment.app](https://getpigment.app) for more information.
+
 # Development
 
 ## Project setup
