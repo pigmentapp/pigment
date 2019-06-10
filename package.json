@@ -33,6 +33,7 @@
     "portal-vue": "^2.1.5",
     "prism-themes": "^1.1.0",
     "prismjs": "^1.16.0",
+    "semver": "^6.1.1",
     "shuffle-array": "^1.0.1",
     "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
