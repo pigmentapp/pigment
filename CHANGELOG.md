@@ -1,3 +1,26 @@
+# [0.6.0](https://github.com/pigmentapp/pigment/compare/0.5.0...0.6.0) (2019-06-10)
+
+
+### Bug Fixes
+
+* **webview:** invisible input cursor ([966f8b6](https://github.com/pigmentapp/pigment/commit/966f8b6))
+
+
+### Features
+
+* app suggestions on welcome page ([9145c29](https://github.com/pigmentapp/pigment/commit/9145c29))
+* create new tabs with cmd/ctrl+n ([e8e02ec](https://github.com/pigmentapp/pigment/commit/e8e02ec))
+* electronjs update to 5.0.2 with chromium 73.0.3683.121 ([78df3af](https://github.com/pigmentapp/pigment/commit/78df3af))
+* reduced legacy styles and scripts generation ([2abc09a](https://github.com/pigmentapp/pigment/commit/2abc09a))
+* simple update check on welcome page ([adf3c85](https://github.com/pigmentapp/pigment/commit/adf3c85))
+* switch between tabs with cmd/ctrl+[1-9] ([f8b26c1](https://github.com/pigmentapp/pigment/commit/f8b26c1))
+* tailwindcss updated to v1 + associated color adjustments ([38d67ca](https://github.com/pigmentapp/pigment/commit/38d67ca))
+* welcome page styling improvements ([0fa49ce](https://github.com/pigmentapp/pigment/commit/0fa49ce))
+* **settings:** complete redesign ([8470400](https://github.com/pigmentapp/pigment/commit/8470400))
+* **settings:** configurable dimmer delay ([836ad33](https://github.com/pigmentapp/pigment/commit/836ad33))
+* **window:** shortcut cmd+h to hide the window ([e9ce046](https://github.com/pigmentapp/pigment/commit/e9ce046))
+* **window:** shortcut cmd+m to minimize the window ([022edf0](https://github.com/pigmentapp/pigment/commit/022edf0))
+
 # [0.5.0](https://gitlab.com/herteleo/pigment/compare/0.4.0...0.5.0) (2019-04-29)
 
 
