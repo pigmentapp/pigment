@@ -1,10 +1,10 @@
 <template>
   <div
-    v-show="isActive"
+    v-show="tab.isActive"
     :class="$style.wrap"
   >
     <tab-header
-      v-if="isActive"
+      v-if="tab.isActive"
       :item="item"
       :can-go-back="webviewData.canGoBack"
       :can-go-forward="webviewData.canGoForward"
@@ -18,7 +18,7 @@
     <tab-webview
       ref="webview"
       :item="item"
-      :is-active="isActive"
+      :is-active="tab.isActive"
     />
   </div>
 </template>
@@ -45,19 +45,26 @@ export default {
     };
   },
   computed: {
-    isActive() {
-      const { params, name } = this.$route;
-      return params.id === this.item.id && name === 'tabs';
+    tab() {
+      const { params, name, query } = this.$route;
+
+      return {
+        isActive: params.id === this.item.id && name === 'tabs',
+        addFocus: !query.doNotFocusWebview,
+        id: params.id,
+      };
     },
   },
   watch: {
-    isActive(isActive) {
-      if (isActive) {
-        this.$store.commit('Pages/setState', {
-          tabId: this.item.id,
-          data: { hasNotificationBadge: false },
-        });
+    tab(value) {
+      if (!value.isActive) return;
 
+      this.$store.commit('Pages/setState', {
+        tabId: value.id,
+        data: { hasNotificationBadge: false },
+      });
+
+      if (value.addFocus) {
         this.webviewEl.focus();
       }
     },

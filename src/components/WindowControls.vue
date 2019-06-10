@@ -2,12 +2,12 @@
   <div :class="$style.wrap">
     <title-bar-button
       icon="window-minimize"
-      schema="grey"
+      schema="gray"
       @click="window.minimize()"
     />
     <title-bar-button
       :icon="isMaximized ? 'window-restore' : 'window-maximize'"
-      schema="grey"
+      schema="gray"
       @click="toggleMaximized()"
     />
     <title-bar-button

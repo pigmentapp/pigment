@@ -14,6 +14,7 @@
 import AppLayout from '@/components/AppLayout.vue';
 import TabsList from '@/components/TabsList.vue';
 import WindowDimmer from '@/components/WindowDimmer.vue';
+import Events from '@/utils/mixinEvents';
 import NotificationSchedule from '@/utils/mixinNotificationSchedule';
 
 export default {
@@ -22,6 +23,9 @@ export default {
     TabsList,
     WindowDimmer,
   },
-  mixins: [NotificationSchedule],
+  mixins: [
+    Events,
+    NotificationSchedule,
+  ],
 };
 </script>

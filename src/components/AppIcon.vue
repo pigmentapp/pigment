@@ -2,7 +2,11 @@
   <svg
     v-if="content"
     :viewBox="attributes.viewBox"
-    :class="[$style.icon, $style[`size-${size}`]]"
+    :class="{
+      [$style.icon]: true,
+      [$style.inline]: inline,
+      [$style[`size-${size}`]]: true,
+    }"
     v-html="content"
   />
 </template>
@@ -13,6 +17,10 @@ export default {
     face: {
       type: String,
       default: '',
+    },
+    inline: {
+      type: Boolean,
+      default: false,
     },
     size: {
       type: Number,
@@ -47,7 +55,11 @@ export default {
 
 <style lang="postcss" module>
 .icon {
-  @apply block flex-no-shrink mx-auto fill-current;
+  @apply block flex-shrink-0 mx-auto fill-current;
+}
+
+.inline {
+  @apply inline-flex -mt-1;
 }
 
 .size-4 {
@@ -60,5 +72,9 @@ export default {
 
 .size-6 {
   @apply w-6 h-6;
+}
+
+.size-8 {
+  @apply w-8 h-8;
 }
 </style>

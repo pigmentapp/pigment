@@ -29,8 +29,8 @@
         icon="bell"
       />
       <side-bar-button
-        :to="{ name: 'settings' }"
         icon="settings"
+        @click="$electron.remote.app.emit('app-show-settings-menu')"
       />
     </div>
   </vue-draggable>
@@ -80,7 +80,7 @@ export default {
 }
 
 .drag {
-  @apply cursor-move text-blue-lighter bg-blue;
+  @apply cursor-move text-gray-300 bg-gray-500;
 }
 
 .helper {

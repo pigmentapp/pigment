@@ -1,15 +1,17 @@
 <template>
-  <router-link
+  <component
+    :is="to ? 'router-link' : 'button'"
     :active-class="$style.active"
     :class="$style.btn"
     :to="to"
     tag="button"
+    v-on="$listeners"
   >
     <app-icon
       :face="icon"
       :size="6"
     />
-  </router-link>
+  </component>
 </template>
 
 <script>
@@ -21,7 +23,7 @@ export default {
     },
     to: {
       type: Object,
-      required: true,
+      default: undefined,
     },
   },
 };
@@ -31,10 +33,10 @@ export default {
 .btn {
   @apply
     block w-full p-2
-    text-grey-darkest text-center;
+    text-gray-600 text-center;
 }
 
 .active {
-  @apply text-grey-darker;
+  @apply text-gray-600;
 }
 </style>

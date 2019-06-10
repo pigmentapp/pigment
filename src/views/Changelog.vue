@@ -67,11 +67,11 @@ export default {
 }
 
 .changelog ul {
-  @apply mt-2 text-grey-lighter list-reset;
+  @apply mt-2 text-gray-300;
 }
 
 .changelog strong {
-  @apply text-grey font-light;
+  @apply text-gray-500 font-light;
 }
 
 </style>

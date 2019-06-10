@@ -13,7 +13,6 @@
 export default {
   data() {
     return {
-      delay: 5000,
       timeout: null,
       isActive: false,
     };
@@ -21,6 +20,9 @@ export default {
   computed: {
     settingsIsDimActive() {
       return this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus');
+    },
+    settingsDimDelay() {
+      return this.$store.getters['Settings/byKey']('dimmer.dimDelayInMs');
     },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];
@@ -33,7 +35,7 @@ export default {
       if (!value && this.settingsIsDimActive) {
         this.timeout = setTimeout(() => {
           this.isActive = true;
-        }, this.delay);
+        }, this.settingsDimDelay);
       } else {
         this.isActive = false;
       }
@@ -75,8 +77,8 @@ export default {
   height: 400vh;
   z-index: 40;
   background-image: linear-gradient(
-    config('colors.black'),
-    config('colors.black') 25%,
+    theme('colors.gray.900'),
+    theme('colors.gray.900') 25%,
     transparent 100%,
   );
 
@@ -96,7 +98,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 192px, contain;
   opacity: 0;
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
 
   .active & {
     opacity: 0.5;
