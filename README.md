@@ -1,4 +1,12 @@
-# pigment
+# Pigment – Manage your WebApps and stay focused
+
+Pigment is an open source wrapper app for WebApps. Add all your favorite WebApps to Pigment to clean up your browser tabs, dock or taskbar and benefit from its anti-stress features to stay focused.
+
+How Pigment reduces stress and improves your privacy: If you're leaving the app window, Pigment can mute all its audio contents, collect and schedule all incoming notifications and can dim all its contents, so nobody will catch an unwanted glimpse of your activities.
+
+Pigment is currently available for Mac and Windows.
+
+# Development
 
 ## Project setup
 ```
@@ -7,12 +15,12 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run electron:serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+npm run electron:build
 ```
 
 ### Run your tests
@@ -25,5 +33,9 @@ npm run test
 npm run lint
 ```
 
-### Windows Dev
-- add `node_modules\electron\dist\electron.exe` to Start Menu to 'activate' notifications in dev mode
+### Windows
+Add `./node_modules/electron/dist/electron.exe` to your `Start Menu` to activate notifications in dev mode.
+
+---
+
+Copyright (C) 2018–2019 Leonard Hertel
