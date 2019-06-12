@@ -29,6 +29,7 @@
         icon="bell"
       />
       <side-bar-button
+        v-if="displaysHomeButton"
         :to="{ name: 'welcome' }"
         icon="home-circle"
       />
@@ -62,6 +63,9 @@ export default {
     },
     displaysTabLabels() {
       return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+    },
+    displaysHomeButton() {
+      return this.$store.getters['Settings/byKey']('navigation.displayHomeButton');
     },
   },
 };
