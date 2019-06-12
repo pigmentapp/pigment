@@ -3,16 +3,19 @@
     <title-bar-button
       icon="window-minimize"
       schema="gray"
+      title="Minimize window"
       @click="window.minimize()"
     />
     <title-bar-button
       :icon="isMaximized ? 'window-restore' : 'window-maximize'"
+      :title="isMaximized ? 'Reduce window' : 'Maximize window'"
       schema="gray"
       @click="toggleMaximized()"
     />
     <title-bar-button
       icon="window-close"
       schema="red"
+      title="Close window"
       @click="window.close()"
     />
   </div>

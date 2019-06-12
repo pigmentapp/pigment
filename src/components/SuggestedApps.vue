@@ -4,6 +4,7 @@
       v-for="app in apps"
       :key="app.url"
       :class="$style.btn"
+      :title="`Add '${app.label}' to ${$productInfo.productName}`"
       @click="createTab(app)"
     >
       <div :class="$style.thumb">
@@ -22,6 +23,7 @@
       :to="{
         name: 'tabs-create',
       }"
+      title="Create a custom tab"
     >
       <div :class="$style.thumb">
         <app-icon

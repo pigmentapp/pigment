@@ -190,4 +190,13 @@ button:focus,
 button:active:focus {
   outline: none !important;
 }
+
+::-webkit-scrollbar {
+  @apply w-4;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply border-4 border-solid border-transparent rounded-full;
+  box-shadow: inset 0 0 10px 10px theme('colors.gray.600');
+}
 </style>

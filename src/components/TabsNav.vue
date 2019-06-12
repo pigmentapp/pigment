@@ -2,9 +2,11 @@
   <vue-draggable
     v-model="tabList"
     :class="$style.nav"
-    :delay="400"
+    :animation="150"
+    :delay="150"
     :chosen-class="$style.drag"
     :drag-class="$style.helper"
+    direction="vertical"
     tag="nav"
   >
     <tabs-nav-item
@@ -23,13 +25,22 @@
       <side-bar-button
         :to="{ name: 'tabs-create' }"
         icon="tab-plus"
+        title="Create new tab"
       />
       <side-bar-button
         :to="{ name: 'notifications' }"
         icon="bell"
+        title="Notifications center"
+      />
+      <side-bar-button
+        v-if="displaysHomeButton"
+        :to="{ name: 'welcome' }"
+        icon="home-circle"
+        title="Welcome page"
       />
       <side-bar-button
         icon="settings"
+        title="Settings and more"
         @click="$electron.remote.app.emit('app-show-settings-menu')"
       />
     </div>
@@ -58,6 +69,9 @@ export default {
     },
     displaysTabLabels() {
       return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+    },
+    displaysHomeButton() {
+      return this.$store.getters['Settings/byKey']('navigation.displayHomeButton');
     },
   },
 };

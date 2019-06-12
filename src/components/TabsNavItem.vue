@@ -3,11 +3,16 @@
     :to="{ name: 'tabs', params: { id: item.id } }"
     :class="$style.item"
     :active-class="$style.active"
+    :title="!showLabel && item.label"
     tag="button"
   >
     <div
-      v-if="pageState.hasNotificationBadge"
-      :class="$style.badge"
+      v-if="hasNotificationBadge"
+      :class="[
+        $style.badge,
+        $style[`badgeColor_${badgeColor}`],
+        $style[`badgeSize_${badgeSize}`],
+      ]"
     />
     <div
       :class="{
@@ -51,6 +56,15 @@ export default {
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
+    hasNotificationBadge() {
+      return this.pageState.hasNotificationBadge && this.badgeSize !== 'hidden';
+    },
+    badgeColor() {
+      return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeColor');
+    },
+    badgeSize() {
+      return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeSize');
+    },
   },
 };
 </script>
@@ -71,8 +85,36 @@ export default {
 }
 
 .badge {
-  @apply absolute left-0 w-2 h-2 bg-gray-700 rounded-full;
+  @apply absolute left-0 rounded-full;
   transform: translateX(-50%);
+}
+
+.badgeColor_blue {
+  @apply bg-blue-400;
+}
+
+.badgeColor_gray {
+  @apply bg-gray-600;
+}
+
+.badgeColor_orange {
+  @apply bg-orange-500;
+}
+
+.badgeColor_red {
+  @apply bg-red-600;
+}
+
+.badgeColor_yellow {
+  @apply bg-yellow-500;
+}
+
+.badgeSize_normal {
+  @apply w-2 h-2;
+}
+
+.badgeSize_large {
+  @apply w-3 h-3;
 }
 
 .thumb {

@@ -6,18 +6,24 @@
     <title-bar-button
       :disabled="!canGoBack"
       icon="arrow-left"
+      title="Go back one page"
       @click="$emit('goBack')"
     />
     <title-bar-button
       :disabled="!canGoForward"
       icon="arrow-right"
+      title="Go forward one page"
       @click="$emit('goForward')"
     />
     <title-bar-button
       icon="refresh"
+      title="Reload page"
       @click="$emit('doReload')"
     />
-    <title-bar-button icon="dots-vertical">
+    <title-bar-button
+      icon="dots-vertical"
+      title="Tab controls"
+    >
       <template slot="dropdown">
         <title-bar-button
           icon="home"
@@ -43,6 +49,12 @@
           icon="pencil"
         >
           Edit tab
+        </title-bar-button>
+        <title-bar-button
+          icon="delete-forever"
+          @click="deleteTab"
+        >
+          Delete tab
         </title-bar-button>
       </template>
     </title-bar-button>
@@ -87,6 +99,11 @@ export default {
           url: this.pageState.url,
         },
       });
+    },
+    deleteTab() {
+      if (!window.confirm('Do you really want to delete this tab?')) return; // eslint-disable-line no-alert
+      this.$store.commit('Tabs/delete', this.item);
+      this.$router.push({ name: 'welcome' });
     },
   },
 };

@@ -6,6 +6,7 @@
       </title-bar-text>
       <title-bar-button
         v-if="notifications.length"
+        title="Delete all notifications"
         @click="removeAll"
       >
         Clear all
@@ -36,6 +37,7 @@
             <div>
               <app-button
                 secondary
+                title="Delete notification"
                 @click.stop="removeItem(item)"
               >
                 &times;
@@ -78,6 +80,7 @@ export default {
   },
   methods: {
     removeAll() {
+      if (!window.confirm('Do you really want to delete all notifications?')) return; // eslint-disable-line no-alert
       this.$store.commit('Notifications/removeAll');
     },
     removeItem(item) {

@@ -8,14 +8,26 @@
 
     <app-content-section>
       <app-heading>
-        Layout
-        <template slot="sub">General layout settings</template>
+        Navigation
+        <template slot="sub">Customize the navigation as you like it</template>
       </app-heading>
 
       <settings-item-toggle setting="navigation.displayTabLabels">
-        <template slot="label">Display navigation labels</template>
+        <template slot="label">Navigation labels</template>
         <template slot="descr">
           Do you know your tabs? Disable labels to get more work space.
+        </template>
+      </settings-item-toggle>
+
+      <settings-item-toggle setting="navigation.displayHomeButton">
+        <template slot="label">Home button</template>
+        <template slot="descr">
+          Save more space. The welcome page is available via the
+          <app-icon
+            face="settings"
+            inline
+          />-button
+          too.
         </template>
       </settings-item-toggle>
 
@@ -26,9 +38,39 @@
         ]"
         setting="layout.sideBarLocation"
       >
-        <template slot="label">Navigation location</template>
+        <template slot="label">Sidebar location</template>
         <template slot="descr">
           Sometimes it just fits better on the other side.
+        </template>
+      </settings-item-select>
+
+      <settings-item-select
+        :options="[
+          { value: 'blue', label: 'Blue'},
+          { value: 'gray', label: 'Gray'},
+          { value: 'orange', label: 'Orange'},
+          { value: 'red', label: 'Red'},
+          { value: 'yellow', label: 'Yellow'},
+        ]"
+        setting="navigation.indicatorBadgeColor"
+      >
+        <template slot="label">Indicator badge color</template>
+        <template slot="descr">
+          Color of the notification indicator on the tab item.
+        </template>
+      </settings-item-select>
+
+      <settings-item-select
+        :options="[
+          { value: 'normal', label: 'Normal'},
+          { value: 'large', label: 'Large'},
+          { value: 'hidden', label: 'Hidden'},
+        ]"
+        setting="navigation.indicatorBadgeSize"
+      >
+        <template slot="label">Indicator badge size</template>
+        <template slot="descr">
+          Size of the notification indicator on the tab item.
         </template>
       </settings-item-select>
     </app-content-section>
