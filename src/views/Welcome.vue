@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     async getLatestRelease() {
-      const response = await fetch('//api.github.com/repos/pigmentapp/pigment/releases/latest');
+      const response = await fetch('https://api.github.com/repos/pigmentapp/pigment/releases/latest');
       const release = await response.json();
 
       this.latestRelease = release;
