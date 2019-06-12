@@ -1,3 +1,19 @@
+# [0.7.0](https://github.com/pigmentapp/pigment/compare/0.6.0...0.7.0) (2019-06-12)
+
+
+### Features
+
+* decent app scrollbar styling ([ce34f68](https://github.com/pigmentapp/pigment/commit/ce34f68))
+* **navigation:** better 'welcome page' visibility as button ([44ba39c](https://github.com/pigmentapp/pigment/commit/44ba39c))
+* **navigation:** improved tab-sorting experience ([4d7a6e7](https://github.com/pigmentapp/pigment/commit/4d7a6e7))
+* **notifications:** confirm 'clear all' action ([95137f8](https://github.com/pigmentapp/pigment/commit/95137f8))
+* **settings:** configurable tab indicator badge color ([70d5956](https://github.com/pigmentapp/pigment/commit/70d5956))
+* **settings:** configurable tab indicator badge size ([be09a3d](https://github.com/pigmentapp/pigment/commit/be09a3d))
+* **tabs:** confirm 'delete tab' action in tab menu ([2c4cd47](https://github.com/pigmentapp/pigment/commit/2c4cd47))
+* added titles to icon-only buttons ([498e830](https://github.com/pigmentapp/pigment/commit/498e830))
+* **settings:** control 'welcome page' button visibility ([b91e5b3](https://github.com/pigmentapp/pigment/commit/b91e5b3))
+* **tabs:** new 'delete tab' button in tab header menu ([bdb8d7d](https://github.com/pigmentapp/pigment/commit/bdb8d7d))
+
 # [0.6.0](https://github.com/pigmentapp/pigment/compare/0.5.0...0.6.0) (2019-06-10)
 
 
