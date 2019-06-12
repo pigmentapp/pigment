@@ -29,6 +29,10 @@
         icon="bell"
       />
       <side-bar-button
+        :to="{ name: 'welcome' }"
+        icon="home-circle"
+      />
+      <side-bar-button
         icon="settings"
         @click="$electron.remote.app.emit('app-show-settings-menu')"
       />
