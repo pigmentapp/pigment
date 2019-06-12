@@ -9,6 +9,7 @@ const db = new Connection({
     'navigation.displayHomeButton': true,
     'navigation.displayTabLabels': true,
     'navigation.indicatorBadgeColor': 'gray',
+    'navigation.indicatorBadgeSize': 'normal',
     'notifications.holdBackIfWindowIsNotInFocus': false,
     'notifications.sendSummaryIfWindowIsNotInFocus': false,
     'notifications.summaryIntervalInMs': 1200000,

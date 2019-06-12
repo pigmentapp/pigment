@@ -59,6 +59,20 @@
           Color of the notification indicator on the tab item.
         </template>
       </settings-item-select>
+
+      <settings-item-select
+        :options="[
+          { value: 'normal', label: 'Normal'},
+          { value: 'large', label: 'Large'},
+          { value: 'hidden', label: 'Hidden'},
+        ]"
+        setting="navigation.indicatorBadgeSize"
+      >
+        <template slot="label">Indicator badge size</template>
+        <template slot="descr">
+          Size of the notification indicator on the tab item.
+        </template>
+      </settings-item-select>
     </app-content-section>
 
     <app-content-section>

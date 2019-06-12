@@ -7,8 +7,12 @@
     tag="button"
   >
     <div
-      v-if="pageState.hasNotificationBadge"
-      :class="[$style.badge, $style[`badgeColor_${badgeColor}`]]"
+      v-if="hasNotificationBadge"
+      :class="[
+        $style.badge,
+        $style[`badgeColor_${badgeColor}`],
+        $style[`badgeSize_${badgeSize}`],
+      ]"
     />
     <div
       :class="{
@@ -52,8 +56,14 @@ export default {
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
+    hasNotificationBadge() {
+      return this.pageState.hasNotificationBadge && this.badgeSize !== 'hidden';
+    },
     badgeColor() {
       return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeColor');
+    },
+    badgeSize() {
+      return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeSize');
     },
   },
 };
@@ -75,7 +85,7 @@ export default {
 }
 
 .badge {
-  @apply absolute left-0 w-2 h-2 rounded-full;
+  @apply absolute left-0 rounded-full;
   transform: translateX(-50%);
 }
 
@@ -97,6 +107,14 @@ export default {
 
 .badgeColor_yellow {
   @apply bg-yellow-500;
+}
+
+.badgeSize_normal {
+  @apply w-2 h-2;
+}
+
+.badgeSize_large {
+  @apply w-3 h-3;
 }
 
 .thumb {
