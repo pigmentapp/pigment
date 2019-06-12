@@ -1,3 +1,10 @@
+## [0.7.1](https://github.com/pigmentapp/pigment/compare/0.7.0...0.7.1) (2019-06-12)
+
+
+### Bug Fixes
+
+* corrected update checker url ([79d1491](https://github.com/pigmentapp/pigment/commit/79d1491))
+
 # [0.7.0](https://github.com/pigmentapp/pigment/compare/0.6.0...0.7.0) (2019-06-12)
 
 
