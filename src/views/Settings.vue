@@ -43,6 +43,22 @@
           Sometimes it just fits better on the other side.
         </template>
       </settings-item-select>
+
+      <settings-item-select
+        :options="[
+          { value: 'blue', label: 'Blue'},
+          { value: 'gray', label: 'Gray'},
+          { value: 'orange', label: 'Orange'},
+          { value: 'red', label: 'Red'},
+          { value: 'yellow', label: 'Yellow'},
+        ]"
+        setting="navigation.indicatorBadgeColor"
+      >
+        <template slot="label">Indicator badge color</template>
+        <template slot="descr">
+          Color of the notification indicator on the tab item.
+        </template>
+      </settings-item-select>
     </app-content-section>
 
     <app-content-section>

@@ -8,6 +8,7 @@ const db = new Connection({
     'layout.sideBarLocation': 'left',
     'navigation.displayHomeButton': true,
     'navigation.displayTabLabels': true,
+    'navigation.indicatorBadgeColor': 'gray',
     'notifications.holdBackIfWindowIsNotInFocus': false,
     'notifications.sendSummaryIfWindowIsNotInFocus': false,
     'notifications.summaryIntervalInMs': 1200000,

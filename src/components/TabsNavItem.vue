@@ -8,7 +8,7 @@
   >
     <div
       v-if="pageState.hasNotificationBadge"
-      :class="$style.badge"
+      :class="[$style.badge, $style[`badgeColor_${badgeColor}`]]"
     />
     <div
       :class="{
@@ -52,6 +52,9 @@ export default {
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
+    badgeColor() {
+      return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeColor');
+    },
   },
 };
 </script>
@@ -72,8 +75,28 @@ export default {
 }
 
 .badge {
-  @apply absolute left-0 w-2 h-2 bg-gray-700 rounded-full;
+  @apply absolute left-0 w-2 h-2 rounded-full;
   transform: translateX(-50%);
+}
+
+.badgeColor_blue {
+  @apply bg-blue-400;
+}
+
+.badgeColor_gray {
+  @apply bg-gray-600;
+}
+
+.badgeColor_orange {
+  @apply bg-orange-500;
+}
+
+.badgeColor_red {
+  @apply bg-red-600;
+}
+
+.badgeColor_yellow {
+  @apply bg-yellow-500;
 }
 
 .thumb {
