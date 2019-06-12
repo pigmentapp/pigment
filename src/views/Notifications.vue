@@ -80,6 +80,7 @@ export default {
   },
   methods: {
     removeAll() {
+      if (!window.confirm('Do you really want to delete all notifications?')) return; // eslint-disable-line no-alert
       this.$store.commit('Notifications/removeAll');
     },
     removeItem(item) {
