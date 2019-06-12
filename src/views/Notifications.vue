@@ -6,6 +6,7 @@
       </title-bar-text>
       <title-bar-button
         v-if="notifications.length"
+        title="Delete all notifications"
         @click="removeAll"
       >
         Clear all
@@ -36,6 +37,7 @@
             <div>
               <app-button
                 secondary
+                title="Delete notification"
                 @click.stop="removeItem(item)"
               >
                 &times;

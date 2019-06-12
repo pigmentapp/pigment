@@ -25,18 +25,22 @@
       <side-bar-button
         :to="{ name: 'tabs-create' }"
         icon="tab-plus"
+        title="Create new tab"
       />
       <side-bar-button
         :to="{ name: 'notifications' }"
         icon="bell"
+        title="Notifications center"
       />
       <side-bar-button
         v-if="displaysHomeButton"
         :to="{ name: 'welcome' }"
         icon="home-circle"
+        title="Welcome page"
       />
       <side-bar-button
         icon="settings"
+        title="Settings and more"
         @click="$electron.remote.app.emit('app-show-settings-menu')"
       />
     </div>

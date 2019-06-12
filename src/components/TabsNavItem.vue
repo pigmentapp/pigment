@@ -3,6 +3,7 @@
     :to="{ name: 'tabs', params: { id: item.id } }"
     :class="$style.item"
     :active-class="$style.active"
+    :title="!showLabel && item.label"
     tag="button"
   >
     <div

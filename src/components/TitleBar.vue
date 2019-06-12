@@ -4,6 +4,7 @@
     <title-bar-button
       v-if="backButton"
       icon="arrow-left"
+      title="Back to previous view"
       @click="$router.back()"
     />
   </portal>

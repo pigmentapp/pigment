@@ -6,6 +6,7 @@
       <button
         :class="$style.button"
         :disabled="disabled"
+        :title="`Toggle ${value ? 'off' : 'on'}`"
         @click="value = !value"
       >
         <app-icon
