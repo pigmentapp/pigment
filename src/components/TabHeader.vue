@@ -44,6 +44,12 @@
         >
           Edit tab
         </title-bar-button>
+        <title-bar-button
+          icon="delete-forever"
+          @click="deleteTab"
+        >
+          Delete tab
+        </title-bar-button>
       </template>
     </title-bar-button>
   </title-bar>
@@ -87,6 +93,10 @@ export default {
           url: this.pageState.url,
         },
       });
+    },
+    deleteTab() {
+      this.$store.commit('Tabs/delete', this.item);
+      this.$router.push({ name: 'welcome' });
     },
   },
 };
