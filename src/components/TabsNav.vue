@@ -2,9 +2,11 @@
   <vue-draggable
     v-model="tabList"
     :class="$style.nav"
-    :delay="400"
+    :animation="150"
+    :delay="150"
     :chosen-class="$style.drag"
     :drag-class="$style.helper"
+    direction="vertical"
     tag="nav"
   >
     <tabs-nav-item
