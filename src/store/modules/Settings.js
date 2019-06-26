@@ -47,5 +47,10 @@ export default {
       db().set(key, value).write();
       commit('triggerDbUpdate');
     },
+    toggle({ commit, getters }, key) {
+      const value = getters.byKey(key);
+      db().set(key, !value).write();
+      commit('triggerDbUpdate');
+    },
   },
 };
