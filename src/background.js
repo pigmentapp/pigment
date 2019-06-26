@@ -163,6 +163,7 @@ app.on('ready', async () => {
         { label: 'Show tab 9', accelerator: 'CmdOrCtrl+9', click: () => app.emit('app-router-goto-tab-list-index', 9) },
         {
           label: 'Alternatives',
+          visible: false,
           submenu: [
             { label: 'New Tab', accelerator: 'CmdOrCtrl+T', click: () => app.emit('app-router-goto-tabs-create') },
             { type: 'separator' },
