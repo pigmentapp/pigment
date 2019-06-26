@@ -142,6 +142,12 @@ app.on('ready', async () => {
       ],
     },
     {
+      label: 'View',
+      submenu: [
+        { role: 'toggledevtools' },
+      ],
+    },
+    {
       label: 'Tabs',
       submenu: [
         { label: 'New Tab', accelerator: 'CmdOrCtrl+N', click: () => app.emit('app-router-goto-tabs-create') },
