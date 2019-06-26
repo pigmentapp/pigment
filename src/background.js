@@ -200,4 +200,12 @@ app.on('ready', async () => {
   app.on('app-show-settings-menu', () => {
     settingsMenu.popup();
   });
+
+  app.on('app-show-dock-badge', () => {
+    app.dock.setBadge('•');
+  });
+
+  app.on('app-hide-dock-badge', () => {
+    app.dock.setBadge('');
+  });
 });

@@ -13,6 +13,7 @@ const db = new Connection({
     'notifications.holdBackIfWindowIsNotInFocus': false,
     'notifications.sendSummaryIfWindowIsNotInFocus': false,
     'notifications.summaryIntervalInMs': 1200000,
+    'notifications.displayDockBadgeIfWindowIsNotInFocus': false,
     'window.muteAudioIfWindowIsNotInFocus': false,
   },
 });

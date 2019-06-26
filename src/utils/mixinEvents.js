@@ -4,6 +4,13 @@ export default {
       return this.$store.getters['Tabs/listSorted'];
     },
   },
+  watch: {
+    windowHasFocus(hasFocus) {
+      if (hasFocus) {
+        this.$electron.remote.app.emit('app-hide-dock-badge');
+      }
+    },
+  },
   created() {
     const { app } = this.$electron.remote;
     const r = this.$router;

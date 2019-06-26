@@ -162,6 +162,17 @@
           after the specified interval (in minutes).
         </template>
       </settings-item-input>
+
+      <settings-item-toggle
+        v-if="$options.isMac"
+        setting="notifications.displayDockBadgeIfWindowIsNotInFocus"
+      >
+        <template slot="label">Notification badge in dock</template>
+        <template slot="descr">
+          Shows a badge on the {{ $productInfo.productName }} icon
+          when you receive notifications while working outside the app.
+        </template>
+      </settings-item-toggle>
     </app-content-section>
 
     <app-content-section>
@@ -206,6 +217,7 @@ import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
+  isMac: process.platform === 'darwin',
   components: {
     SettingsItemButton,
     SettingsItemSelect,
