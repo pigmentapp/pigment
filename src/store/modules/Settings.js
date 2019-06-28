@@ -5,6 +5,7 @@ const db = new Connection({
   defaults: {
     'dimmer.dimDelayInMs': 5000,
     'dimmer.dimIfWindowIsNotInFocus': false,
+    'dimmer.displayBadgeAtNewNotifications': false,
     'layout.sideBarLocation': 'left',
     'navigation.displayHomeButton': true,
     'navigation.displayTabLabels': true,

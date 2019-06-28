@@ -104,6 +104,18 @@
           Set a delay before the dimmer starts (in seconds).
         </template>
       </settings-item-input>
+
+      <settings-item-toggle
+        :disabled-if-not-setting="['dimmer.dimIfWindowIsNotInFocus']"
+        setting="dimmer.displayBadgeAtNewNotifications"
+      >
+        <template slot="label">Notification indicator</template>
+        <template slot="descr">
+          Displays a subtle circle around the {{ $productInfo.productName }}
+          logo inside the dimmer when you receive notifications
+          while working outside the app.
+        </template>
+      </settings-item-toggle>
     </app-content-section>
 
     <app-content-section>
