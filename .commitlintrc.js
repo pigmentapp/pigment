@@ -4,6 +4,7 @@ module.exports = {
   ],
   rules: {
     'scope-enum': [2, 'always', [
+      'dimmer',
       'navigation',
       'notifications',
       'settings',
