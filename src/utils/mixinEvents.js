@@ -7,7 +7,7 @@ export default {
   watch: {
     windowHasFocus(hasFocus) {
       if (hasFocus) {
-        this.$electron.remote.app.emit('app-hide-dock-badge');
+        this.$electron.remote.app.emit('app-hide-app-icon-badge');
       }
     },
   },

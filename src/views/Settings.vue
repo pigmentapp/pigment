@@ -165,11 +165,22 @@
 
       <settings-item-toggle
         v-if="$options.isMac"
-        setting="notifications.displayDockBadgeIfWindowIsNotInFocus"
+        setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
       >
         <template slot="label">Notification badge in dock</template>
         <template slot="descr">
           Shows a badge on the {{ $productInfo.productName }} icon
+          when you receive notifications while working outside the app.
+        </template>
+      </settings-item-toggle>
+
+      <settings-item-toggle
+        v-else-if="$options.isWin"
+        setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
+      >
+        <template slot="label">Highlight app icon in taskbar</template>
+        <template slot="descr">
+          Highlights the {{ $productInfo.productName }} icon
           when you receive notifications while working outside the app.
         </template>
       </settings-item-toggle>
@@ -218,6 +229,7 @@ import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   isMac: process.platform === 'darwin',
+  isWin: process.platform === 'win32',
   components: {
     SettingsItemButton,
     SettingsItemSelect,

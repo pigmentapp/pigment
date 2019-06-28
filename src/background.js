@@ -223,11 +223,25 @@ app.on('ready', async () => {
     settingsMenu.popup();
   });
 
-  app.on('app-show-dock-badge', () => {
-    app.dock.setBadge('•');
+  app.on('app-show-app-icon-badge', () => {
+    switch (process.platform) {
+      case 'darwin':
+        return app.dock.setBadge('•');
+      case 'win32':
+        return mainWindow.flashFrame(true);
+      default:
+        return false;
+    }
   });
 
-  app.on('app-hide-dock-badge', () => {
-    app.dock.setBadge('');
+  app.on('app-hide-app-icon-badge', () => {
+    switch (process.platform) {
+      case 'darwin':
+        return app.dock.setBadge('');
+      case 'win32':
+        return mainWindow.flashFrame(false);
+      default:
+        return false;
+    }
   });
 });
