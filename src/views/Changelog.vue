@@ -1,20 +1,37 @@
 <template>
-  <app-content>
+  <app-content :class="$style.notes">
     <title-bar :back-button="true">
       <title-bar-text>
-        Changelog
+        Release Notes
       </title-bar-text>
     </title-bar>
-    <div
-      :class="$style.changelog"
-      v-html="changelog"
+
+    <app-content-section
+      v-for="release in matchingReleases"
+      :key="release.id"
+      :class="$style.item"
+      v-html="mdToHtml(release.body)"
     />
+    <app-content-section>
+      <app-button
+        :class="$style.more"
+        secondary
+        @click="$electron.remote.shell.openExternal('https://github.com/pigmentapp/pigment/releases')"
+      >
+        Read more on GitHub
+      </app-button>
+    </app-content-section>
   </app-content>
 </template>
 
 <script>
+import marked from 'marked';
+import semver from 'semver';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
+
+const renderer = new marked.Renderer();
+renderer.link = (href, title, text) => `<a target="_blank" href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`;
 
 export default {
   components: {
@@ -23,55 +40,83 @@ export default {
   },
   data() {
     return {
-      changelog: '',
+      releases: [],
     };
   },
+  computed: {
+    matchingReleases() {
+      if (!this.releases.length) return [];
+
+      const currentVersion = process.env.NODE_ENV === 'development'
+        ? this.releases[0].name
+        : this.$productInfo.version;
+
+      let vWithoutPatch = currentVersion.split('.');
+      vWithoutPatch.pop();
+      vWithoutPatch = vWithoutPatch.join('.');
+
+      const versionRange = `${vWithoutPatch} - ${currentVersion}`;
+
+      return this.releases.filter(release => semver.satisfies(release.name, versionRange));
+    },
+  },
   created() {
-    this.fetchChangelog();
+    this.getReleases();
   },
   methods: {
-    async fetchChangelog() {
-      const path = process.env.NODE_ENV === 'development'
-        ? '/changelog.html'
-        : `${process.env.BASE_URL}/changelog.html`;
-
-      const response = await fetch(path);
-      const contents = await response.text();
-
-      this.changelog = contents;
+    async getReleases() {
+      const url = 'https://api.github.com/repos/pigmentapp/pigment/releases';
+      this.releases = await (await fetch(url)).json();
+    },
+    mdToHtml(val) {
+      return marked(val, {
+        headerIds: false,
+        renderer,
+        sanitize: true,
+      });
     },
   },
 };
 </script>
 
 <style lang="postcss" module>
-.changelog {
-  @apply p-6 mx-auto leading-normal;
-  max-width: 600px;
+.item {
+  @apply p-6 text-gray-600 bg-gray-900 rounded shadow-lg leading-relaxed;
 }
 
-.changelog a {
-  color: inherit;
+.notes a {
+  @apply underline;
 }
 
-.changelog h1 {
-  @apply text-3xl font-light leading-none;
+.notes h1 {
+  @apply
+    pb-6 border-b border-gray-800
+    text-3xl text-gray-500 font-light leading-none;
 }
 
-.changelog h1:not(:first-child) {
-  @apply mt-10;
+.notes h2 {
+  @apply
+    pb-6 border-b border-gray-800
+    text-2xl text-gray-500 font-light leading-none;
 }
 
-.changelog h3 {
-  @apply text-lg mt-6 font-light leading-none;
+.notes h3 {
+  @apply text-xl text-gray-500 mt-6 leading-none;
 }
 
-.changelog ul {
-  @apply mt-2 text-gray-300;
+.notes ul {
+  @apply mt-2 ml-8 list-disc tracking-wide;
 }
 
-.changelog strong {
-  @apply text-gray-500 font-light;
+.notes li {
+  @apply mt-2;
 }
 
+.notes strong:first-child {
+  @apply text-gray-500;
+}
+
+.more {
+  @apply block w-auto mx-auto;
+}
 </style>

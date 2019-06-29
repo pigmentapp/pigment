@@ -4,7 +4,7 @@ import { format as formatUrl } from 'url';
 
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-  app, Menu, protocol, BrowserWindow,
+  app, Menu, protocol, BrowserWindow, shell,
 } from 'electron';
 import {
   createProtocol,
@@ -243,5 +243,10 @@ app.on('ready', async () => {
       default:
         return false;
     }
+  });
+
+  mainWindow.webContents.on('new-window', (e, url) => {
+    e.preventDefault();
+    shell.openExternal(url);
   });
 });
