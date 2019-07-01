@@ -1,15 +1,16 @@
 <template>
-  <button
+  <component
+    :is="tag"
     :class="{
       [$style.button]: true,
       [$style.primary]: primary,
       [$style.secondary]: secondary,
     }"
-    type="button"
+    :type="tag === 'button' && 'button'"
     v-on="$listeners"
   >
     <slot />
-  </button>
+  </component>
 </template>
 
 <script>
@@ -22,6 +23,10 @@ export default {
     secondary: {
       type: Boolean,
       default: false,
+    },
+    tag: {
+      type: String,
+      default: 'button',
     },
   },
 };

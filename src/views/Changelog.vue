@@ -1,10 +1,12 @@
 <template>
-  <app-content :class="$style.notes">
+  <app-content>
     <title-bar :back-button="true">
       <title-bar-text>
         Release Notes
       </title-bar-text>
     </title-bar>
+
+    <update-checker />
 
     <app-content-section
       v-for="release in matchingReleases"
@@ -29,6 +31,7 @@ import marked from 'marked';
 import semver from 'semver';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
+import UpdateChecker from '@/components/UpdateChecker.vue';
 
 const renderer = new marked.Renderer();
 renderer.link = (href, title, text) => `<a target="_blank" href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`;
@@ -37,6 +40,7 @@ export default {
   components: {
     TitleBar,
     TitleBarText,
+    UpdateChecker,
   },
   data() {
     return {
@@ -84,35 +88,35 @@ export default {
   @apply p-6 text-gray-600 bg-gray-900 rounded shadow-lg leading-relaxed;
 }
 
-.notes a {
+.item a {
   @apply underline;
 }
 
-.notes h1 {
+.item h1 {
   @apply
     pb-6 border-b border-gray-800
     text-3xl text-gray-500 font-light leading-none;
 }
 
-.notes h2 {
+.item h2 {
   @apply
     pb-6 border-b border-gray-800
     text-2xl text-gray-500 font-light leading-none;
 }
 
-.notes h3 {
+.item h3 {
   @apply text-xl text-gray-500 mt-6 leading-none;
 }
 
-.notes ul {
+.item ul {
   @apply mt-2 ml-8 list-disc tracking-wide;
 }
 
-.notes li {
+.item li {
   @apply mt-2;
 }
 
-.notes strong:first-child {
+.item strong:first-child {
   @apply text-gray-500;
 }
 
