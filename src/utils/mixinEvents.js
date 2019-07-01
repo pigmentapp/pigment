@@ -4,6 +4,13 @@ export default {
       return this.$store.getters['Tabs/listSorted'];
     },
   },
+  watch: {
+    windowHasFocus(hasFocus) {
+      if (hasFocus) {
+        this.$electron.remote.app.emit('app-hide-app-icon-badge');
+      }
+    },
+  },
   created() {
     const { app } = this.$electron.remote;
     const r = this.$router;
@@ -13,6 +20,10 @@ export default {
     app.on('app-router-goto-settings', () => r.push({ name: 'settings' }));
     app.on('app-router-goto-welcome', () => r.push({ name: 'welcome' }));
     app.on('app-router-goto-changelog', () => r.push({ name: 'changelog' }));
+
+    app.on('app-settings-toggle', (property) => {
+      this.$store.dispatch('Settings/toggle', property);
+    });
   },
   methods: {
     goToTabWithListIndex(index) {

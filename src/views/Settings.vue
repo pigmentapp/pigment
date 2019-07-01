@@ -104,6 +104,18 @@
           Set a delay before the dimmer starts (in seconds).
         </template>
       </settings-item-input>
+
+      <settings-item-toggle
+        :disabled-if-not-setting="['dimmer.dimIfWindowIsNotInFocus']"
+        setting="dimmer.displayBadgeAtNewNotifications"
+      >
+        <template slot="label">Notification indicator</template>
+        <template slot="descr">
+          Displays a subtle circle around the {{ $productInfo.productName }}
+          logo inside the dimmer when you receive notifications
+          while working outside the app.
+        </template>
+      </settings-item-toggle>
     </app-content-section>
 
     <app-content-section>
@@ -162,6 +174,28 @@
           after the specified interval (in minutes).
         </template>
       </settings-item-input>
+
+      <settings-item-toggle
+        v-if="$options.isMac"
+        setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
+      >
+        <template slot="label">Notification badge in dock</template>
+        <template slot="descr">
+          Shows a badge on the {{ $productInfo.productName }} icon
+          when you receive notifications while working outside the app.
+        </template>
+      </settings-item-toggle>
+
+      <settings-item-toggle
+        v-else-if="$options.isWin"
+        setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
+      >
+        <template slot="label">Highlight app icon in taskbar</template>
+        <template slot="descr">
+          Highlights the {{ $productInfo.productName }} icon
+          when you receive notifications while working outside the app.
+        </template>
+      </settings-item-toggle>
     </app-content-section>
 
     <app-content-section>
@@ -206,6 +240,8 @@ import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
+  isMac: process.platform === 'darwin',
+  isWin: process.platform === 'win32',
   components: {
     SettingsItemButton,
     SettingsItemSelect,

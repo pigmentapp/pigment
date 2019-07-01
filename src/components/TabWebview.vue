@@ -38,6 +38,9 @@ export default {
     notificationsPreventOnBlur() {
       return this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus');
     },
+    notificationsDisplayAppBadge() {
+      return this.$store.getters['Settings/byKey']('notifications.displayAppIconBadgeIfWindowIsNotInFocus');
+    },
     userAgent() {
       return this.item.userAgent || navigator.userAgent;
     },
@@ -87,6 +90,10 @@ export default {
 
       if (!this.notificationsPreventOnBlur || this.windowHasFocus) {
         new Notification(notification.title, notification.options); // eslint-disable-line no-new
+      }
+
+      if (this.notificationsDisplayAppBadge && !this.windowHasFocus) {
+        this.$electron.remote.app.emit('app-show-app-icon-badge');
       }
     });
 

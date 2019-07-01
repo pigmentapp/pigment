@@ -1,10 +1,11 @@
+import electronDl from 'electron-dl';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-  app, Menu, protocol, BrowserWindow,
+  app, Menu, protocol, BrowserWindow, shell,
 } from 'electron';
 import {
   createProtocol,
@@ -13,6 +14,11 @@ import {
 /* eslint-enable import/no-extraneous-dependencies */
 
 import pkg from '../package.json';
+
+electronDl({
+  openFolderWhenDone: true,
+  saveAs: true,
+});
 
 app.setAppUserModelId(process.execPath);
 
@@ -142,6 +148,12 @@ app.on('ready', async () => {
       ],
     },
     {
+      label: 'View',
+      submenu: [
+        { role: 'toggledevtools' },
+      ],
+    },
+    {
       label: 'Tabs',
       submenu: [
         { label: 'New Tab', accelerator: 'CmdOrCtrl+N', click: () => app.emit('app-router-goto-tabs-create') },
@@ -157,6 +169,7 @@ app.on('ready', async () => {
         { label: 'Show tab 9', accelerator: 'CmdOrCtrl+9', click: () => app.emit('app-router-goto-tab-list-index', 9) },
         {
           label: 'Alternatives',
+          visible: false,
           submenu: [
             { label: 'New Tab', accelerator: 'CmdOrCtrl+T', click: () => app.emit('app-router-goto-tabs-create') },
             { type: 'separator' },
@@ -177,21 +190,69 @@ app.on('ready', async () => {
 
   const settingsMenu = Menu.buildFromTemplate([
     {
-      label: 'Welcome page',
+      label: 'Show welcome page…',
       click: () => app.emit('app-router-goto-welcome'),
     },
     {
-      label: 'Release notes',
+      label: 'Show release notes…',
       click: () => app.emit('app-router-goto-changelog'),
     },
     { type: 'separator' },
     {
-      label: 'Settings',
+      label: 'Quick settings (switch on/off)',
+      enabled: false,
+    },
+    {
+      label: 'Navigation labels',
+      click: () => app.emit('app-settings-toggle', 'navigation.displayTabLabels'),
+    },
+    {
+      label: 'Dim contents',
+      click: () => app.emit('app-settings-toggle', 'dimmer.dimIfWindowIsNotInFocus'),
+    },
+    {
+      label: 'Mute audio if app loses focus',
+      click: () => app.emit('app-settings-toggle', 'window.muteAudioIfWindowIsNotInFocus'),
+    },
+    {
+      label: 'Hold back notifications',
+      click: () => app.emit('app-settings-toggle', 'notifications.holdBackIfWindowIsNotInFocus'),
+    },
+    { type: 'separator' },
+    {
+      label: 'Settings…',
       click: () => app.emit('app-router-goto-settings'),
     },
   ]);
 
   app.on('app-show-settings-menu', () => {
     settingsMenu.popup();
+  });
+
+  app.on('app-show-app-icon-badge', () => {
+    switch (process.platform) {
+      case 'darwin':
+        return app.dock.setBadge('•');
+      case 'win32':
+        return mainWindow.flashFrame(true);
+      default:
+        return false;
+    }
+  });
+
+  app.on('app-hide-app-icon-badge', () => {
+    switch (process.platform) {
+      case 'darwin':
+        return app.dock.setBadge('');
+      case 'win32':
+        return mainWindow.flashFrame(false);
+      default:
+        return false;
+    }
+  });
+
+  mainWindow.webContents.on('new-window', (e, url) => {
+    e.preventDefault();
+    shell.openExternal(url);
   });
 });

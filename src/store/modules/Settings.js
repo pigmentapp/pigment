@@ -5,6 +5,7 @@ const db = new Connection({
   defaults: {
     'dimmer.dimDelayInMs': 5000,
     'dimmer.dimIfWindowIsNotInFocus': false,
+    'dimmer.displayBadgeAtNewNotifications': false,
     'layout.sideBarLocation': 'left',
     'navigation.displayHomeButton': true,
     'navigation.displayTabLabels': true,
@@ -13,6 +14,7 @@ const db = new Connection({
     'notifications.holdBackIfWindowIsNotInFocus': false,
     'notifications.sendSummaryIfWindowIsNotInFocus': false,
     'notifications.summaryIntervalInMs': 1200000,
+    'notifications.displayAppIconBadgeIfWindowIsNotInFocus': false,
     'window.muteAudioIfWindowIsNotInFocus': false,
   },
 });
@@ -44,6 +46,11 @@ export default {
   actions: {
     set({ commit }, [key, value]) {
       db().set(key, value).write();
+      commit('triggerDbUpdate');
+    },
+    toggle({ commit, getters }, key) {
+      const value = getters.byKey(key);
+      db().set(key, !value).write();
       commit('triggerDbUpdate');
     },
   },

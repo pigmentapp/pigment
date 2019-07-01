@@ -5,7 +5,16 @@
       [$style.active]: isActive,
     }"
   >
-    <div :class="$style.screen" />
+    <div :class="$style.screen">
+      <div :class="$style.content">
+        <div
+          :class="{
+            [$style.icon]: true,
+            [$style.iconHighlight]: hasNewNotifications,
+          }"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,6 +27,19 @@ export default {
     };
   },
   computed: {
+    displayNotificationBadge() {
+      return this.$store.getters['Settings/byKey']('dimmer.displayBadgeAtNewNotifications');
+    },
+    hasNewNotifications() {
+      return !this.windowHasFocus
+        && this.displayNotificationBadge
+        && this.notificationsAfterWindowBlur.length;
+    },
+    notificationsAfterWindowBlur() {
+      return this.$store.getters['Notifications/list']({
+        newerThanTimestamp: this.windowTimestampOfBlur,
+      });
+    },
     settingsIsDimActive() {
       return this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus');
     },
@@ -26,6 +48,9 @@ export default {
     },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];
+    },
+    windowTimestampOfBlur() {
+      return this.$store.getters['Window/timestampOfBlur'];
     },
   },
   watch: {
@@ -68,7 +93,7 @@ export default {
 };
 </script>
 
-<style lang="scss" module>
+<style lang="postcss" module>
 .dimmer {
   position: fixed;
   top: -400vh;
@@ -79,34 +104,49 @@ export default {
   background-image: linear-gradient(
     theme('colors.gray.900'),
     theme('colors.gray.900') 25%,
-    transparent 100%,
+    transparent 100%
   );
-
-  &.active {
-    top: 0;
-    transition-duration: 1500ms;
-    transition-property: top;
-    transition-timing-function: ease-out;
-  }
 }
 
+.dimmer.active {
+  top: 0;
+  transition-duration: 1500ms;
+  transition-property: top;
+  transition-timing-function: ease-out;
+}
 
 .screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
+}
+
+.content {
+  @apply w-64;
+}
+
+.icon {
+  @apply relative w-64 h-64 mx-auto border-2 border-transparent rounded-full;
   background-image: url(@/assets/logo/logo.png);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 192px, contain;
+  background-size: theme('width.48');
   opacity: 0;
   transform: rotate(45deg);
+}
 
-  .active & {
-    opacity: 0.5;
-    transition-delay: 1750ms;
-    transition-duration: 500ms;
-    transition-property: opacity, transform;
-    transition-timing-function: ease-out;
-    transform: rotate(0);
-  }
+.active .icon {
+  @apply opacity-50;
+  transition-delay: 1750ms;
+  transition-duration: 500ms;
+  transition-property: opacity, border-color, box-shadow, transform;
+  transition-timing-function: ease-out;
+  transform: rotate(0);
+}
+
+.iconHighlight {
+  @apply border-gray-800;
+  box-shadow: 0 0 theme('width.12') theme('colors.gray.800');
 }
 </style>
