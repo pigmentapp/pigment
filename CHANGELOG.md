@@ -1,3 +1,22 @@
+# [0.8.0](https://github.com/pigmentapp/pigment/compare/0.7.1...0.8.0) (2019-07-01)
+
+
+### Bug Fixes
+
+* electronjs update to 5.0.6 with chromium 73.0.3683.121 ([dbfa53e](https://github.com/pigmentapp/pigment/commit/dbfa53e))
+* **window:** removed duplicate menu items (mac only) ([1d0e866](https://github.com/pigmentapp/pigment/commit/1d0e866))
+
+
+### Features
+
+* direct download + info links for app updates ([9044d2a](https://github.com/pigmentapp/pigment/commit/9044d2a))
+* file download visualization in dock/taskbar ([b2f81f1](https://github.com/pigmentapp/pigment/commit/b2f81f1))
+* release notes view redesign ([d57553a](https://github.com/pigmentapp/pigment/commit/d57553a))
+* **dimmer:** subtle 'new notifications' indicator in dimmer ([f1c5371](https://github.com/pigmentapp/pigment/commit/f1c5371))
+* **notifications:** highlight app in taskbar at new notifications (win) ([c6594b4](https://github.com/pigmentapp/pigment/commit/c6594b4))
+* **notifications:** show notification badge in dock (mac only) ([53439f1](https://github.com/pigmentapp/pigment/commit/53439f1))
+* **settings:** toggle quick settings in settings menu ([3be5961](https://github.com/pigmentapp/pigment/commit/3be5961))
+
 ## [0.7.1](https://github.com/pigmentapp/pigment/compare/0.7.0...0.7.1) (2019-06-12)
 
 
