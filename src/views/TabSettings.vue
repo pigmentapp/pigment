@@ -1,57 +1,47 @@
 <template>
-  <form
-    :class="$style.wrap"
-    @submit.prevent="submitForm"
-  >
+  <app-content>
     <title-bar :back-button="true">
       <title-bar-text>
         {{ isCreateMode ? 'Create new tab' : `Edit ${tab.label}` }}
       </title-bar-text>
     </title-bar>
-    <div>
-      <label :class="$style.item">
-        <div :class="$style.label">Label</div>
-        <input
-          v-model="tab.label"
-          :class="$style.input"
-          type="text"
-          placeholder="Insert tab title"
-          required
-        >
-      </label>
-      <label :class="$style.item">
-        <div :class="$style.label">URL</div>
-        <input
-          v-model="tab.url"
-          :class="$style.input"
-          type="url"
-          required
-        >
-      </label>
+
+    <form @submit.prevent="submitForm">
+      <app-form-input
+        v-model="tab.label"
+        label="Name"
+        placeholder="Insert tab title"
+        required
+      />
+
+      <app-form-input
+        v-model="tab.url"
+        label="URL"
+        placeholder="Insert tab title"
+        type="url"
+        required
+      />
+
       <template v-if="!isCreateMode">
-        <label :class="$style.item">
-          <div :class="$style.label">User Agent</div>
-          <textarea
-            v-model="tab.userAgent"
-            :class="$style.input"
-          />
-        </label>
-        <label :class="$style.item">
-          <div :class="$style.label">Custom CSS</div>
-          <prism-editor
-            v-model="tab.customCss"
-            language="css"
-          />
-        </label>
-        <label :class="$style.item">
-          <div :class="$style.label">Custom JavaScript</div>
-          <prism-editor
-            v-model="tab.customJs"
-            language="js"
-          />
-        </label>
+        <app-form-text-editor
+          v-model="tab.userAgent"
+          label="Custom User Agent"
+        />
+
+        <app-form-text-editor
+          v-model="tab.customCss"
+          label="Custom CSS"
+          language="css"
+        />
+
+        <app-form-text-editor
+          v-model="tab.customJs"
+          label="Custom JavaScript"
+          language="js"
+        />
       </template>
-      <div :class="$style.actions">
+
+      <app-form-element :class="$style.actions">
         <app-button
           :class="$style.button"
           primary
@@ -67,21 +57,17 @@
         >
           Delete Tab
         </app-button>
-      </div>
-    </div>
-  </form>
+      </app-form-element>
+    </form>
+  </app-content>
 </template>
 
 <script>
-import 'prismjs';
-import 'prism-themes/themes/prism-darcula.css';
-import PrismEditor from 'vue-prism-editor';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   components: {
-    PrismEditor,
     TitleBar,
     TitleBarText,
   },
@@ -143,41 +129,11 @@ export default {
 </script>
 
 <style lang="postcss" module>
-.wrap {
-  @apply flex items-center justify-center h-full;
-}
-
-.item {
-  @apply block mb-4;
-}
-
-.label {
-  @apply mb-1;
-  min-width: 33vw;
-}
-
-.input {
-  @apply px-2 py-1 w-full;
-  @apply text-gray-400 leading-tight;
-  @apply bg-transparent border border-gray-700 rounded-sm;
-}
-
 .button {
   @apply flex-1 mx-2;
 }
 
 .actions {
   @apply flex flex-row-reverse -mx-2;
-}
-
-.prism-editor-wrapper {
-  @apply overflow-hidden rounded-sm;
-}
-
-</style>
-
-<style lang="postcss">
-:not(pre) > code[class*="language-"], pre[class*="language-"] {
-  @apply py-1 px-2 m-0 bg-gray-900 border border-gray-700 rounded-sm;
 }
 </style>
