@@ -9,7 +9,7 @@ import {
 } from 'electron';
 import {
   createProtocol,
-  installVueDevtools,
+  // installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib';
 /* eslint-enable import/no-extraneous-dependencies */
 
@@ -116,7 +116,9 @@ app.on('activate', () => {
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
-    await installVueDevtools();
+    // temp. fix: Electron 6.0.0 does not launch in Windows 10 Dark Mode
+    // https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378
+    // await installVueDevtools();
   }
   mainWindow = createMainWindow();
 
