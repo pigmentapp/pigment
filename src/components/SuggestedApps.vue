@@ -19,6 +19,7 @@
       </div>
     </button>
     <router-link
+      v-if="showCreateBtn"
       :class="$style.btn"
       :to="{
         name: 'tabs-create',
@@ -32,7 +33,7 @@
         />
       </div>
       <div :class="$style.label">
-        Create
+        Custom
       </div>
     </router-link>
   </div>
@@ -43,6 +44,16 @@ import shuffleArray from 'shuffle-array';
 import apps from '@/data/recommended-apps.json';
 
 export default {
+  props: {
+    goToCreatedTab: {
+      type: Boolean,
+      default: false,
+    },
+    showCreateBtn: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     existingTabs() {
       return this.$store.getters['Tabs/list'];
@@ -54,8 +65,17 @@ export default {
     },
   },
   methods: {
-    createTab({ label, url }) {
-      this.$store.dispatch('Tabs/create', { label, url });
+    async createTab({ label, url }) {
+      const tab = await this.$store.dispatch('Tabs/create', { label, url });
+
+      if (!this.goToCreatedTab) return;
+
+      this.$router.push({
+        name: 'tabs',
+        params: {
+          id: tab.id,
+        },
+      });
     },
   },
 };

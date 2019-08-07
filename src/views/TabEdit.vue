@@ -2,11 +2,11 @@
   <app-content>
     <title-bar :back-button="true">
       <title-bar-text>
-        {{ isCreateMode ? 'Create new tab' : `Edit ${tab.label}` }}
+        Edit {{ tab.label }}
       </title-bar-text>
     </title-bar>
 
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="updateTab">
       <app-tabs>
         <div
           slot="General"
@@ -29,7 +29,6 @@
         </div>
 
         <div
-          v-if="!isCreateMode"
           slot="Advanced"
           :class="$style.tabContent"
         >
@@ -58,10 +57,9 @@
           primary
           type="submit"
         >
-          {{ isCreateMode ? 'Create' : 'Save' }}
+          Save
         </app-button>
         <app-button
-          v-if="!isCreateMode"
           :class="$style.button"
           secondary
           @click="deleteTab"
@@ -84,44 +82,14 @@ export default {
   },
   data() {
     return {
-      tab: {
-        label: '',
-        url: 'https://',
-        customCss: '/* Add custom CSS styles */',
-        customJs: '/* Add custom JavaScript */',
-        userAgent: '',
-      },
+      tab: {},
     };
   },
-  computed: {
-    isCreateMode() {
-      return this.$route.name === 'tabs-create';
-    },
-  },
   created() {
-    if (this.isCreateMode) return;
-
     const { id } = this.$route.params;
     this.tab = { ...this.$store.getters['Tabs/byId'](id) };
   },
   methods: {
-    submitForm() {
-      if (this.isCreateMode) {
-        this.createTab();
-      } else {
-        this.updateTab();
-      }
-    },
-    async createTab() {
-      const tab = await this.$store.dispatch('Tabs/create', this.tab);
-
-      this.$router.push({
-        name: 'tabs',
-        params: {
-          id: tab.id,
-        },
-      });
-    },
     updateTab() {
       const { id, ...data } = this.tab;
       this.$store.commit('Tabs/update', { id, data });
@@ -149,6 +117,6 @@ export default {
 }
 
 .tabContent {
-  @apply py-4;
+  @apply my-4;
 }
 </style>
