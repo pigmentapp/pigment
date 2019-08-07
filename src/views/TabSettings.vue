@@ -7,41 +7,52 @@
     </title-bar>
 
     <form @submit.prevent="submitForm">
-      <app-form-input
-        v-model="tab.label"
-        label="Name"
-        placeholder="Insert tab title"
-        required
-      />
+      <app-tabs>
+        <div
+          slot="General"
+          :class="$style.tabContent"
+        >
+          <app-form-input
+            v-model="tab.label"
+            label="Name"
+            placeholder="Insert tab title"
+            required
+          />
 
-      <app-form-input
-        v-model="tab.url"
-        label="URL"
-        placeholder="Insert tab title"
-        type="url"
-        required
-      />
+          <app-form-input
+            v-model="tab.url"
+            label="URL"
+            placeholder="Insert tab title"
+            type="url"
+            required
+          />
+        </div>
 
-      <template v-if="!isCreateMode">
-        <app-form-text-editor
-          v-model="tab.userAgent"
-          label="Custom User Agent"
-        />
+        <div
+          v-if="!isCreateMode"
+          slot="Advanced"
+          :class="$style.tabContent"
+        >
+          <app-form-text-editor
+            v-model="tab.userAgent"
+            label="User Agent"
+          />
 
-        <app-form-text-editor
-          v-model="tab.customCss"
-          label="Custom CSS"
-          language="css"
-        />
+          <app-form-text-editor
+            v-model="tab.customCss"
+            label="Style Sheets"
+            language="css"
+          />
 
-        <app-form-text-editor
-          v-model="tab.customJs"
-          label="Custom JavaScript"
-          language="js"
-        />
-      </template>
+          <app-form-text-editor
+            v-model="tab.customJs"
+            label="JavaScript"
+            language="js"
+          />
+        </div>
+      </app-tabs>
 
-      <app-form-element :class="$style.actions">
+      <div :class="$style.actions">
         <app-button
           :class="$style.button"
           primary
@@ -57,7 +68,7 @@
         >
           Delete Tab
         </app-button>
-      </app-form-element>
+      </div>
     </form>
   </app-content>
 </template>
@@ -134,6 +145,10 @@ export default {
 }
 
 .actions {
-  @apply flex flex-row-reverse -mx-2;
+  @apply flex flex-row-reverse pt-3 -mx-2;
+}
+
+.tabContent {
+  @apply py-4;
 }
 </style>
