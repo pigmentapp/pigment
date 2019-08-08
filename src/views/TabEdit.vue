@@ -49,6 +49,68 @@
             language="js"
           />
         </div>
+
+        <div
+          slot="Settings"
+          :class="$style.tabContent"
+        >
+          <settings-item>
+            <template slot="label">
+              Dimmer
+            </template>
+            <template slot="descr">
+              Fade out tab contents if you work outside the app.
+            </template>
+            <template slot="control">
+              <select
+                v-model="tab.settings['dimmer.dimIfWindowIsNotInFocus']"
+                :class="$style.select"
+              >
+                <option :value="undefined">Inherit</option>
+                <option :value="true">Dim</option>
+                <option :value="false">Don't dim</option>
+              </select>
+            </template>
+          </settings-item>
+
+          <settings-item>
+            <template slot="label">
+              Audio
+            </template>
+            <template slot="descr">
+              Mute tab audio if you work outside the app.
+            </template>
+            <template slot="control">
+              <select
+                v-model="tab.settings['window.muteAudioIfWindowIsNotInFocus']"
+                :class="$style.select"
+              >
+                <option :value="undefined">Inherit</option>
+                <option :value="true">Mute</option>
+                <option :value="false">Don't mute</option>
+              </select>
+            </template>
+          </settings-item>
+
+          <settings-item>
+            <template slot="label">
+              Notifications
+            </template>
+            <template slot="descr">
+              Hold back tab notifications if you work outside the app.
+            </template>
+            <template slot="control">
+              <select
+                v-model="tab.settings['notifications.holdBackIfWindowIsNotInFocus']"
+                :class="$style.select"
+              >
+                <option :value="undefined">Inherit</option>
+                <option :value="true">Hold back</option>
+                <option :value="false">Don't hold back</option>
+              </select>
+            </template>
+          </settings-item>
+        </div>
       </app-tabs>
 
       <div :class="$style.actions">
@@ -72,11 +134,13 @@
 </template>
 
 <script>
+import SettingsItem from '@/components/SettingsItem.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   components: {
+    SettingsItem,
     TitleBar,
     TitleBarText,
   },
@@ -114,6 +178,13 @@ export default {
 
 .actions {
   @apply flex flex-row-reverse pt-3 -mx-2;
+}
+
+.select {
+  @apply
+    block px-4 py-2 w-48
+    leading-tight appearance-none bg-gray-700
+    border border-gray-600 rounded;
 }
 
 .tabContent {

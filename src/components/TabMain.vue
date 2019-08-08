@@ -59,6 +59,8 @@ export default {
     tab(value) {
       if (!value.isActive) return;
 
+      this.$store.commit('Tabs/setActiveTabId', value.id);
+
       this.$store.commit('Pages/setState', {
         tabId: value.id,
         data: { hasNotificationBadge: false },
