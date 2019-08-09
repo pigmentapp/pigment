@@ -32,6 +32,17 @@
           slot="Advanced"
           :class="$style.tabContent"
         >
+          <app-form-input
+            v-model="tab.scope"
+            :datalist="scopes"
+            :disabled="useTabIdAsScope"
+            label="Session scope"
+          >
+            <app-form-checkbox v-model="useTabIdAsScope">
+              Use a tab unique scope
+            </app-form-checkbox>
+          </app-form-input>
+
           <app-form-text-editor
             v-model="tab.userAgent"
             label="User Agent"
@@ -148,6 +159,19 @@ export default {
     return {
       tab: {},
     };
+  },
+  computed: {
+    scopes() {
+      return this.$store.getters['Tabs/scopes'];
+    },
+    useTabIdAsScope: {
+      get() {
+        return this.tab.id === this.tab.scope;
+      },
+      set(value) {
+        this.tab.scope = value ? this.tab.id : '';
+      },
+    },
   },
   created() {
     const { id } = this.$route.params;

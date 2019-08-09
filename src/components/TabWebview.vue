@@ -3,6 +3,7 @@
     ref="webview"
     :src="item.url"
     :useragent="userAgent"
+    :partition="scope"
     :preload="$options.preloadScript"
     :class="$style.webview"
   />
@@ -49,6 +50,9 @@ export default {
     notificationsDisplayAppBadge() {
       const key = 'notifications.displayAppIconBadgeIfWindowIsNotInFocus';
       return this.$store.getters['Settings/byKey'](key);
+    },
+    scope() {
+      return !!this.item.scope && `persist:${this.item.scope}`;
     },
     userAgent() {
       return this.item.userAgent || navigator.userAgent;

@@ -15,6 +15,7 @@ const defaultTab = () => ({
   userAgent: '',
   customCss: '',
   customJs: '',
+  scope: '',
   settings: {},
 });
 
@@ -50,6 +51,16 @@ export default {
       const sorting = db(dbUpdated).get('sorting').value();
 
       return [...list].sort((a, b) => sorting.indexOf(a.id) - sorting.indexOf(b.id));
+    },
+    scopes(state, { list }) {
+      const scopes = list
+        .filter(tab => tab.scope && tab.id !== tab.scope)
+        .map(tab => tab.scope);
+
+      const uniqueScopes = [...new Set(scopes)];
+      uniqueScopes.sort();
+
+      return uniqueScopes;
     },
   },
   mutations: {
