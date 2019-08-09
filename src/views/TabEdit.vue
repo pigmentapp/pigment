@@ -14,17 +14,17 @@
         >
           <app-form-input
             v-model="tab.label"
-            label="Name"
-            placeholder="Insert tab title"
             required
+            label="Name"
+            descr="The tab label displayed in the sidebar."
           />
 
           <app-form-input
             v-model="tab.url"
-            label="URL"
-            placeholder="Insert tab title"
             type="url"
             required
+            label="URL"
+            descr="Homepage of the tab. For example: https://google.com"
           />
         </div>
 
@@ -37,6 +37,15 @@
             :datalist="scopes"
             :disabled="useTabIdAsScope"
             label="Session scope"
+            descr="
+              Define a name to encapsulate single or multiple tabs to an individual session scope.
+              This is useful if you want to use multiple accounts of the same service
+              at the same time. For example, use 'work' as the name for work-related Gmail
+              and Google Calendar tabs, and 'private' as the name for private Gmail
+              and Goolge Calendar tabs. If you enable 'Use a tab unique scope' the tab
+              will remain private and will not share the session with other tabs.
+              If the field is left blank, the default session will be used.
+            "
           >
             <app-form-checkbox v-model="useTabIdAsScope">
               Use a tab unique scope
@@ -46,18 +55,21 @@
           <app-form-text-editor
             v-model="tab.userAgent"
             label="User Agent"
+            descr="Set a custom user agent for the tab if you need to."
           />
 
           <app-form-text-editor
             v-model="tab.customCss"
-            label="Style Sheets"
             language="css"
+            label="Style Sheets"
+            descr="Manipulate the styles inside the tab with custom CSS."
           />
 
           <app-form-text-editor
             v-model="tab.customJs"
-            label="JavaScript"
             language="js"
+            label="JavaScript"
+            descr="Execute custom JavaScript inside the tab."
           />
         </div>
 
@@ -65,6 +77,14 @@
           slot="Settings"
           :class="$style.tabContent"
         >
+          <app-heading>
+            <template slot="sub">
+              By default, the tab 'inherits' the
+              <router-link :to="{ name: 'settings' }">global settings</router-link>.
+              Override some of them only for this tab.
+            </template>
+          </app-heading>
+
           <settings-item>
             <template slot="label">
               Dimmer

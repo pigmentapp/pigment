@@ -36,7 +36,7 @@ export default {
 .button {
   @apply
     px-4 py-2 w-full
-    font-medium leading-tight uppercase
+    font-medium leading-tight uppercase no-underline
     border rounded;
 }
 

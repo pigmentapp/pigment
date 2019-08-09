@@ -16,16 +16,12 @@
         <a
           href="https://getpigment.app/download/"
           target="_blank"
-        >
-          Go to download page
-        </a>
+        >Go to download page</a>
         &middot;
         <a
           :href="latestRelease.html_url"
           target="_blank"
-        >
-          Show release on GitHub
-        </a>
+        >Show release on GitHub</a>
       </div>
     </div>
   </app-content-section>

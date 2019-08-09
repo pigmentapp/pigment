@@ -6,6 +6,12 @@
     >
       {{ label }}
     </div>
+    <div
+      v-if="descr"
+      :class="$style.descr"
+    >
+      {{ descr }}
+    </div>
     <slot />
   </label>
 </template>
@@ -14,6 +20,10 @@
 export default {
   inheritAttrs: false,
   props: {
+    descr: {
+      type: String,
+      default: undefined,
+    },
     label: {
       type: String,
       default: undefined,
@@ -33,5 +43,13 @@ export default {
 
 .label {
   @apply mb-1 font-medium;
+}
+
+.label + .descr {
+  @apply -mt-1;
+}
+
+.descr {
+  @apply mb-1 text-gray-500;
 }
 </style>

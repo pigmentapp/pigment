@@ -14,17 +14,17 @@
       >
         <app-form-input
           v-model="tab.label"
-          label="Name"
-          placeholder="Insert tab title"
           required
+          label="Name"
+          descr="The tab label displayed in the sidebar."
         />
 
         <app-form-input
           v-model="tab.url"
-          label="URL"
-          placeholder="Insert tab title"
           type="url"
           required
+          label="URL"
+          descr="Homepage of the tab. For example: https://google.com"
         />
 
         <div :class="$style.actions">
