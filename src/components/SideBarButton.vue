@@ -1,7 +1,6 @@
 <template>
   <component
     :is="to ? 'router-link' : 'button'"
-    :active-class="$style.active"
     :class="$style.btn"
     :to="to"
     tag="button"
@@ -31,12 +30,6 @@ export default {
 
 <style lang="postcss" module>
 .btn {
-  @apply
-    block w-full p-2
-    text-gray-600 text-center;
-}
-
-.active {
-  @apply text-gray-600;
+  @apply p-2 text-gray-600 text-center;
 }
 </style>
