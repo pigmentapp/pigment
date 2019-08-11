@@ -27,6 +27,9 @@ export default {
     };
   },
   computed: {
+    activeTab() {
+      return this.$store.getters['Tabs/active'];
+    },
     displayNotificationBadge() {
       return this.$store.getters['Settings/byKey']('dimmer.displayBadgeAtNewNotifications');
     },
@@ -41,7 +44,11 @@ export default {
       });
     },
     settingsIsDimActive() {
-      return this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus');
+      const key = 'dimmer.dimIfWindowIsNotInFocus';
+      if (this.activeTabHasSetting(key)) {
+        return this.activeTab.settings[key];
+      }
+      return this.$store.getters['Settings/byKey'](key);
     },
     settingsDimDelay() {
       return this.$store.getters['Settings/byKey']('dimmer.dimDelayInMs');
@@ -88,6 +95,10 @@ export default {
     },
     onFocus() {
       this.$store.dispatch('Window/hasFocus', true);
+    },
+    activeTabHasSetting(key) {
+      return Object.prototype.hasOwnProperty.call(this.activeTab.settings, key)
+        && typeof this.activeTab.settings[key] !== 'undefined';
     },
   },
 };

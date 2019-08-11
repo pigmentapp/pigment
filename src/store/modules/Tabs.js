@@ -1,3 +1,4 @@
+import deepmerge from 'deepmerge';
 import Connection from '@/db';
 
 const db = new Connection({
@@ -8,28 +9,58 @@ const db = new Connection({
   },
 });
 
+const defaultTab = () => ({
+  label: '',
+  url: '',
+  userAgent: '',
+  customCss: '',
+  customJs: '',
+  scope: '',
+  settings: {},
+});
+
 export default {
   namespaced: true,
   state: {
+    activeTabId: undefined,
     dbUpdated: Date.now(),
   },
   getters: {
-    active({ activeId, dbUpdated }) {
-      return db(dbUpdated).get('tabs').getById(activeId).value() || {};
+    active({ activeTabId, dbUpdated }) {
+      if (!activeTabId) return defaultTab();
+
+      const tab = db(dbUpdated).get('tabs').getById(activeTabId).value() || {};
+
+      return deepmerge(defaultTab(), tab);
     },
     byId({ dbUpdated }) {
-      return id => db(dbUpdated).get('tabs').getById(id).value() || {};
+      return (id) => {
+        const tab = db(dbUpdated).get('tabs').getById(id).value() || {};
+        return deepmerge(defaultTab(), tab);
+      };
     },
     list({ dbUpdated }) {
-      return db(dbUpdated)
+      const list = db(dbUpdated)
         .get('tabs')
         .cloneDeep()
         .value();
+
+      return list.map(tab => deepmerge(defaultTab(), tab));
     },
     listSorted({ dbUpdated }, { list }) {
       const sorting = db(dbUpdated).get('sorting').value();
 
       return [...list].sort((a, b) => sorting.indexOf(a.id) - sorting.indexOf(b.id));
+    },
+    scopes(state, { list }) {
+      const scopes = list
+        .filter(tab => tab.scope && tab.id !== tab.scope)
+        .map(tab => tab.scope);
+
+      const uniqueScopes = [...new Set(scopes)];
+      uniqueScopes.sort();
+
+      return uniqueScopes;
     },
   },
   mutations: {
@@ -59,6 +90,9 @@ export default {
 
       state.dbUpdated = Date.now();
     },
+    setActiveTabId(state, id) {
+      state.activeTabId = id;
+    },
     setSorting(state, items) {
       db().set('sorting', items.map(item => item.id)).write();
       state.dbUpdated = Date.now();
@@ -74,7 +108,8 @@ export default {
   },
   actions: {
     create({ commit }, item) {
-      const tab = db().get('tabs').insert(item).write();
+      const newTab = deepmerge(defaultTab(), item);
+      const tab = db().get('tabs').insert(newTab).write();
 
       commit('create', tab);
       return tab;

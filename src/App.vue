@@ -29,3 +29,9 @@ export default {
   ],
 };
 </script>
+
+<style lang="postcss">
+a {
+  @apply underline;
+}
+</style>

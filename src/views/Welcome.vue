@@ -37,7 +37,7 @@
           down below in the navigation.
         </template>
       </app-heading>
-      <suggested-apps />
+      <suggested-apps show-create-btn />
     </app-content-section>
   </app-content>
 </template>

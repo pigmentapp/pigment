@@ -13,12 +13,12 @@ export default new Router({
     {
       path: '/tabs/create',
       name: 'tabs-create',
-      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabSettings.vue'),
+      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabCreate.vue'),
     },
     {
-      path: '/tabs/:id/settings',
-      name: 'tabs-settings',
-      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabSettings.vue'),
+      path: '/tabs/:id/edit',
+      name: 'tabs-edit',
+      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabEdit.vue'),
     },
     {
       path: '/tabs/:id?',

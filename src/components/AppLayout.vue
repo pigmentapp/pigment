@@ -145,7 +145,6 @@ export default {
 
 .titleBarSpacer {
   grid-area: space;
-  max-width: theme('width.64');
 }
 
 .titleBarSpacer__osMac {
@@ -162,9 +161,8 @@ export default {
 }
 
 .sideBar {
-  @apply relative z-20 flex flex-col overflow-y-auto;
+  @apply relative z-20;
   grid-area: aside;
-  max-width: theme('width.64');
 }
 
 .main {

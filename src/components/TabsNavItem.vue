@@ -137,5 +137,6 @@ export default {
 
 .label {
   @apply ml-3 truncate;
+  max-width: theme('width.40');
 }
 </style>

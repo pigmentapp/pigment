@@ -3,6 +3,7 @@
     ref="webview"
     :src="item.url"
     :useragent="userAgent"
+    :partition="scope"
     :preload="$options.preloadScript"
     :class="$style.webview"
   />
@@ -33,13 +34,25 @@ export default {
   },
   computed: {
     muteOnWindowBlur() {
-      return this.$store.getters['Settings/byKey']('window.muteAudioIfWindowIsNotInFocus');
+      const key = 'window.muteAudioIfWindowIsNotInFocus';
+      if (this.hasTabSetting(key)) {
+        return this.item.settings[key];
+      }
+      return this.$store.getters['Settings/byKey'](key);
     },
     notificationsPreventOnBlur() {
-      return this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus');
+      const key = 'notifications.holdBackIfWindowIsNotInFocus';
+      if (this.hasTabSetting(key)) {
+        return this.item.settings[key];
+      }
+      return this.$store.getters['Settings/byKey'](key);
     },
     notificationsDisplayAppBadge() {
-      return this.$store.getters['Settings/byKey']('notifications.displayAppIconBadgeIfWindowIsNotInFocus');
+      const key = 'notifications.displayAppIconBadgeIfWindowIsNotInFocus';
+      return this.$store.getters['Settings/byKey'](key);
+    },
+    scope() {
+      return !!this.item.scope && `persist:${this.item.scope}`;
     },
     userAgent() {
       return this.item.userAgent || navigator.userAgent;
@@ -146,6 +159,10 @@ export default {
           hasNotificationBadge: this.isLoaded && !this.isActive,
         },
       });
+    },
+    hasTabSetting(key) {
+      return Object.prototype.hasOwnProperty.call(this.item.settings, key)
+        && typeof this.item.settings[key] !== 'undefined';
     },
   },
 };

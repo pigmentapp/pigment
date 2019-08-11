@@ -16,6 +16,7 @@
     />
 
     <tab-webview
+      v-if="showWebview"
       ref="webview"
       :item="item"
       :is-active="tab.isActive"
@@ -40,6 +41,7 @@ export default {
   },
   data() {
     return {
+      showWebview: false,
       webviewData: {},
       webviewEl: {},
     };
@@ -56,8 +58,14 @@ export default {
     },
   },
   watch: {
+    item() {
+      if (!this.tab.isActive) return;
+      this.startWebview();
+    },
     tab(value) {
       if (!value.isActive) return;
+
+      this.$store.commit('Tabs/setActiveTabId', value.id);
 
       this.$store.commit('Pages/setState', {
         tabId: value.id,
@@ -65,13 +73,14 @@ export default {
       });
 
       if (value.addFocus) {
-        this.webviewEl.focus();
+        setTimeout(() => {
+          this.webviewEl.focus();
+        }, 20);
       }
     },
   },
   mounted() {
-    this.webviewData = this.$refs.webview;
-    this.webviewEl = this.webviewData.webview;
+    this.startWebview();
   },
   methods: {
     goToHome() {
@@ -85,6 +94,16 @@ export default {
     },
     reloadTab() {
       this.webviewEl.reload();
+    },
+    async startWebview() {
+      this.showWebview = false;
+
+      await this.$nextTick();
+      this.showWebview = true;
+
+      await this.$nextTick();
+      this.webviewData = this.$refs.webview;
+      this.webviewEl = this.webviewData.webview;
     },
     toggleDevTools() {
       if (this.webviewEl.isDevToolsOpened()) {

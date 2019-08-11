@@ -45,7 +45,7 @@
           Show devtools
         </title-bar-button>
         <title-bar-button
-          :to="{ name: 'tabs-settings', params: { id: item.id } }"
+          :to="{ name: 'tabs-edit', params: { id: item.id } }"
           icon="pencil"
         >
           Edit tab

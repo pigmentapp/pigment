@@ -88,10 +88,6 @@ export default {
   @apply p-6 text-gray-600 bg-gray-900 rounded shadow-lg leading-relaxed;
 }
 
-.item a {
-  @apply underline;
-}
-
 .item h1 {
   @apply
     pb-6 border-b border-gray-800
