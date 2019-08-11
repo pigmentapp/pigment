@@ -1,3 +1,19 @@
+# [0.9.0](https://github.com/pigmentapp/pigment/compare/0.8.0...0.9.0) (2019-08-11)
+
+
+### Features
+
+* **navigation:** improved behavior on a long list of tabs ([6f314d2](https://github.com/pigmentapp/pigment/commit/6f314d2))
+* **tabs:** added explanations for all tab settings ([762b4fb](https://github.com/pigmentapp/pigment/commit/762b4fb))
+* **tabs:** create individual session scopes for single or multiple tabs ([c51c901](https://github.com/pigmentapp/pigment/commit/c51c901))
+* **tabs:** create/edit form fields redesign ([e8a8991](https://github.com/pigmentapp/pigment/commit/e8a8991))
+* **tabs:** divided settings into visual tabs ([40d1547](https://github.com/pigmentapp/pigment/commit/40d1547))
+* **tabs:** new tabs can now be created from templates ([d1c9664](https://github.com/pigmentapp/pigment/commit/d1c9664))
+* **tabs:** override some general settings with tab-specific settings ([23d9930](https://github.com/pigmentapp/pigment/commit/23d9930))
+* electronjs update to 6.0.0 with chromium 76.0.3809.88 ([8417228](https://github.com/pigmentapp/pigment/commit/8417228))
+* max width for contents ([91f8af4](https://github.com/pigmentapp/pigment/commit/91f8af4))
+* tailwindcss update to 1.1.0 ([ac03c58](https://github.com/pigmentapp/pigment/commit/ac03c58))
+
 # [0.8.0](https://github.com/pigmentapp/pigment/compare/0.7.1...0.8.0) (2019-07-01)
 
 
