@@ -54,12 +54,6 @@
     "filter": "web.whatsapp.com"
   },
   {
-    "label": "Wunderlist",
-    "url": "https://www.wunderlist.com/",
-    "icon": "https://www.wunderlist.com/icon.png",
-    "filter": "www.wunderlist.com"
-  },
-  {
     "label": "Yahoo Mail",
     "url": "https://mail.yahoo.com/",
     "icon": "https://mail.yahoo.com/favicon.ico",
