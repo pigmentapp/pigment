@@ -1,23 +1,26 @@
 <template>
   <div :class="$style.wrap">
     <title-bar-button
-      icon="window-minimize"
       schema="gray"
       title="Minimize window"
       @click="window.minimize()"
-    />
+    >
+      <span :class="$style.icon">&#xE921;</span>
+    </title-bar-button>
     <title-bar-button
-      :icon="isMaximized ? 'window-restore' : 'window-maximize'"
       :title="isMaximized ? 'Reduce window' : 'Maximize window'"
       schema="gray"
       @click="toggleMaximized()"
-    />
+    >
+      <span :class="$style.icon">{{ isMaximized ? '&#xE923;' : '&#xE922;' }}</span>
+    </title-bar-button>
     <title-bar-button
-      icon="window-close"
       schema="red"
       title="Close window"
       @click="window.close()"
-    />
+    >
+      <span :class="$style.icon">&#xE8BB;</span>
+    </title-bar-button>
   </div>
 </template>
 
@@ -68,6 +71,12 @@ export default {
 
 <style lang="postcss" module>
 .wrap {
+  font-family: Segoe MDL2 Assets;
+  font-size: 10px;
   @apply flex justify-end pl-2;
+}
+
+.icon {
+  @apply flex justify-center items-center w-6 h-4;
 }
 </style>
