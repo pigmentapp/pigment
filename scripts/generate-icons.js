@@ -1,32 +1,13 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const fs = require('fs');
-const moveFile = require('move-file');
-const rimraf = require('rimraf');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const path = require('path');
 
-const removeExistingIcons = () => {
-  rimraf.sync('./build/icons');
-  rimraf.sync('./build/icon.icns');
-  rimraf.sync('./build/icon.ico');
-};
+const publicDir = './public';
+const buildDir = './build';
+const logoSrc = './src/assets/logo/logo.png';
 
-const generateIcons = async () => {
-  const { stdout } = await exec('npx electron-icon-maker --input=./src/assets/logo/logo.png --output=./build');
-  console.log(stdout);
-};
+if (!fs.existsSync(buildDir)) {
+  fs.mkdirSync(buildDir);
+}
 
-const moveIcons = async () => {
-  await moveFile('./build/icons/mac/icon.icns', './build/icon.icns');
-  await moveFile('./build/icons/win/icon.ico', './build/icon.ico');
-  await moveFile('./build/icons/png', './build/png');
-  rimraf.sync('./build/icons');
-  await moveFile('./build/png', './build/icons');
-  fs.copyFileSync('./build/icons/512x512.png', './public/notification.png');
-};
-
-(async () => {
-  removeExistingIcons();
-  await generateIcons();
-  await moveIcons();
-})();
+fs.copyFileSync(logoSrc, path.join(publicDir, 'notification.png'));
+fs.copyFileSync(logoSrc, path.join(buildDir, 'icon.png'));
