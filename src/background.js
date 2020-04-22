@@ -62,7 +62,7 @@ function createMainWindow() {
   // https://github.com/meetfranz/franz/issues/1185
   // https://github.com/meetfranz/franz/issues/1138
   const removeUserAgents = `(Electron|${pkg.name}|${pkg.productName})/([0-9a-z-.]+) `;
-  window.webContents.setUserAgent(window.webContents.getUserAgent().replace(new RegExp(removeUserAgents, 'g'), ''));
+  window.webContents.userAgent = (window.webContents.userAgent.replace(new RegExp(removeUserAgents, 'g'), ''));
 
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
@@ -124,7 +124,7 @@ app.on('ready', async () => {
 
   Menu.setApplicationMenu(Menu.buildFromTemplate([
     {
-      label: app.getName(),
+      label: app.name,
       submenu: [
         { role: 'about' },
         { type: 'separator' },

@@ -55,7 +55,7 @@
     "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-service": "^3.12.1",
     "@vue/eslint-config-airbnb": "^4.0.1",
-    "electron": "^6.1.10",
+    "electron": "^8.2.3",
     "electron-icon-maker": "0.0.4",
     "move-file": "^1.0.0",
     "node-sass": "^4.13.1",
