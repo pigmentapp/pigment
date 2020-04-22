@@ -83,8 +83,17 @@ function createMainWindow() {
     window.focus();
   });
 
+  window.on('close', (e) => {
+    if (process.platform === 'darwin' && !app.quitting) {
+      e.preventDefault();
+      window.hide();
+    }
+  });
+
   window.on('closed', () => {
-    mainWindow = null;
+    if (process.platform !== 'darwin' || app.quitting) {
+      mainWindow = null;
+    }
   });
 
   window.webContents.on('devtools-opened', () => {
@@ -109,7 +118,13 @@ app.on('activate', () => {
   // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
     mainWindow = createMainWindow();
+  } else {
+    mainWindow.show();
   }
+});
+
+app.on('before-quit', () => {
+  app.quitting = true;
 });
 
 // create main BrowserWindow when electron is ready
