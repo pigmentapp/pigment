@@ -8,6 +8,7 @@ module.exports = {
       'navigation',
       'notifications',
       'settings',
+      'recommendations',
       'tabs',
       'titlebar',
       'webview',
