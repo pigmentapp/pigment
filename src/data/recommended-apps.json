@@ -36,6 +36,12 @@
     "filter": "slack.com"
   },
   {
+    "label": "Todoist",
+    "url": "https://todoist.com/",
+    "icon": "https://todoist.com/static/favicon-32x32.png",
+    "filter": "todoist.com"
+  },
+  {
     "label": "Trello",
     "url": "https://trello.com/",
     "icon": "https://trello.com/favicon.ico",
