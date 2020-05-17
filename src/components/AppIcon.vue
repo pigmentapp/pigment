@@ -43,7 +43,8 @@ export default {
           return;
         }
 
-        import(`!svg-loader!@/assets/icons/${icon}.svg`).then((res) => {
+        // eslint-disable-next-line prefer-template
+        import('!svg-loader!@/assets/icons/' + icon + '.svg').then((res) => {
           this.content = res.content;
           this.attributes = res.attributes;
         });

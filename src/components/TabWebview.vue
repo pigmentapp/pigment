@@ -67,7 +67,7 @@ export default {
   watch: {
     windowHasFocus(value) {
       if (!this.muteOnWindowBlur) return;
-      this.webview.setAudioMuted(!value);
+      this.webview.audioMuted = !value;
     },
   },
   mounted() {

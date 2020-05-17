@@ -62,7 +62,7 @@ function createMainWindow() {
   // https://github.com/meetfranz/franz/issues/1185
   // https://github.com/meetfranz/franz/issues/1138
   const removeUserAgents = `(Electron|${pkg.name}|${pkg.productName})/([0-9a-z-.]+) `;
-  window.webContents.setUserAgent(window.webContents.getUserAgent().replace(new RegExp(removeUserAgents, 'g'), ''));
+  window.webContents.userAgent = (window.webContents.userAgent.replace(new RegExp(removeUserAgents, 'g'), ''));
 
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
@@ -83,8 +83,17 @@ function createMainWindow() {
     window.focus();
   });
 
+  window.on('close', (e) => {
+    if (process.platform === 'darwin' && !app.quitting) {
+      e.preventDefault();
+      window.hide();
+    }
+  });
+
   window.on('closed', () => {
-    mainWindow = null;
+    if (process.platform !== 'darwin' || app.quitting) {
+      mainWindow = null;
+    }
   });
 
   window.webContents.on('devtools-opened', () => {
@@ -109,7 +118,13 @@ app.on('activate', () => {
   // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
     mainWindow = createMainWindow();
+  } else {
+    mainWindow.show();
   }
+});
+
+app.on('before-quit', () => {
+  app.quitting = true;
 });
 
 // create main BrowserWindow when electron is ready
@@ -124,7 +139,7 @@ app.on('ready', async () => {
 
   Menu.setApplicationMenu(Menu.buildFromTemplate([
     {
-      label: app.getName(),
+      label: app.name,
       submenu: [
         { role: 'about' },
         { type: 'separator' },
