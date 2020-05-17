@@ -1,3 +1,19 @@
+# [0.10.0](https://github.com/pigmentapp/pigment/compare/0.9.0...0.10.0) (2020-05-17)
+
+
+### Bug Fixes
+
+* fix app icon for mac ([e73d8c0](https://github.com/pigmentapp/pigment/commit/e73d8c0d79373ba13719b732cbf62a0cfa0dd146))
+
+
+### Features
+
+* switch to native looking window controls on windows ([138e5c9](https://github.com/pigmentapp/pigment/commit/138e5c987989a0559229e0f9ff9525ad31c751d5))
+* **recommendations:** add todoist ([53a42e4](https://github.com/pigmentapp/pigment/commit/53a42e4577ac669b0f11e2db04fa5c7ac24cc308))
+* **recommendations:** remove wunderlist ([d5d9ae7](https://github.com/pigmentapp/pigment/commit/d5d9ae7d2aa04c246594da7cd0ce57a02ff45f11))
+* keep window state if window gets closed on mac ([cf42f61](https://github.com/pigmentapp/pigment/commit/cf42f61372df497d9923dd79f2ef1a0c39443fd3))
+* update electronjs to 8.2.3 with chromium 80.0.3987.163 ([836fb41](https://github.com/pigmentapp/pigment/commit/836fb4132f8208b58058691e90d5438a1567c35a))
+
 # [0.9.0](https://github.com/pigmentapp/pigment/compare/0.8.0...0.9.0) (2019-08-11)
 
 
