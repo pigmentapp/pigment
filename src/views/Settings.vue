@@ -223,7 +223,7 @@
       <a
         :class="$style.link"
         href="//leonardhertel.de"
-        @click.prevent="$electron.remote.shell.openExternal('https://leonardhertel.de')"
+        target="_blank"
       >
         Leonard Hertel
       </a>

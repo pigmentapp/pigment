@@ -14,11 +14,13 @@
       :class="$style.item"
       v-html="mdToHtml(release.body)"
     />
-    <app-content-section>
+    <app-content-section :class="$style.moreWrap">
       <app-button
         :class="$style.more"
         secondary
-        @click="$electron.remote.shell.openExternal('https://github.com/pigmentapp/pigment/releases')"
+        tag="a"
+        href="//github.com/pigmentapp/pigment/releases"
+        target="_blank"
       >
         Read more on GitHub
       </app-button>
@@ -116,7 +118,11 @@ export default {
   @apply text-gray-500;
 }
 
+.moreWrap {
+  @apply text-center;
+}
+
 .more {
-  @apply block w-auto mx-auto;
+  @apply inline-block w-auto mx-auto;
 }
 </style>

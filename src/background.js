@@ -268,6 +268,7 @@ app.on('ready', async () => {
     }
   });
 
+  // open target="_blank" links in main window in default browser
   mainWindow.webContents.on('new-window', (e, url) => {
     e.preventDefault();
     shell.openExternal(url);
