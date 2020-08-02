@@ -41,6 +41,7 @@ function createMainWindow() {
 
   const window = new BrowserWindow({
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true,
       webviewTag: true,
     },
@@ -268,6 +269,7 @@ app.on('ready', async () => {
     }
   });
 
+  // open target="_blank" links in main window in default browser
   mainWindow.webContents.on('new-window', (e, url) => {
     e.preventDefault();
     shell.openExternal(url);
