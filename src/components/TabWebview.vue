@@ -30,6 +30,7 @@ export default {
       canGoBack: false,
       canGoForward: false,
       isLoaded: false,
+      isLoadedCooldown: 0,
     };
   },
   computed: {
@@ -77,15 +78,18 @@ export default {
     });
 
     this.webview.addEventListener('did-stop-loading', () => {
-      this.isLoaded = true;
-
       this.$store.commit('Pages/setState', {
         tabId: this.item.id,
         data: { url: this.webview.getURL() },
       });
+
+      this.isLoadedCooldown = setTimeout(() => {
+        this.isLoaded = true;
+      }, 2000);
     });
 
     this.webview.addEventListener('did-start-loading', () => {
+      clearTimeout(this.isLoadedCooldown);
       this.isLoaded = false;
     });
 
