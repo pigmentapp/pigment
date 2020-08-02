@@ -1,3 +1,15 @@
+# [0.11.0](https://github.com/pigmentapp/pigment/compare/0.10.0...0.11.0) (2020-08-02)
+
+
+### Bug Fixes
+
+* **navigation:** prevent wrong display of notification badge on pageload ([a9407d7](https://github.com/pigmentapp/pigment/commit/a9407d75c98786e2bed64697c77656e0871a47a0))
+
+
+### Features
+
+* **electron:** update to 9.1.2 with chromium 83.0.4103.122 ([aa04d8e](https://github.com/pigmentapp/pigment/commit/aa04d8ece375b710b010ba09d001fb8a72c21cc3))
+
 # [0.10.0](https://github.com/pigmentapp/pigment/compare/0.9.0...0.10.0) (2020-05-17)
 
 
