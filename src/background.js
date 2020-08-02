@@ -41,6 +41,7 @@ function createMainWindow() {
 
   const window = new BrowserWindow({
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true,
       webviewTag: true,
     },
