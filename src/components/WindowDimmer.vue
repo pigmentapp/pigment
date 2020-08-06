@@ -121,7 +121,7 @@ export default {
 
 .dimmer.active {
   top: 0;
-  transition-duration: 1500ms;
+  transition-duration: 280ms;
   transition-property: top;
   transition-timing-function: ease-out;
 }
@@ -149,7 +149,7 @@ export default {
 
 .active .icon {
   @apply opacity-50;
-  transition-delay: 1750ms;
+  transition-delay: 320ms;
   transition-duration: 500ms;
   transition-property: opacity, border-color, box-shadow, transform;
   transition-timing-function: ease-out;

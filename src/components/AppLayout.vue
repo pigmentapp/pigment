@@ -28,6 +28,7 @@
     />
     <the-side-bar :class="$style.sideBar" />
     <div
+      ref="main"
       :class="{
         [$style.main]: true,
         [$style.main__sideBarLeft]: !isLayoutInverted,
@@ -38,10 +39,12 @@
     </div>
 
     <slot name="overlays" />
+    <slot />
   </div>
 </template>
 
 <script>
+import debounce from 'lodash.debounce';
 import TheSideBar from '@/components/TheSideBar.vue';
 import TheTitleBar from '@/components/TheTitleBar.vue';
 import WindowControls from '@/components/WindowControls.vue';
@@ -53,12 +56,37 @@ export default {
     TheTitleBar,
     WindowControls,
   },
+  data: () => ({
+    resizeObserver: null,
+  }),
   computed: {
     isLayoutInverted() {
       return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
     displaysTabLabels() {
       return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+    },
+  },
+  watch: {
+    isLayoutInverted: 'setMainBoundingClientRect',
+  },
+  mounted() {
+    this.setMainBoundingClientRect();
+
+    this.resizeObserver = new ResizeObserver(debounce(() => {
+      this.setMainBoundingClientRect();
+    }, 50));
+
+    this.resizeObserver.observe(this.$refs.main);
+  },
+  beforeDestroy() {
+    this.resizeObserver.disconnect();
+  },
+  methods: {
+    async setMainBoundingClientRect() {
+      await this.$nextTick();
+      const rect = this.$refs.main.getBoundingClientRect();
+      this.$store.commit('Window/setMainBoundingClientRect', rect);
     },
   },
 };

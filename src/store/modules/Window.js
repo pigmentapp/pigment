@@ -3,6 +3,7 @@ export default {
   state: {
     hasFocus: true,
     timestampOfBlur: 0,
+    mainBoundingClientRect: new DOMRect(),
   },
   getters: {
     hasFocus({ hasFocus }) {
@@ -11,11 +12,17 @@ export default {
     timestampOfBlur({ timestampOfBlur }) {
       return timestampOfBlur;
     },
+    mainBoundingClientRect({ mainBoundingClientRect }) {
+      return mainBoundingClientRect;
+    },
   },
   mutations: {
     hasFocus(state, { yesNo, timestamp }) {
       state.hasFocus = yesNo;
       state.timestampOfBlur = yesNo ? 0 : timestamp;
+    },
+    setMainBoundingClientRect(state, rect) {
+      state.mainBoundingClientRect = rect;
     },
   },
   actions: {

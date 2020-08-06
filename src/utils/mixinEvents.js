@@ -33,7 +33,6 @@ export default {
         this.$router.push({
           name: 'tabs',
           params: { id: tab.id },
-          query: { doNotFocusWebview: true },
         });
       }
     },

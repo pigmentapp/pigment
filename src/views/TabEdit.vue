@@ -205,6 +205,7 @@ export default {
       this.$router.push({
         name: 'tabs',
         params: { id: this.tab.id },
+        query: { reload: true },
       });
     },
     deleteTab() {

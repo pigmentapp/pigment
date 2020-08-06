@@ -21,4 +21,10 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
   },
+  globals: {
+    __static: 'readonly',
+  },
+  settings: {
+    'import/core-modules': ['electron'],
+  }
 };

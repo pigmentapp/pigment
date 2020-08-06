@@ -3,10 +3,10 @@ import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 
-/* eslint-disable import/no-extraneous-dependencies */
 import {
   app, Menu, protocol, BrowserWindow, shell,
 } from 'electron';
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   createProtocol,
   // installVueDevtools,
@@ -43,7 +43,6 @@ function createMainWindow() {
     webPreferences: {
       enableRemoteModule: true,
       nodeIntegration: true,
-      webviewTag: true,
     },
     backgroundColor: '#22292f',
     frame: false,

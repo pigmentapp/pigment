@@ -30,6 +30,7 @@
     "electron-window-state": "^5.0.3",
     "is-url-relative-without-domain": "^2.0.0",
     "lodash-id": "^0.14.0",
+    "lodash.debounce": "^4.0.8",
     "lowdb": "^1.0.0",
     "marked": "^0.7.0",
     "portal-vue": "^2.1.7",
