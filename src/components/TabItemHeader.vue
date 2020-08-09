@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { remote } from 'electron';
+import { clipboard, remote } from 'electron';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
@@ -92,6 +92,10 @@ export default {
         {
           label: 'Hard reload',
           click: () => this.$emit('execute', ['reloadIgnoringCache']),
+        },
+        {
+          label: 'Copy URL to clipboard',
+          click: () => clipboard.writeText(this.pageState.url),
         },
         { type: 'separator' },
         {
