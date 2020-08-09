@@ -1,7 +1,7 @@
 <template>
   <title-bar>
     <title-bar-text>
-      {{ pageState.title }}
+      {{ pageState.title || pageState.url }}
     </title-bar-text>
     <title-bar-button
       :disabled="!canGoBack"
