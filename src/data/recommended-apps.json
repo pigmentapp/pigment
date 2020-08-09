@@ -1,68 +1,46 @@
 [
   {
     "label": "Discord",
-    "url": "https://discordapp.com/",
-    "icon": "https://discordapp.com/assets/07dca80a102d4149e9736d4b162cff6f.ico",
-    "filter": "discordapp.com"
+    "url": "https://discordapp.com/"
   },
   {
     "label": "Facebook",
-    "url": "https://facebook.com/",
-    "icon": "https://www.facebook.com/images/fb_icon_325x325.png",
-    "filter": "facebook.com"
+    "url": "https://facebook.com/"
   },
   {
     "label": "Gmail",
-    "url": "https://mail.google.com/",
-    "icon": "https://ssl.gstatic.com/ui/v1/icons/mail/images/favicon5.ico",
-    "filter": "mail.google.com"
+    "url": "https://mail.google.com/"
   },
   {
     "label": "Google Calendar",
-    "url": "https://calendar.google.com/",
-    "icon": "https://calendar.google.com/googlecalendar/images/favicon_v2018_256.png",
-    "filter": "calendar.google.com"
+    "url": "https://calendar.google.com/"
   },
   {
     "label": "Messenger",
-    "url": "https://messenger.com/",
-    "icon": "https://static.xx.fbcdn.net/rsrc.php/y7/r/O6n_HQxozp9.ico",
-    "filter": "messenger.com"
+    "url": "https://messenger.com/"
   },
   {
     "label": "Slack",
-    "url": "https://slack.com/",
-    "icon": "https://slack.com/favicon.ico",
-    "filter": "slack.com"
+    "url": "https://slack.com/"
   },
   {
     "label": "Todoist",
-    "url": "https://todoist.com/",
-    "icon": "https://todoist.com/static/favicon-32x32.png",
-    "filter": "todoist.com"
+    "url": "https://todoist.com/"
   },
   {
     "label": "Trello",
-    "url": "https://trello.com/",
-    "icon": "https://trello.com/favicon.ico",
-    "filter": "trello.com"
+    "url": "https://trello.com/"
   },
   {
     "label": "Twitter",
-    "url": "https://twitter.com/",
-    "icon": "https://abs.twimg.com/favicons/favicon.ico",
-    "filter": "twitter.com"
+    "url": "https://twitter.com/"
   },
   {
     "label": "WhatsApp",
-    "url": "https://web.whatsapp.com/",
-    "icon": "https://web.whatsapp.com/favicon.ico",
-    "filter": "web.whatsapp.com"
+    "url": "https://web.whatsapp.com/"
   },
   {
     "label": "Yahoo Mail",
-    "url": "https://mail.yahoo.com/",
-    "icon": "https://mail.yahoo.com/favicon.ico",
-    "filter": "mail.yahoo.com"
+    "url": "https://mail.yahoo.com/"
   }
 ]

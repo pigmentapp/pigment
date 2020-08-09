@@ -10,7 +10,7 @@
       <div :class="$style.thumb">
         <img
           :class="$style.img"
-          :src="app.icon"
+          :src="favicon(app)"
           :alt="app.label"
         >
       </div>
@@ -60,7 +60,8 @@ export default {
     },
     apps() {
       const existing = this.existingTabs;
-      const filtered = apps.filter(app => !existing.some(e => e.url.includes(app.filter)));
+      const filtered = apps
+        .filter(app => !existing.some(e => e.url.includes(new URL(app.url).host)));
       return shuffleArray(filtered);
     },
   },
@@ -76,6 +77,9 @@ export default {
           id: tab.id,
         },
       });
+    },
+    favicon({ url }) {
+      return `https://icons.duckduckgo.com/ip3/${new URL(url).host}.ico`;
     },
   },
 };
