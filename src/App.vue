@@ -39,7 +39,10 @@ export default {
   methods: {
     destroyBrowserViews() {
       const browserViews = remote.getCurrentWindow().getBrowserViews();
-      browserViews.forEach(bv => bv.destroy());
+      browserViews.forEach((view) => {
+        remote.getCurrentWindow().removeBrowserView(view);
+        view.destroy();
+      });
     },
   },
 };
