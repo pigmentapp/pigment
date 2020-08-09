@@ -11,6 +11,7 @@
         [$style[schema]]: true,
         [$style.active]: active || isDropdownActive,
       }"
+      v-on="$listeners"
       @click="triggerClick($event)"
     >
       <app-icon

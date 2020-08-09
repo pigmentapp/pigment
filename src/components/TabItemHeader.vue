@@ -1,7 +1,7 @@
 <template>
   <title-bar>
     <title-bar-text>
-      {{ pageState.title || pageState.url }}
+      {{ title }}
     </title-bar-text>
     <title-bar-button
       :disabled="!canGoBack"
@@ -23,9 +23,10 @@
     <title-bar-button
       ref="menuBtn"
       :key="`menuBtn${_uid}`"
+      :active="isMenuOpen"
       icon="DotsVertical"
       title="Tab controls"
-      @click="showMenu"
+      @mousedown="showMenu"
     />
   </title-bar>
 </template>
@@ -56,7 +57,16 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      isMenuOpen: false,
+    };
+  },
   computed: {
+    title() {
+      const { title, url } = this.pageState;
+      return this.isMenuOpen ? url : title || url;
+    },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
@@ -76,6 +86,9 @@ export default {
       this.$router.push({ name: 'welcome' });
     },
     showMenu() {
+      if (this.isMenuOpen) return;
+      this.isMenuOpen = true;
+
       const settingsMenu = remote.Menu.buildFromTemplate([
         {
           label: 'Go to homepage',
@@ -120,6 +133,11 @@ export default {
       settingsMenu.popup({
         x: btnRect.x,
         y: btnRect.y + btnRect.height,
+        callback: () => {
+          setTimeout(() => {
+            this.isMenuOpen = false;
+          }, 10);
+        },
       });
     },
   },
