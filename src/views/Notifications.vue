@@ -27,7 +27,7 @@
           >
           <app-icon
             v-else
-            face="tab"
+            face="Tab"
           />
         </div>
         <div :class="$style.body">

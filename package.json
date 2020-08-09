@@ -25,6 +25,7 @@
     "postuninstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@mdi/js": "^5.4.55",
     "deepmerge": "^4.2.2",
     "electron-dl": "^1.14.0",
     "electron-window-state": "^5.0.3",

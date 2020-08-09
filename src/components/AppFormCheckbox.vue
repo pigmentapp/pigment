@@ -10,7 +10,7 @@
       :class="{
         [$style.active]: internalValue && !disabled,
       }"
-      :face="internalValue ? 'toggle-switch' : 'toggle-switch-off'"
+      :face="internalValue ? 'ToggleSwitch' : 'ToggleSwitchOff'"
     />
     <div
       v-if="$slots.default"

@@ -5,25 +5,25 @@
     </title-bar-text>
     <title-bar-button
       :disabled="!canGoBack"
-      icon="arrow-left"
+      icon="ArrowLeft"
       title="Go back one page"
       @click="$emit('execute', ['goBack'])"
     />
     <title-bar-button
       :disabled="!canGoForward"
-      icon="arrow-right"
+      icon="ArrowRight"
       title="Go forward one page"
       @click="$emit('execute', ['goForward'])"
     />
     <title-bar-button
-      icon="refresh"
+      icon="Refresh"
       title="Reload page"
       @click="$emit('execute', ['reload'])"
     />
     <title-bar-button
       ref="menuBtn"
       :key="`menuBtn${_uid}`"
-      icon="dots-vertical"
+      icon="DotsVertical"
       title="Tab controls"
       @click="showMenu"
     />

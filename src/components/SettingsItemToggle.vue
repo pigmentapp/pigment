@@ -12,7 +12,7 @@
         <app-icon
           :size="8"
           :class="value && !disabled && $style.active"
-          :face="value ? 'toggle-switch' : 'toggle-switch-off'"
+          :face="value ? 'ToggleSwitch' : 'ToggleSwitchOff'"
         />
       </button>
     </template>

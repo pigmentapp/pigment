@@ -1,0 +1,15 @@
+export {
+  mdiArrowLeft,
+  mdiArrowRight,
+  mdiBell,
+  mdiCodeTags,
+  mdiCog,
+  mdiDotsVertical,
+  mdiHomeCircle,
+  mdiPencil,
+  mdiRefresh,
+  mdiTab,
+  mdiTabPlus,
+  mdiToggleSwitch,
+  mdiToggleSwitchOff,
+} from '@mdi/js';

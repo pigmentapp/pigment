@@ -29,7 +29,7 @@
       <div :class="$style.thumb">
         <app-icon
           :size="8"
-          face="tab-plus"
+          face="TabPlus"
         />
       </div>
       <div :class="$style.label">

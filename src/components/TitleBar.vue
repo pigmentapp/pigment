@@ -3,7 +3,7 @@
     <slot />
     <title-bar-button
       v-if="backButton"
-      icon="arrow-left"
+      icon="ArrowLeft"
       title="Back to previous view"
       @click="$router.back()"
     />

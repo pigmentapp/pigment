@@ -24,7 +24,7 @@
         <template slot="descr">
           Save more space. The welcome page is available via the
           <app-icon
-            face="settings"
+            face="Cog"
             inline
           />-button
           too.

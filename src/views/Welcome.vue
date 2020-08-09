@@ -31,7 +31,7 @@
           to add them to {{ $productInfo.productName }}.
           Or create a custom tab by clicking on the
           <app-icon
-            face="tab-plus"
+            face="TabPlus"
             inline
           />-Button
           down below in the navigation.
