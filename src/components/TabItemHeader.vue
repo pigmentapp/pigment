@@ -89,6 +89,10 @@ export default {
           checked: this.item.url === this.pageState.url,
           click: () => this.setAsHome(),
         },
+        {
+          label: 'Hard reload',
+          click: () => this.$emit('execute', ['reloadIgnoringCache']),
+        },
         { type: 'separator' },
         {
           label: 'Edit',
