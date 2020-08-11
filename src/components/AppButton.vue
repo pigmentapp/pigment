@@ -35,8 +35,8 @@ export default {
 <style lang="postcss" module>
 .button {
   @apply
-    px-4 py-2 w-full
-    font-medium leading-tight uppercase no-underline
+    block px-4 py-2 w-full
+    font-medium leading-tight text-center uppercase no-underline
     border rounded;
 }
 

@@ -1,11 +1,10 @@
 <template>
-  <app-content>
-    <title-bar>
+  <app-content :class="$style.root">
+    <title-bar back-button>
       <title-bar-text>
-        Welcome to {{ $productInfo.productName }}
+        {{ $productInfo.productName }}
       </title-bar-text>
     </title-bar>
-
     <app-content-section :class="$style.brandWrap">
       <img
         :class="$style.brandLogo"
@@ -19,8 +18,6 @@
         </template>
       </app-heading>
     </app-content-section>
-
-    <update-checker />
 
     <app-content-section>
       <app-heading>
@@ -39,26 +36,46 @@
       </app-heading>
       <suggested-apps show-create-btn />
     </app-content-section>
+
+    <app-content-section>
+      <app-heading>
+        What's new?
+        <template slot="sub">
+          Here you find the latest release notes.
+          <a
+            href="//github.com/pigmentapp/pigment/releases"
+            target="_blank"
+          >
+            Read more on GitHub
+          </a>
+        </template>
+      </app-heading>
+      <release-notes />
+    </app-content-section>
   </app-content>
 </template>
 
 <script>
+import ReleaseNotes from '@/components/ReleaseNotes.vue';
 import SuggestedApps from '@/components/SuggestedApps.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
-import UpdateChecker from '@/components/UpdateChecker.vue';
 
 export default {
   components: {
+    ReleaseNotes,
     SuggestedApps,
     TitleBar,
     TitleBarText,
-    UpdateChecker,
   },
 };
 </script>
 
 <style lang="postcss" module>
+.root {
+  @apply overflow-y-auto;
+}
+
 .brandWrap {
   @apply flex items-center pb-8 border-b-2 border-gray-700;
 }

@@ -1,6 +1,6 @@
 <template>
   <app-content>
-    <title-bar :back-button="true">
+    <title-bar back-button>
       <title-bar-text>
         Settings
       </title-bar-text>
@@ -16,18 +16,6 @@
         <template slot="label">Navigation labels</template>
         <template slot="descr">
           Do you know your tabs? Disable labels to get more work space.
-        </template>
-      </settings-item-toggle>
-
-      <settings-item-toggle setting="navigation.displayHomeButton">
-        <template slot="label">Home button</template>
-        <template slot="descr">
-          Save more space. The welcome page is available via the
-          <app-icon
-            face="Cog"
-            inline
-          />-button
-          too.
         </template>
       </settings-item-toggle>
 

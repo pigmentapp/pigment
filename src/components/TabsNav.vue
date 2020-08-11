@@ -1,5 +1,6 @@
 <template>
   <vue-draggable
+    v-if="tabList.length"
     v-model="tabList"
     :class="$style.nav"
     :animation="150"
@@ -16,6 +17,7 @@
       :show-label="displaysTabLabels"
     />
   </vue-draggable>
+  <div v-else />
 </template>
 
 <script>

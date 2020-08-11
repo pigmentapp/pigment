@@ -83,7 +83,7 @@ export default {
     deleteTab() {
       if (!window.confirm('Do you really want to delete this tab?')) return; // eslint-disable-line no-alert
       this.$store.commit('Tabs/delete', this.item);
-      this.$router.push({ name: 'welcome' });
+      this.$router.push({ name: 'home' });
     },
     showMenu() {
       if (this.isMenuOpen) return;

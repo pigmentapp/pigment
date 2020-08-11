@@ -17,13 +17,6 @@ export default {
 
     app.on('app-router-goto-tabs-create', () => r.push({ name: 'tabs-create' }));
     app.on('app-router-goto-tab-list-index', index => this.goToTabWithListIndex(index));
-    app.on('app-router-goto-settings', () => r.push({ name: 'settings' }));
-    app.on('app-router-goto-welcome', () => r.push({ name: 'welcome' }));
-    app.on('app-router-goto-changelog', () => r.push({ name: 'changelog' }));
-
-    app.on('app-settings-toggle', (property) => {
-      this.$store.dispatch('Settings/toggle', property);
-    });
   },
   methods: {
     goToTabWithListIndex(index) {

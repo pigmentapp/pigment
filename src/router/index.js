@@ -7,8 +7,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'welcome',
-      component: () => import(/* webpackChunkName: "welcome" */ '@/views/Welcome.vue'),
+      name: 'home',
+      components: {
+        aside: () => import(/* webpackChunkName: "home" */ '@/views/HomeAside.vue'),
+        default: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+      },
     },
     {
       path: '/tabs/create',
@@ -25,19 +28,9 @@ export default new Router({
       name: 'tabs',
     },
     {
-      path: '/notifications',
-      name: 'notifications',
-      component: () => import(/* webpackChunkName: "notifications" */ '@/views/Notifications.vue'),
-    },
-    {
       path: '/settings',
       name: 'settings',
       component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
-    },
-    {
-      path: '/changelog',
-      name: 'changelog',
-      component: () => import(/* webpackChunkName: "changelog" */ '@/views/Changelog.vue'),
     },
   ],
 });

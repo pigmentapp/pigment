@@ -194,7 +194,7 @@ export default {
 }
 
 .main {
-  @apply relative z-10 overflow-y-auto bg-gray-800;
+  @apply relative z-10 flex overflow-y-auto bg-gray-800;
   grid-area: main;
 }
 
@@ -203,7 +203,7 @@ export default {
 }
 
 .main__sideBarRight {
-  @apply rounded-tr-sm;
+  @apply flex-row-reverse rounded-tr-sm;
 }
 </style>
 
@@ -218,11 +218,11 @@ button:active:focus {
 }
 
 ::-webkit-scrollbar {
-  @apply w-4;
+  @apply w-2 bg-gray-900 bg-opacity-50;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply border-4 border-solid border-transparent rounded-full;
-  box-shadow: inset 0 0 10px 10px theme('colors.gray.600');
+  @apply border-2 border-solid border-transparent rounded-full;
+  box-shadow: inset 0 0 10px 10px theme('colors.gray.700');
 }
 </style>

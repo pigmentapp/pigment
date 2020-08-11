@@ -1,7 +1,13 @@
 <template>
   <app-layout>
     <template slot="main">
-      <router-view :key="$route.path" />
+      <router-view
+        :key="`aside_${$route.path}`"
+        name="aside"
+      />
+      <router-view
+        :key="`main_${$route.path}`"
+      />
     </template>
     <template slot="overlays">
       <window-dimmer />

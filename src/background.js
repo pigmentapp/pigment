@@ -205,47 +205,6 @@ app.on('ready', async () => {
     },
   ]));
 
-  const settingsMenu = Menu.buildFromTemplate([
-    {
-      label: 'Show welcome page…',
-      click: () => app.emit('app-router-goto-welcome'),
-    },
-    {
-      label: 'Show release notes…',
-      click: () => app.emit('app-router-goto-changelog'),
-    },
-    { type: 'separator' },
-    {
-      label: 'Quick settings (switch on/off)',
-      enabled: false,
-    },
-    {
-      label: 'Navigation labels',
-      click: () => app.emit('app-settings-toggle', 'navigation.displayTabLabels'),
-    },
-    {
-      label: 'Dim contents',
-      click: () => app.emit('app-settings-toggle', 'dimmer.dimIfWindowIsNotInFocus'),
-    },
-    {
-      label: 'Mute audio if app loses focus',
-      click: () => app.emit('app-settings-toggle', 'window.muteAudioIfWindowIsNotInFocus'),
-    },
-    {
-      label: 'Hold back notifications',
-      click: () => app.emit('app-settings-toggle', 'notifications.holdBackIfWindowIsNotInFocus'),
-    },
-    { type: 'separator' },
-    {
-      label: 'Settings…',
-      click: () => app.emit('app-router-goto-settings'),
-    },
-  ]);
-
-  app.on('app-show-settings-menu', () => {
-    settingsMenu.popup();
-  });
-
   app.on('app-show-app-icon-badge', () => {
     switch (process.platform) {
       case 'darwin':
