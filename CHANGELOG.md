@@ -1,3 +1,17 @@
+# [0.12.0](https://github.com/pigmentapp/pigment/compare/0.11.0...0.12.0) (2020-08-11)
+
+
+### Features
+
+* **notifications:** limit max number of stored notifications to 99 ([35a453e](https://github.com/pigmentapp/pigment/commit/35a453eedd82b4988b72c4708af0715d5aa93f4c))
+* unite menu + home + notifications + release notes into combined view ([a4b2e0c](https://github.com/pigmentapp/pigment/commit/a4b2e0c66d22ba6f79a0119fb9298fdfbfa858bd))
+* **recommendations:** use icon service by DDG to resolve favicons ([6f1fc8f](https://github.com/pigmentapp/pigment/commit/6f1fc8fe80c0f286c1895b110150f6c4bd0e7091))
+* **titlebar:** add option to copy url to clipboard ([8f4ed29](https://github.com/pigmentapp/pigment/commit/8f4ed29d958b8b06773b19f1b9e8ca0e0eedea81))
+* **titlebar:** display current url when menu is open ([85cecbe](https://github.com/pigmentapp/pigment/commit/85cecbe7290c0e7a9a541f76f625191b9e0f0ca1))
+* **titlebar:** show url if page title is empty ([dc114ad](https://github.com/pigmentapp/pigment/commit/dc114ad6eea16a80b345e3f335014c864d27dec4))
+* **webview:** add 'hard reload' option to menu ([edc1220](https://github.com/pigmentapp/pigment/commit/edc1220126edd51fa5955443bad7b3e82765efdf))
+* **webview:** replace electron webview with browserview ([dc4866f](https://github.com/pigmentapp/pigment/commit/dc4866f36b8685956c6f797101130600d01492eb))
+
 # [0.11.0](https://github.com/pigmentapp/pigment/compare/0.10.0...0.11.0) (2020-08-02)
 
 
