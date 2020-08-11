@@ -1,49 +1,22 @@
 <template>
-  <app-content>
-    <title-bar :back-button="true">
-      <title-bar-text>
-        Release Notes
-      </title-bar-text>
-    </title-bar>
-
-    <update-checker />
-
+  <div>
     <app-content-section
       v-for="release in matchingReleases"
       :key="release.id"
       :class="$style.item"
       v-html="mdToHtml(release.body)"
     />
-    <app-content-section :class="$style.moreWrap">
-      <app-button
-        :class="$style.more"
-        secondary
-        tag="a"
-        href="//github.com/pigmentapp/pigment/releases"
-        target="_blank"
-      >
-        Read more on GitHub
-      </app-button>
-    </app-content-section>
-  </app-content>
+  </div>
 </template>
 
 <script>
 import marked from 'marked';
 import semver from 'semver';
-import TitleBar from '@/components/TitleBar.vue';
-import TitleBarText from '@/components/TitleBarText.vue';
-import UpdateChecker from '@/components/UpdateChecker.vue';
 
 const renderer = new marked.Renderer();
 renderer.link = (href, title, text) => `<a target="_blank" href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`;
 
 export default {
-  components: {
-    TitleBar,
-    TitleBarText,
-    UpdateChecker,
-  },
   data() {
     return {
       releases: [],
@@ -116,13 +89,5 @@ export default {
 
 .item strong:first-child {
   @apply text-gray-500;
-}
-
-.moreWrap {
-  @apply text-center;
-}
-
-.more {
-  @apply inline-block w-auto mx-auto;
 }
 </style>

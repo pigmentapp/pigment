@@ -1,6 +1,6 @@
 <template>
   <app-content>
-    <title-bar :back-button="true">
+    <title-bar back-button>
       <title-bar-text>
         Create new tab
       </title-bar-text>

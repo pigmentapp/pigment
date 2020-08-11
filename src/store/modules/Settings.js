@@ -7,7 +7,6 @@ const db = new Connection({
     'dimmer.dimIfWindowIsNotInFocus': false,
     'dimmer.displayBadgeAtNewNotifications': false,
     'layout.sideBarLocation': 'left',
-    'navigation.displayHomeButton': true,
     'navigation.displayTabLabels': true,
     'navigation.indicatorBadgeColor': 'gray',
     'navigation.indicatorBadgeSize': 'normal',

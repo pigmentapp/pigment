@@ -28,6 +28,7 @@
     />
     <the-side-bar :class="$style.sideBar" />
     <div
+      ref="main"
       :class="{
         [$style.main]: true,
         [$style.main__sideBarLeft]: !isLayoutInverted,
@@ -38,10 +39,12 @@
     </div>
 
     <slot name="overlays" />
+    <slot />
   </div>
 </template>
 
 <script>
+import debounce from 'lodash.debounce';
 import TheSideBar from '@/components/TheSideBar.vue';
 import TheTitleBar from '@/components/TheTitleBar.vue';
 import WindowControls from '@/components/WindowControls.vue';
@@ -53,12 +56,37 @@ export default {
     TheTitleBar,
     WindowControls,
   },
+  data: () => ({
+    resizeObserver: null,
+  }),
   computed: {
     isLayoutInverted() {
       return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
     displaysTabLabels() {
       return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
+    },
+  },
+  watch: {
+    isLayoutInverted: 'setMainBoundingClientRect',
+  },
+  mounted() {
+    this.setMainBoundingClientRect();
+
+    this.resizeObserver = new ResizeObserver(debounce(() => {
+      this.setMainBoundingClientRect();
+    }, 50));
+
+    this.resizeObserver.observe(this.$refs.main);
+  },
+  beforeDestroy() {
+    this.resizeObserver.disconnect();
+  },
+  methods: {
+    async setMainBoundingClientRect() {
+      await this.$nextTick();
+      const rect = this.$refs.main.getBoundingClientRect();
+      this.$store.commit('Window/setMainBoundingClientRect', rect);
     },
   },
 };
@@ -166,7 +194,7 @@ export default {
 }
 
 .main {
-  @apply relative z-10 overflow-y-auto bg-gray-800;
+  @apply relative z-10 flex overflow-y-auto bg-gray-800;
   grid-area: main;
 }
 
@@ -175,7 +203,7 @@ export default {
 }
 
 .main__sideBarRight {
-  @apply rounded-tr-sm;
+  @apply flex-row-reverse rounded-tr-sm;
 }
 </style>
 
@@ -190,11 +218,11 @@ button:active:focus {
 }
 
 ::-webkit-scrollbar {
-  @apply w-4;
+  @apply w-2 bg-gray-900 bg-opacity-50;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply border-4 border-solid border-transparent rounded-full;
-  box-shadow: inset 0 0 10px 10px theme('colors.gray.600');
+  @apply border-2 border-solid border-transparent rounded-full;
+  box-shadow: inset 0 0 10px 10px theme('colors.gray.700');
 }
 </style>

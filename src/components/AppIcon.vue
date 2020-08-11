@@ -1,17 +1,20 @@
 <template>
   <svg
     v-if="content"
-    :viewBox="attributes.viewBox"
     :class="{
       [$style.icon]: true,
       [$style.inline]: inline,
       [$style[`size-${size}`]]: true,
     }"
-    v-html="content"
-  />
+    viewBox="0 0 24 24"
+  >
+    <path :d="content" />
+  </svg>
 </template>
 
 <script>
+import * as icons from '@/utils/icons';
+
 export default {
   props: {
     face: {
@@ -27,28 +30,9 @@ export default {
       default: 4,
     },
   },
-  data() {
-    return {
-      content: null,
-      attributes: {},
-    };
-  },
-  watch: {
-    face: {
-      immediate: true,
-      handler(icon) {
-        if (!icon.length) {
-          this.content = null;
-          this.attributes = {};
-          return;
-        }
-
-        // eslint-disable-next-line prefer-template
-        import('!svg-loader!@/assets/icons/' + icon + '.svg').then((res) => {
-          this.content = res.content;
-          this.attributes = res.attributes;
-        });
-      },
+  computed: {
+    content() {
+      return icons[`mdi${this.face}`];
     },
   },
 };

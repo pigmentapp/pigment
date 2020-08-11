@@ -1,30 +1,39 @@
 <template>
-  <app-content-section v-if="newVersionAvailable">
-    <div :class="$style.versionAlert">
-      <app-heading>
-        Update Available
-      </app-heading>
-      <div>
-        <app-button
-          :href="downloadLink"
-          tag="a"
-        >
-          Download {{ $productInfo.productName }} {{ latestRelease.tag_name }}
-        </app-button>
-      </div>
-      <div :class="$style.versionLink">
-        <a
-          href="https://getpigment.app/download/"
-          target="_blank"
-        >Go to download page</a>
-        &middot;
-        <a
-          :href="latestRelease.html_url"
-          target="_blank"
-        >Show release on GitHub</a>
+  <div
+    v-if="newVersionAvailable"
+    :class="$style.root"
+  >
+    <div :class="$style.message">
+      <app-icon
+        :size="6"
+        face="PartyPopper"
+      />
+      <div :class="$style.body">
+        <h3 :class="$style.title">
+          Update available
+        </h3>
+        <div :class="$style.links">
+          <a
+            href="https://getpigment.app/download/"
+            target="_blank"
+          >Go to download page</a>
+          <br>
+          <a
+            :href="latestRelease.html_url"
+            target="_blank"
+          >Show release on GitHub</a>
+        </div>
       </div>
     </div>
-  </app-content-section>
+
+    <app-button
+      :class="$style.button"
+      :href="downloadLink"
+      tag="a"
+    >
+      Download {{ latestRelease.tag_name }}
+    </app-button>
+  </div>
 </template>
 
 <script>
@@ -75,11 +84,23 @@ export default {
 </script>
 
 <style lang="postcss" module>
-.versionAlert {
-  @apply p-4 text-teal-200 text-center bg-teal-600 rounded;
+.root {
+  @apply p-4 text-teal-200 bg-teal-600;
 }
 
-.versionLink {
-  @apply mt-3;
+.message {
+  @apply flex mb-4;
+}
+
+.body {
+  @apply flex-grow ml-4;
+}
+
+.title {
+  @apply font-medium text-teal-100;
+}
+
+.links {
+  @apply mt-0 text-xs;
 }
 </style>

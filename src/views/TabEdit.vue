@@ -1,6 +1,6 @@
 <template>
   <app-content>
-    <title-bar :back-button="true">
+    <title-bar back-button>
       <title-bar-text>
         Edit {{ tab.label }}
       </title-bar-text>
@@ -205,11 +205,12 @@ export default {
       this.$router.push({
         name: 'tabs',
         params: { id: this.tab.id },
+        query: { reload: true },
       });
     },
     deleteTab() {
       this.$store.commit('Tabs/delete', this.tab);
-      this.$router.push({ name: 'welcome' });
+      this.$router.push({ name: 'home' });
     },
   },
 };

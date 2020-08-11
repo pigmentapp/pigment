@@ -37,12 +37,16 @@ export default {
   },
   mutations: {
     add(state, { tabId, notification }) {
-      db().get('notifications')
+      const items = db().get('notifications')
         .push({
           notification,
           tabId,
           timestamp: Date.now(),
         })
+        .takeRight(99)
+        .value();
+
+      db().set('notifications', items)
         .write();
 
       state.dbUpdated = Date.now();
