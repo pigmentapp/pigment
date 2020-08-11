@@ -131,8 +131,8 @@ export default {
       const btnRect = this.$refs.menuBtn.$el.getBoundingClientRect();
 
       settingsMenu.popup({
-        x: btnRect.x,
-        y: btnRect.y + btnRect.height,
+        x: Math.trunc(btnRect.x),
+        y: Math.trunc(btnRect.y + btnRect.height),
         callback: () => {
           setTimeout(() => {
             this.isMenuOpen = false;
