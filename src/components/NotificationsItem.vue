@@ -145,6 +145,6 @@ export default {
 
 .body {
   grid-area: body;
-  @apply leading-snug text-gray-500;
+  @apply leading-snug text-gray-500 break-words;
 }
 </style>
