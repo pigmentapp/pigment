@@ -1,8 +1,7 @@
 name: Build
 on:
   push:
-    tags:
-      - '**'
+    tags: ['*']
 jobs:
   build:
     runs-on: ${{ matrix.os }}
