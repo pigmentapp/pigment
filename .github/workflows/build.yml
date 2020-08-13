@@ -1,8 +1,8 @@
 name: Build
 on:
   push:
-    branches:
-      - refs/tags/*
+    tags:
+      - '**'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
