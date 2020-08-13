@@ -10,6 +10,8 @@ jobs:
         os: [macos-10.15, windows-latest]
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
       - uses: actions/setup-node@v2-beta
         with:
           node-version: 13
