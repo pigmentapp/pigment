@@ -6,6 +6,7 @@ module.exports = {
       ],
       builderOptions: {
         publish: {
+          provider: 'github',
           releaseType: 'release',
           vPrefixedTagName: false,
         },
