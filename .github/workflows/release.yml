@@ -4,8 +4,6 @@ on:
     branches:
       - dev
       - master
-    tags-ignore:
-      - '**'
 jobs:
   release:
     runs-on: ubuntu-latest
