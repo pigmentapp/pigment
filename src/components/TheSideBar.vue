@@ -28,7 +28,6 @@ import { remote } from 'electron';
 import SideBarButton from '@/components/SideBarButton.vue';
 import TabsNav from '@/components/TabsNav.vue';
 
-const { autoUpdater } = remote.require('electron-updater');
 
 export default {
   components: {
@@ -58,7 +57,7 @@ export default {
   },
   methods: {
     checkForUpdates() {
-      autoUpdater.checkForUpdatesAndNotify();
+      remote.app.emit('app-check-for-updates');
     },
     showMenu() {
       const settingsMenu = remote.Menu.buildFromTemplate([

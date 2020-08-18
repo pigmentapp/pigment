@@ -230,6 +230,10 @@ app.on('ready', async () => {
     }
   });
 
+  app.on('app-check-for-updates', () => {
+    autoUpdater.checkForUpdatesAndNotify();
+  });
+
   // open target="_blank" links in main window in default browser
   mainWindow.webContents.on('new-window', (e, url) => {
     e.preventDefault();
