@@ -57,7 +57,7 @@
     "@vue/cli-service": "^3.12.1",
     "@vue/eslint-config-airbnb": "^4.0.1",
     "electron": "^9.1.2",
-    "semantic-release": "^17.0.7",
+    "semantic-release": "^17.1.1",
     "svg-loader": "0.0.2",
     "tailwindcss": "^1.6.2",
     "vue-cli-plugin-electron-builder": "^1.4.6",

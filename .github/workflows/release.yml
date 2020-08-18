@@ -1,0 +1,20 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  release:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: 13
+      - run: npm ci
+      - run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
