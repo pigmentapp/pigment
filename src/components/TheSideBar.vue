@@ -28,10 +28,17 @@ import { remote } from 'electron';
 import SideBarButton from '@/components/SideBarButton.vue';
 import TabsNav from '@/components/TabsNav.vue';
 
+const { autoUpdater } = remote.require('electron-updater');
+
 export default {
   components: {
     SideBarButton,
     TabsNav,
+  },
+  data() {
+    return {
+      updateInterval: 0,
+    };
   },
   computed: {
     displaysTabLabels() {
@@ -39,7 +46,20 @@ export default {
       return this.$store.getters['Settings/byKey'](key);
     },
   },
+  created() {
+    if (process.env.NODE_ENV === 'production') {
+      this.updateInterval = setInterval(() => {
+        this.checkForUpdates();
+      }, 1000 * 60 * 5);
+    }
+  },
+  beforeDestroy() {
+    clearInterval(this.updateInterval);
+  },
   methods: {
+    checkForUpdates() {
+      autoUpdater.checkForUpdatesAndNotify();
+    },
     showMenu() {
       const settingsMenu = remote.Menu.buildFromTemplate([
         {
@@ -72,6 +92,10 @@ export default {
           click: () => this.$router.push({ name: 'settings' }),
         },
         { type: 'separator' },
+        {
+          label: 'Check for updates…',
+          click: () => this.checkForUpdates(),
+        },
         { role: 'toggledevtools' },
       ]);
 

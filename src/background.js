@@ -1,4 +1,5 @@
 import electronDl from 'electron-dl';
+import { autoUpdater } from 'electron-updater';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
@@ -76,6 +77,8 @@ function createMainWindow() {
       protocol: 'file',
       slashes: true,
     }));
+
+    autoUpdater.checkForUpdatesAndNotify();
   }
 
   window.on('ready-to-show', () => {

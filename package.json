@@ -29,6 +29,7 @@
     "date-fns": "^2.15.0",
     "deepmerge": "^4.2.2",
     "electron-dl": "^1.14.0",
+    "electron-updater": "^4.3.4",
     "electron-window-state": "^5.0.3",
     "is-url-relative-without-domain": "^2.0.0",
     "lodash-id": "^0.14.0",
