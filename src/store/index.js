@@ -13,10 +13,12 @@ const localStorageState = new VuexPersistence({
 export default new Vuex.Store({
   modules,
   state: {
-
+    updateInfo: {},
   },
   mutations: {
-
+    SET_UPDATE_INFO(state, payload) {
+      state.updateInfo = payload;
+    },
   },
   actions: {
 

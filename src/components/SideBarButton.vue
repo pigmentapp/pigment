@@ -12,6 +12,10 @@
         :face="icon"
         :size="6"
       />
+      <span
+        v-if="showBadge"
+        :class="$style.badge"
+      />
     </div>
     <div
       v-if="$slots.default && showLabel"
@@ -28,6 +32,10 @@ export default {
     icon: {
       type: String,
       required: true,
+    },
+    showBadge: {
+      type: Boolean,
+      default: false,
     },
     showLabel: {
       type: Boolean,
@@ -51,10 +59,14 @@ export default {
 }
 
 .icon {
-  @apply flex-shrink-0 px-2;
+  @apply relative flex-shrink-0 px-2;
 }
 
 .label {
   @apply flex-grow pl-2 whitespace-no-wrap;
+}
+
+.badge {
+  @apply absolute top-0 left-0 w-2 h-2 ml-1 bg-teal-500 rounded-full;
 }
 </style>

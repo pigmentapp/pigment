@@ -1,8 +1,8 @@
 import electronDl from 'electron-dl';
-import { autoUpdater } from 'electron-updater';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
+import checkForUpdates from '@/utils/updater';
 
 import {
   app, Menu, protocol, BrowserWindow, shell,
@@ -78,7 +78,7 @@ function createMainWindow() {
       slashes: true,
     }));
 
-    autoUpdater.checkForUpdatesAndNotify();
+    checkForUpdates();
   }
 
   window.on('ready-to-show', () => {
@@ -228,10 +228,6 @@ app.on('ready', async () => {
       default:
         return false;
     }
-  });
-
-  app.on('app-check-for-updates', () => {
-    autoUpdater.checkForUpdatesAndNotify();
   });
 
   // open target="_blank" links in main window in default browser

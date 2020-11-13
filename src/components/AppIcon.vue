@@ -5,6 +5,7 @@
       [$style.icon]: true,
       [$style.inline]: inline,
       [$style[`size-${size}`]]: true,
+      [$style.spin]: spin,
     }"
     viewBox="0 0 24 24"
   >
@@ -28,6 +29,10 @@ export default {
     size: {
       type: Number,
       default: 4,
+    },
+    spin: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -61,5 +66,21 @@ export default {
 
 .size-8 {
   @apply w-8 h-8;
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

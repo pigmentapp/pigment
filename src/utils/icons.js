@@ -7,6 +7,7 @@ export {
   mdiCog,
   mdiDotsVertical,
   mdiImage,
+  mdiLoading,
   mdiMenu,
   mdiPartyPopper,
   mdiPencil,

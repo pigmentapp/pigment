@@ -12,9 +12,11 @@
       </side-bar-button>
       <side-bar-button
         :to="{ name: 'home' }"
+        :show-badge="showMenuBadge"
         :show-label="displaysTabLabels"
         icon="Menu"
         title="Show menu"
+        @click.native="showMenuBadge = false"
         @contextmenu.native.prevent="showMenu"
       >
         Menu
@@ -28,7 +30,6 @@ import { remote } from 'electron';
 import SideBarButton from '@/components/SideBarButton.vue';
 import TabsNav from '@/components/TabsNav.vue';
 
-
 export default {
   components: {
     SideBarButton,
@@ -36,6 +37,7 @@ export default {
   },
   data() {
     return {
+      showMenuBadge: false,
       updateInterval: 0,
     };
   },
@@ -46,19 +48,17 @@ export default {
     },
   },
   created() {
-    if (process.env.NODE_ENV === 'production') {
-      this.updateInterval = setInterval(() => {
-        this.checkForUpdates();
-      }, 1000 * 60 * 5);
-    }
+    remote.app.on('app-update-available', (info) => {
+      if (this.$route.name !== 'home') {
+        this.showMenuBadge = true;
+      }
+      this.$store.commit('SET_UPDATE_INFO', info);
+    });
   },
   beforeDestroy() {
     clearInterval(this.updateInterval);
   },
   methods: {
-    checkForUpdates() {
-      remote.app.emit('app-check-for-updates');
-    },
     showMenu() {
       const settingsMenu = remote.Menu.buildFromTemplate([
         {
@@ -93,7 +93,7 @@ export default {
         { type: 'separator' },
         {
           label: 'Check for updates…',
-          click: () => this.checkForUpdates(),
+          click: () => remote.app.emit('app-update-check'),
         },
         { role: 'toggledevtools' },
       ]);
