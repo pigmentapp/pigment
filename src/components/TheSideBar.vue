@@ -38,7 +38,6 @@ export default {
   data() {
     return {
       showMenuBadge: false,
-      updateInterval: 0,
     };
   },
   computed: {
@@ -54,9 +53,6 @@ export default {
       }
       this.$store.commit('SET_UPDATE_INFO', info);
     });
-  },
-  beforeDestroy() {
-    clearInterval(this.updateInterval);
   },
   methods: {
     showMenu() {
