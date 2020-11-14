@@ -1,4 +1,3 @@
-import electronDl from 'electron-dl';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
@@ -15,11 +14,6 @@ import {
 /* eslint-enable import/no-extraneous-dependencies */
 
 import pkg from '../package.json';
-
-electronDl({
-  openFolderWhenDone: true,
-  saveAs: true,
-});
 
 app.setAppUserModelId(process.execPath);
 
