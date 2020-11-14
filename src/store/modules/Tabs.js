@@ -45,7 +45,7 @@ export default {
         .cloneDeep()
         .value();
 
-      return list.map(tab => deepmerge(defaultTab(), tab));
+      return list.map((tab) => deepmerge(defaultTab(), tab));
     },
     listSorted({ dbUpdated }, { list }) {
       const sorting = db(dbUpdated).get('sorting').value();
@@ -54,8 +54,8 @@ export default {
     },
     scopes(state, { list }) {
       const scopes = list
-        .filter(tab => tab.scope && tab.id !== tab.scope)
-        .map(tab => tab.scope);
+        .filter((tab) => tab.scope && tab.id !== tab.scope)
+        .map((tab) => tab.scope);
 
       const uniqueScopes = [...new Set(scopes)];
       uniqueScopes.sort();
@@ -85,7 +85,7 @@ export default {
 
       db()
         .get('sorting')
-        .remove(i => i === item.id)
+        .remove((i) => i === item.id)
         .write();
 
       state.dbUpdated = Date.now();
@@ -94,7 +94,7 @@ export default {
       state.activeTabId = id;
     },
     setSorting(state, items) {
-      db().set('sorting', items.map(item => item.id)).write();
+      db().set('sorting', items.map((item) => item.id)).write();
       state.dbUpdated = Date.now();
     },
     update(state, { id, data }) {

@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div>
     <app-content-section
       v-for="release in matchingReleases"
@@ -36,7 +37,7 @@ export default {
 
       const versionRange = `${vWithoutPatch} - ${currentVersion}`;
 
-      return this.releases.filter(release => semver.satisfies(release.name, versionRange));
+      return this.releases.filter((release) => semver.satisfies(release.name, versionRange));
     },
   },
   created() {

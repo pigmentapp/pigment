@@ -1,11 +1,11 @@
 <template>
   <tab-item-browser-view
-    :item="item"
     #default="{
       canGoBack,
       canGoForward,
       executeMethod,
     }"
+    :item="item"
   >
     <tab-item-header
       :item="item"

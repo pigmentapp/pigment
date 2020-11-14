@@ -139,7 +139,7 @@ export default {
 
 .icon {
   @apply relative w-64 h-64 mx-auto border-2 border-transparent rounded-full;
-  background-image: url(@/assets/logo/logo.png);
+  background-image: url('../assets/logo/logo.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: theme('width.48');

@@ -17,7 +17,9 @@
       />
     </div>
     <div :class="$style.header">
-      <div :class="$style.title">{{ notification.title }}</div>
+      <div :class="$style.title">
+        {{ notification.title }}
+      </div>
       <div
         :class="$style.time"
         :title="new Date(item.timestamp).toLocaleString()"
@@ -75,7 +77,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="postcss" module>
 .root {
