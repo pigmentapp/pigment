@@ -2,6 +2,7 @@ import electronDl from 'electron-dl';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
+import checkForUpdates from '@/utils/updater';
 
 import {
   app, Menu, protocol, BrowserWindow, shell,
@@ -76,6 +77,8 @@ function createMainWindow() {
       protocol: 'file',
       slashes: true,
     }));
+
+    checkForUpdates();
   }
 
   window.on('ready-to-show', () => {
