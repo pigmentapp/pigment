@@ -24,6 +24,19 @@
 * **electron:** update to 10.1.5 with chromium 85.0.4183.121 ([5b36988](https://github.com/pigmentapp/pigment/commit/5b369889f8d52cff75eeed074cc94f13d4bafc75))
 * improve update visibility + integrate auto-update for windows users ([#11](https://github.com/pigmentapp/pigment/issues/11)) ([6ca22eb](https://github.com/pigmentapp/pigment/commit/6ca22eb6a5f9e9bfd6dc3729997dda32d526e9bf))
 
+# [0.13.0](https://github.com/pigmentapp/pigment/compare/0.12.0...0.13.0) (2020-11-30)
+
+
+### Bug Fixes
+
+* **webview:** prevent error on file download ([10013f8](https://github.com/pigmentapp/pigment/commit/10013f8ff125f5364f98ecd03f3102497a2d3733))
+
+
+### Features
+
+* **electron:** update to 10.1.5 with chromium 85.0.4183.121 ([5b36988](https://github.com/pigmentapp/pigment/commit/5b369889f8d52cff75eeed074cc94f13d4bafc75))
+* improve update visibility + integrate auto-update for windows users ([#11](https://github.com/pigmentapp/pigment/issues/11)) ([6ca22eb](https://github.com/pigmentapp/pigment/commit/6ca22eb6a5f9e9bfd6dc3729997dda32d526e9bf))
+
 # [0.12.0](https://github.com/pigmentapp/pigment/compare/0.11.0...0.12.0) (2020-08-11)
 
 
