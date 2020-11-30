@@ -68,11 +68,13 @@ export default {
   },
   created() {
     remote.app.on('app-update-error', (error) => {
+      // eslint-disable-next-line no-console
       console.error(error);
       this.isInstalling = false;
     });
 
     remote.app.on('app-update-download-progress', (info) => {
+      // eslint-disable-next-line no-console
       console.info(info);
       this.downloadProgress = info;
     });
