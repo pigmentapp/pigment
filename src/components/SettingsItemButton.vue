@@ -1,7 +1,11 @@
 <template>
   <settings-item :disabled-if-not-setting="disabledIfNotSetting">
-    <template slot="label"><slot name="label" /></template>
-    <template slot="descr"><slot name="descr" /></template>
+    <template slot="label">
+      <slot name="label" />
+    </template>
+    <template slot="descr">
+      <slot name="descr" />
+    </template>
     <template v-slot:control="{ disabled }">
       <app-button
         :disabled="disabled"

@@ -12,9 +12,11 @@
       </side-bar-button>
       <side-bar-button
         :to="{ name: 'home' }"
+        :show-badge="showMenuBadge"
         :show-label="displaysTabLabels"
         icon="Menu"
         title="Show menu"
+        @click.native="showMenuBadge = false"
         @contextmenu.native.prevent="showMenu"
       >
         Menu
@@ -33,11 +35,24 @@ export default {
     SideBarButton,
     TabsNav,
   },
+  data() {
+    return {
+      showMenuBadge: false,
+    };
+  },
   computed: {
     displaysTabLabels() {
       const key = 'navigation.displayTabLabels';
       return this.$store.getters['Settings/byKey'](key);
     },
+  },
+  created() {
+    remote.app.on('app-update-available', (info) => {
+      if (this.$route.name !== 'home') {
+        this.showMenuBadge = true;
+      }
+      this.$store.commit('SET_UPDATE_INFO', info);
+    });
   },
   methods: {
     showMenu() {
@@ -72,6 +87,10 @@ export default {
           click: () => this.$router.push({ name: 'settings' }),
         },
         { type: 'separator' },
+        {
+          label: 'Check for updates…',
+          click: () => remote.app.emit('app-update-check'),
+        },
         { role: 'toggledevtools' },
       ]);
 

@@ -40,6 +40,10 @@ export default {
     border rounded;
 }
 
+.button[disabled] {
+  @apply opacity-75;
+}
+
 .primary {
   @apply text-white bg-gray-600 border-gray-500 shadow;
 }

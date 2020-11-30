@@ -41,7 +41,7 @@ export default {
         return settings;
       }, []);
 
-      return relatedSettings.some(val => !val);
+      return relatedSettings.some((val) => !val);
     },
   },
 };

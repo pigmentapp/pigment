@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="newVersionAvailable"
+    v-if="Object.keys(updateInfo).length"
     :class="$style.root"
   >
     <div :class="$style.message">
@@ -17,67 +17,70 @@
             href="https://getpigment.app/download/"
             target="_blank"
           >Go to download page</a>
-          <br>
-          <a
-            :href="latestRelease.html_url"
-            target="_blank"
-          >Show release on GitHub</a>
         </div>
       </div>
     </div>
 
     <app-button
+      v-if="$options.isWin"
       :class="$style.button"
-      :href="downloadLink"
+      :disabled="isInstalling"
+      @click="downloadAndInstall"
+    >
+      <app-icon
+        v-if="isInstalling"
+        :size="5"
+        face="Loading"
+        spin
+      />
+      <div v-else>
+        Install {{ updateInfo.version }}
+      </div>
+    </app-button>
+    <app-button
+      v-else
+      :class="$style.button"
+      href="https://getpigment.app/download"
+      target="_blank"
       tag="a"
     >
-      Download {{ latestRelease.tag_name }}
+      Download {{ updateInfo.version }}
     </app-button>
   </div>
 </template>
 
 <script>
-import semver from 'semver';
+import { remote } from 'electron';
 
 export default {
+  isWin: process.platform === 'win32',
   data() {
     return {
       latestRelease: {},
+      isInstalling: false,
+      downloadProgress: {},
     };
   },
   computed: {
-    downloadLink() {
-      const release = this.latestRelease;
-      let asset;
-      if (!release.assets) return asset;
-
-      if (process.platform === 'darwin') {
-        asset = release.assets.find(a => a.browser_download_url.indexOf('.dmg') > -1);
-      }
-
-      if (process.platform === 'win32') {
-        asset = release.assets.find(a => a.browser_download_url.indexOf('.exe') > -1);
-      }
-
-      return asset.browser_download_url || asset;
-    },
-    newVersionAvailable() {
-      const latestTag = this.latestRelease.tag_name;
-      if (!latestTag) return false;
-
-      const newVersion = semver.gt(latestTag, this.$productInfo.version);
-      return newVersion && this.downloadLink;
+    updateInfo() {
+      return this.$store.state.updateInfo;
     },
   },
   created() {
-    this.getLatestRelease();
+    remote.app.on('app-update-error', (error) => {
+      console.error(error);
+      this.isInstalling = false;
+    });
+
+    remote.app.on('app-update-download-progress', (info) => {
+      console.info(info);
+      this.downloadProgress = info;
+    });
   },
   methods: {
-    async getLatestRelease() {
-      const url = 'https://api.github.com/repos/pigmentapp/pigment/releases/latest';
-      const release = await (await fetch(url)).json();
-
-      this.latestRelease = release;
+    downloadAndInstall() {
+      this.isInstalling = true;
+      remote.app.emit('app-update-start-download');
     },
   },
 };

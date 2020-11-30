@@ -80,7 +80,9 @@
           <app-heading>
             <template slot="sub">
               By default, the tab 'inherits' the
-              <router-link :to="{ name: 'settings' }">global settings</router-link>.
+              <router-link :to="{ name: 'settings' }">
+                global settings
+              </router-link>.
               Override some of them only for this tab.
             </template>
           </app-heading>
@@ -97,9 +99,15 @@
                 v-model="tab.settings['dimmer.dimIfWindowIsNotInFocus']"
                 :class="$style.select"
               >
-                <option :value="undefined">Inherit</option>
-                <option :value="true">Dim</option>
-                <option :value="false">Don't dim</option>
+                <option :value="undefined">
+                  Inherit
+                </option>
+                <option :value="true">
+                  Dim
+                </option>
+                <option :value="false">
+                  Don't dim
+                </option>
               </select>
             </template>
           </settings-item>
@@ -116,9 +124,15 @@
                 v-model="tab.settings['window.muteAudioIfWindowIsNotInFocus']"
                 :class="$style.select"
               >
-                <option :value="undefined">Inherit</option>
-                <option :value="true">Mute</option>
-                <option :value="false">Don't mute</option>
+                <option :value="undefined">
+                  Inherit
+                </option>
+                <option :value="true">
+                  Mute
+                </option>
+                <option :value="false">
+                  Don't mute
+                </option>
               </select>
             </template>
           </settings-item>
@@ -135,9 +149,15 @@
                 v-model="tab.settings['notifications.holdBackIfWindowIsNotInFocus']"
                 :class="$style.select"
               >
-                <option :value="undefined">Inherit</option>
-                <option :value="true">Hold back</option>
-                <option :value="false">Don't hold back</option>
+                <option :value="undefined">
+                  Inherit
+                </option>
+                <option :value="true">
+                  Hold back
+                </option>
+                <option :value="false">
+                  Don't hold back
+                </option>
               </select>
             </template>
           </settings-item>

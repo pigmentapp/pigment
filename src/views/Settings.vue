@@ -9,11 +9,15 @@
     <app-content-section>
       <app-heading>
         Navigation
-        <template slot="sub">Customize the navigation as you like it</template>
+        <template slot="sub">
+          Customize the navigation as you like it
+        </template>
       </app-heading>
 
       <settings-item-toggle setting="navigation.displayTabLabels">
-        <template slot="label">Navigation labels</template>
+        <template slot="label">
+          Navigation labels
+        </template>
         <template slot="descr">
           Do you know your tabs? Disable labels to get more work space.
         </template>
@@ -26,7 +30,9 @@
         ]"
         setting="layout.sideBarLocation"
       >
-        <template slot="label">Sidebar location</template>
+        <template slot="label">
+          Sidebar location
+        </template>
         <template slot="descr">
           Sometimes it just fits better on the other side.
         </template>
@@ -42,7 +48,9 @@
         ]"
         setting="navigation.indicatorBadgeColor"
       >
-        <template slot="label">Indicator badge color</template>
+        <template slot="label">
+          Indicator badge color
+        </template>
         <template slot="descr">
           Color of the notification indicator on the tab item.
         </template>
@@ -56,7 +64,9 @@
         ]"
         setting="navigation.indicatorBadgeSize"
       >
-        <template slot="label">Indicator badge size</template>
+        <template slot="label">
+          Indicator badge size
+        </template>
         <template slot="descr">
           Size of the notification indicator on the tab item.
         </template>
@@ -72,7 +82,9 @@
       </app-heading>
 
       <settings-item-toggle setting="dimmer.dimIfWindowIsNotInFocus">
-        <template slot="label">Dim contents</template>
+        <template slot="label">
+          Dim contents
+        </template>
         <template slot="descr">
           Will fade out all contents if you work outside the app.
           It helps you to stay focused, can help to reduce stress
@@ -87,7 +99,9 @@
         type="number"
         setting="dimmer.dimDelayInMs"
       >
-        <template slot="label">Dimmer delay</template>
+        <template slot="label">
+          Dimmer delay
+        </template>
         <template slot="descr">
           Set a delay before the dimmer starts (in seconds).
         </template>
@@ -97,7 +111,9 @@
         :disabled-if-not-setting="['dimmer.dimIfWindowIsNotInFocus']"
         setting="dimmer.displayBadgeAtNewNotifications"
       >
-        <template slot="label">Notification indicator</template>
+        <template slot="label">
+          Notification indicator
+        </template>
         <template slot="descr">
           Displays a subtle circle around the {{ $productInfo.productName }}
           logo inside the dimmer when you receive notifications
@@ -109,11 +125,15 @@
     <app-content-section>
       <app-heading>
         Audio
-        <template slot="sub">General audio settings</template>
+        <template slot="sub">
+          General audio settings
+        </template>
       </app-heading>
 
       <settings-item-toggle setting="window.muteAudioIfWindowIsNotInFocus">
-        <template slot="label">Mute tabs if the app loses focus</template>
+        <template slot="label">
+          Mute tabs if the app loses focus
+        </template>
         <template slot="descr">
           Will mute all audio if you work outside the app.
           That way you won't get distracted by notification sounds.
@@ -124,11 +144,15 @@
     <app-content-section>
       <app-heading>
         Notifications
-        <template slot="sub">Schedule notifications to stay focused</template>
+        <template slot="sub">
+          Schedule notifications to stay focused
+        </template>
       </app-heading>
 
       <settings-item-toggle setting="notifications.holdBackIfWindowIsNotInFocus">
-        <template slot="label">Hold back notifications</template>
+        <template slot="label">
+          Hold back notifications
+        </template>
         <template slot="descr">
           Will prevent all incoming notifications if you work outside the app.
         </template>
@@ -138,7 +162,9 @@
         :disabled-if-not-setting="['notifications.holdBackIfWindowIsNotInFocus']"
         setting="notifications.sendSummaryIfWindowIsNotInFocus"
       >
-        <template slot="label">Send summary of new notifications</template>
+        <template slot="label">
+          Send summary of new notifications
+        </template>
         <template slot="descr">
           Get a summary of all prevented notifications
           based on a self-defined schedule.
@@ -155,7 +181,9 @@
         type="number"
         setting="notifications.summaryIntervalInMs"
       >
-        <template slot="label">Schedule of the summary</template>
+        <template slot="label">
+          Schedule of the summary
+        </template>
         <template slot="descr">
           As soon as you work outside the app,
           you will be notified of withheld notifications
@@ -167,7 +195,9 @@
         v-if="$options.isMac"
         setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
       >
-        <template slot="label">Notification badge in dock</template>
+        <template slot="label">
+          Notification badge in dock
+        </template>
         <template slot="descr">
           Shows a badge on the {{ $productInfo.productName }} icon
           when you receive notifications while working outside the app.
@@ -178,7 +208,9 @@
         v-else-if="$options.isWin"
         setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
       >
-        <template slot="label">Highlight app icon in taskbar</template>
+        <template slot="label">
+          Highlight app icon in taskbar
+        </template>
         <template slot="descr">
           Highlights the {{ $productInfo.productName }} icon
           when you receive notifications while working outside the app.
@@ -198,11 +230,15 @@
         secondary
         @click="wipeAppData"
       >
-        <template slot="label">Cache</template>
+        <template slot="label">
+          Cache
+        </template>
         <template slot="descr">
           Will reset all app and tab caches.
         </template>
-        <template slot="control">Clear</template>
+        <template slot="control">
+          Clear
+        </template>
       </settings-item-button>
     </app-content-section>
 

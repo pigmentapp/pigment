@@ -16,7 +16,7 @@ export default {
     const r = this.$router;
 
     app.on('app-router-goto-tabs-create', () => r.push({ name: 'tabs-create' }));
-    app.on('app-router-goto-tab-list-index', index => this.goToTabWithListIndex(index));
+    app.on('app-router-goto-tab-list-index', (index) => this.goToTabWithListIndex(index));
   },
   methods: {
     goToTabWithListIndex(index) {

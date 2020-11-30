@@ -5,12 +5,12 @@ export default {
   },
   getters: {
     state({ pages }) {
-      return tabId => pages.find(page => page.tabId === tabId) || {};
+      return (tabId) => pages.find((page) => page.tabId === tabId) || {};
     },
   },
   mutations: {
     setState({ pages }, { tabId, data = {} }) {
-      const pageIndex = pages.findIndex(page => page.tabId === tabId);
+      const pageIndex = pages.findIndex((page) => page.tabId === tabId);
       const pageState = pages[pageIndex] || {};
 
       const newState = {

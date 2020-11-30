@@ -25,12 +25,10 @@
 </template>
 
 <script>
-import TitleBar from '@/components/TitleBar.vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
 
 export default {
   components: {
-    TitleBar,
     TitleBarButton,
   },
   data() {

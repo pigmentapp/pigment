@@ -28,10 +28,10 @@ export default {
       return db(dbUpdated).value();
     },
     byKey({ dbUpdated }) {
-      return key => db(dbUpdated).get(key).value();
+      return (key) => db(dbUpdated).get(key).value();
     },
     inGroup({ dbUpdated }) {
-      return group => db(dbUpdated)
+      return (group) => db(dbUpdated)
         .pickBy((v, k) => k.split('.')[0] === group)
         .mapKeys((v, k) => k.split('.').splice(1).join('.'))
         .value();

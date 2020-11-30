@@ -61,7 +61,7 @@ export default {
     apps() {
       const existing = this.existingTabs;
       const filtered = apps
-        .filter(app => !existing.some(e => e.url.includes(new URL(app.url).host)));
+        .filter((app) => !existing.some((e) => e.url.includes(new URL(app.url).host)));
       return shuffleArray(filtered);
     },
   },

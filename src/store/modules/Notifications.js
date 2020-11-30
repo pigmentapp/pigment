@@ -26,7 +26,7 @@ export default {
       let items = db(dbUpdated).get('notifications');
 
       if (newerThanTimestamp) {
-        items = items.filter(item => item.timestamp > newerThanTimestamp);
+        items = items.filter((item) => item.timestamp > newerThanTimestamp);
       }
 
       return items.orderBy('timestamp', 'desc').value();
@@ -56,7 +56,7 @@ export default {
       state.dbUpdated = Date.now();
     },
     removeItem(state, item) {
-      db().get('notifications').remove(i => i === item).write();
+      db().get('notifications').remove((i) => i === item).write();
       state.dbUpdated = Date.now();
     },
     nextSchedule(state, schedule) {
