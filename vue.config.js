@@ -1,6 +1,7 @@
 module.exports = {
   pluginOptions: {
     electronBuilder: {
+      mainProcessFile: 'src/background/',
       externals: [
         'is-url-relative-without-domain',
       ],
