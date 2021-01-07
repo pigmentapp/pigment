@@ -8,11 +8,14 @@ import pkg from '@/../package.json';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-// eslint-disable-next-line no-unused-vars
-const createMainWindow = (mainWindow) => {
+let window = null;
+
+export const getMainWindow = () => window;
+
+export const createMainWindow = () => {
   const mainWindowState = windowStateKeeper();
 
-  const window = new BrowserWindow({
+  window = new BrowserWindow({
     webPreferences: {
       enableRemoteModule: true,
       nodeIntegration: true,
@@ -67,8 +70,7 @@ const createMainWindow = (mainWindow) => {
 
   window.on('closed', () => {
     if (process.platform !== 'darwin' || app.quitting) {
-      // eslint-disable-next-line no-param-reassign
-      mainWindow = null;
+      window = null;
     }
   });
 
@@ -88,4 +90,4 @@ const createMainWindow = (mainWindow) => {
   return window;
 };
 
-export default createMainWindow;
+export default {};

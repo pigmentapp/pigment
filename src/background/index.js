@@ -1,8 +1,10 @@
 import { app, protocol } from 'electron';
+import { ipcMain as ipc } from 'electron-better-ipc';
 import moduleReq from 'module';
 // import { installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
-import createMainWindow from '@/background/create-main-window';
+import { createMainWindow, getMainWindow } from '@/background/create-main-window';
 import createApplicationMenu from '@/background/create-application-menu';
+import initBrowserViews from '@/background/browser-views';
 
 app.setAppUserModelId(process.execPath);
 
@@ -16,9 +18,6 @@ if (isDevelopment) {
 // Standard scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true } }]);
 
-// global reference to mainWindow (necessary to prevent window from being garbage collected)
-let mainWindow;
-
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
   // on macOS it is common for applications to stay open until the user explicitly quits
@@ -28,9 +27,10 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
+  const mainWindow = getMainWindow();
   // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
-    mainWindow = createMainWindow();
+    createMainWindow();
   } else {
     mainWindow.show();
   }
@@ -48,27 +48,29 @@ app.on('ready', async () => {
   //   // https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378
   //   await installVueDevtools();
   // }
-  mainWindow = createMainWindow();
+  createMainWindow();
 
   createApplicationMenu();
 
-  app.on('app-show-app-icon-badge', () => {
+  initBrowserViews();
+
+  ipc.on('app-show-app-icon-badge', () => {
     switch (process.platform) {
       case 'darwin':
         return app.dock.setBadge('•');
       case 'win32':
-        return mainWindow.flashFrame(true);
+        return getMainWindow().flashFrame(true);
       default:
         return false;
     }
   });
 
-  app.on('app-hide-app-icon-badge', () => {
+  ipc.on('app-hide-app-icon-badge', () => {
     switch (process.platform) {
       case 'darwin':
         return app.dock.setBadge('');
       case 'win32':
-        return mainWindow.flashFrame(false);
+        return getMainWindow().flashFrame(false);
       default:
         return false;
     }

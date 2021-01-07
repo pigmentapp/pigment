@@ -1,3 +1,5 @@
+import { ipcRenderer as ipc } from 'electron-better-ipc';
+
 export default {
   computed: {
     tabListSorted() {
@@ -7,7 +9,7 @@ export default {
   watch: {
     windowHasFocus(hasFocus) {
       if (hasFocus) {
-        this.$electron.remote.app.emit('app-hide-app-icon-badge');
+        ipc.send('app-hide-app-icon-badge');
       }
     },
   },

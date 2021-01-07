@@ -4,13 +4,13 @@
       {{ title }}
     </title-bar-text>
     <title-bar-button
-      :disabled="!canGoBack"
+      :disabled="!pageState.canGoBack"
       icon="ArrowLeft"
       title="Go back one page"
       @click="$emit('execute', ['goBack'])"
     />
     <title-bar-button
-      :disabled="!canGoForward"
+      :disabled="!pageState.canGoForward"
       icon="ArrowRight"
       title="Go forward one page"
       @click="$emit('execute', ['goForward'])"
@@ -47,14 +47,6 @@ export default {
     item: {
       type: Object,
       required: true,
-    },
-    canGoBack: {
-      type: Boolean,
-      default: false,
-    },
-    canGoForward: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
