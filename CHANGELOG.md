@@ -1,3 +1,10 @@
+## [0.13.1](https://github.com/pigmentapp/pigment/compare/0.13.0...0.13.1) (2021-01-07)
+
+
+### Bug Fixes
+
+* **webview:** prevent new pigment window for external links ([ae4f244](https://github.com/pigmentapp/pigment/commit/ae4f2449a624d26ed78f24e3d7279aba8271e3ed))
+
 # [0.13.0](https://github.com/pigmentapp/pigment/compare/0.12.0...0.13.0) (2020-11-30)
 
 
