@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { remote } from 'electron';
+import { ipcRenderer as ipc } from 'electron-better-ipc';
 import AppLayout from '@/components/AppLayout.vue';
 import TabItem from '@/components/TabItem.vue';
 import WindowDimmer from '@/components/WindowDimmer.vue';
@@ -40,16 +40,7 @@ export default {
     NotificationSchedule,
   ],
   created() {
-    this.destroyBrowserViews();
-  },
-  methods: {
-    destroyBrowserViews() {
-      const browserViews = remote.getCurrentWindow().getBrowserViews();
-      browserViews.forEach((view) => {
-        remote.getCurrentWindow().removeBrowserView(view);
-        view.destroy();
-      });
-    },
+    ipc.callMain('app-bv-destroy-all');
   },
 };
 </script>

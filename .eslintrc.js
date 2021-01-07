@@ -25,6 +25,10 @@ module.exports = {
     __static: 'readonly',
   },
   settings: {
-    'import/core-modules': ['electron'],
+    'import/core-modules': [
+      'electron',
+      'vue-cli-plugin-electron-builder',
+      'vue-cli-plugin-electron-builder/lib',
+    ],
   },
 };

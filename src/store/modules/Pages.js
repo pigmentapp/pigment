@@ -17,6 +17,8 @@ export default {
         title: '',
         hasNotificationBadge: false,
         url: '',
+        canGoBack: false,
+        canGoForward: false,
         ...pageState,
         ...data,
       };

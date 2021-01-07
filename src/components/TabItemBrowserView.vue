@@ -1,7 +1,17 @@
 <script>
-import { remote } from 'electron';
-import path from 'path';
-import url from 'url';
+import { ipcMain, ipcRenderer } from 'electron';
+import { ipcRenderer as ipc } from 'electron-better-ipc';
+
+// fix for electron-better-ipc
+// from https://github.com/sindresorhus/electron-better-ipc/issues/35
+if (ipcMain !== undefined) {
+  ipcMain.addListener('fix-event-798e09ad-0ec6-5877-a214-d552934468ff', () => {});
+}
+
+if (ipcRenderer !== undefined) {
+  ipcRenderer.addListener('fix-event-79558e00-29ef-5c7f-84bd-0bcd9a0c5cf3', () => {});
+}
+// end fix
 
 export default {
   props: {
@@ -12,13 +22,10 @@ export default {
   },
   data() {
     return {
-      canGoBack: false,
-      canGoForward: false,
       dimTimeout: 0,
       isActive: false,
       isLoaded: false,
-      isLoadedCooldown: 0,
-      view: {},
+      viewId: -1,
     };
   },
   computed: {
@@ -53,30 +60,22 @@ export default {
     userAgent() {
       return this.item.userAgent || navigator.userAgent;
     },
-    webContents() {
-      return this.view.webContents;
-    },
     windowHasFocus() {
       return this.$store.getters['Window/hasFocus'];
-    },
-    viewSize() {
-      return this.$store.getters['Window/mainBoundingClientRect'];
     },
   },
   watch: {
     $route: 'checkActiveState',
-    viewSize: 'resizeView',
     windowHasFocus(value) {
       const {
         dimDelay,
         dimOnWindowBlur,
         isActive,
         muteOnWindowBlur,
-        webContents,
       } = this;
 
       if (muteOnWindowBlur) {
-        webContents.setAudioMuted(!value);
+        this.executeMethod(['setAudioMuted', !value]);
       }
 
       if (dimOnWindowBlur && isActive) {
@@ -93,77 +92,23 @@ export default {
     },
   },
   created() {
-    this.view = new remote.BrowserView({
-      webPreferences: {
-        enableRemoteModule: true,
-        preload: path.join(__static, 'webview.js'),
-        partition: this.item.scope
-          ? `persist:${this.item.scope}`
-          : undefined,
-      },
+    const { id: tabId } = this.item;
+
+    ipc.answerMain('app-bv-is-loaded', ({ viewId, data }) => {
+      if (viewId !== this.viewId) return;
+      this.isLoaded = data.isLoaded;
     });
 
-    this.checkActiveState();
-  },
-  mounted() {
-    const { userAgent, webContents } = this;
-
-    webContents.loadURL(this.item.url, { userAgent });
-
-    webContents.on('did-start-loading', () => {
-      clearTimeout(this.isLoadedCooldown);
-      this.isLoaded = false;
-    });
-
-    webContents.on('did-stop-loading', () => {
-      this.$store.commit('Pages/setState', {
-        tabId: this.item.id,
-        data: { url: webContents.getURL() },
-      });
-
-      this.isLoadedCooldown = setTimeout(() => {
-        this.isLoaded = true;
-      }, 2000);
-    });
-
-    webContents.on('dom-ready', () => {
-      const { customCss, customJs } = this.item;
-      webContents.insertCSS(customCss);
-      webContents.executeJavaScript(customJs);
-    });
-
-    webContents.on('page-title-updated', (_, title) => {
-      this.$store.commit('Pages/setState', {
-        tabId: this.item.id,
-        data: { title },
-      });
+    ipc.answerMain('app-bv-update-state', ({ viewId, data }) => {
+      if (viewId !== this.viewId) return;
+      this.$store.commit('Pages/setState', { tabId, data });
 
       this.evaluateIfHasNotifications();
     });
 
-    webContents.on('page-favicon-updated', (_, favicons) => {
-      const favicon = favicons.pop();
-
-      this.$store.commit('Pages/setState', {
-        tabId: this.item.id,
-        data: { favicon },
-      });
-
-      this.evaluateIfHasNotifications();
-    });
-
-    webContents.on('new-window', (_, openUrl) => {
-      const { protocol } = url.parse(openUrl);
-
-      if (protocol === 'http:' || protocol === 'https:') {
-        remote.shell.openExternal(openUrl);
-      }
-    });
-
-    webContents.on('ipc-message', (_, channel, ...args) => {
-      if (channel !== 'notification') return;
-
-      const [notification] = args;
+    ipc.answerMain('app-bv-new-notification', ({ viewId, data }) => {
+      if (viewId !== this.viewId) return;
+      const { notification } = data;
 
       this.$store.commit('Notifications/add', {
         notification,
@@ -177,31 +122,30 @@ export default {
       }
 
       if (this.notificationsDisplayAppBadge && !this.windowHasFocus) {
-        remote.app.emit('app-show-app-icon-badge');
+        ipc.send('app-show-app-icon-badge');
       }
     });
-
-    webContents.on('did-navigate', () => {
-      this.canGoBack = webContents.canGoBack();
-      this.canGoForward = webContents.canGoForward();
-    });
-
-    webContents.on('did-navigate-in-page', () => {
-      this.canGoBack = webContents.canGoBack();
-      this.canGoForward = webContents.canGoForward();
-    });
-
-    webContents.on('did-frame-navigate', () => {
-      this.canGoBack = webContents.canGoBack();
-      this.canGoForward = webContents.canGoForward();
-    });
+  },
+  mounted() {
+    (async () => {
+      const { userAgent } = this;
+      const { url } = this.item;
+      await this.createView();
+      await this.setCustomScripts();
+      this.executeMethod(['setUserAgent', userAgent]);
+      this.executeMethod(['loadURL', url]);
+      this.checkActiveState();
+    })();
   },
   beforeDestroy() {
-    remote.getCurrentWindow().removeBrowserView(this.view);
-    this.view.destroy();
+    ipc.callMain('app-bv-destroy-by-id', this.viewId);
   },
   methods: {
-    checkActiveState({ name, params, query } = this.$route) {
+    async createView() {
+      const { scope: partition } = this.item;
+      this.viewId = await ipc.callMain('app-bv-create', { partition });
+    },
+    async checkActiveState({ name, params, query } = this.$route) {
       this.isActive = params.id === this.item.id && name === 'tabs';
 
       if (this.isActive) {
@@ -215,7 +159,10 @@ export default {
         this.toggleView(true);
 
         if (query.reload) {
-          this.webContents.reload();
+          const { userAgent } = this;
+          await this.setCustomScripts();
+          this.executeMethod(['setUserAgent', userAgent]);
+          this.executeMethod(['reload']);
         }
       } else {
         this.toggleView(false);
@@ -229,25 +176,24 @@ export default {
         },
       });
     },
-    resizeView(value = this.viewSize) {
-      this.view.setBounds({
-        x: Math.trunc(value.x),
-        y: Math.trunc(value.y),
-        width: Math.trunc(value.width),
-        height: Math.trunc(value.height),
-      });
-    },
     toggleView(show = true) {
-      if (show && this.windowHasFocus) {
-        remote.getCurrentWindow().addBrowserView(this.view);
-        this.resizeView();
-        this.webContents.focus();
+      if (show && (this.windowHasFocus || !this.dimOnWindowBlur)) {
+        ipc.callMain('app-bv-show-by-id', this.viewId);
       } else {
-        remote.getCurrentWindow().removeBrowserView(this.view);
+        ipc.callMain('app-bv-hide-by-id', this.viewId);
       }
     },
     executeMethod([methodName, ...methodParams]) {
-      this.webContents[methodName](...methodParams);
+      ipc.callMain('app-bv-execute-webcontents-method', {
+        viewId: this.viewId,
+        methodName,
+        methodParams,
+      });
+    },
+    async setCustomScripts() {
+      const { viewId } = this;
+      const { customCss: css, customJs: js } = this.item;
+      await ipc.callMain('app-bv-set-custom-scripts', { viewId, css, js });
     },
     hasTabSetting(key) {
       return Object.prototype.hasOwnProperty.call(this.item.settings, key)
@@ -256,8 +202,6 @@ export default {
   },
   render() {
     return this.isActive && this.$scopedSlots.default({
-      canGoBack: this.canGoBack,
-      canGoForward: this.canGoForward,
       executeMethod: this.executeMethod,
     });
   },

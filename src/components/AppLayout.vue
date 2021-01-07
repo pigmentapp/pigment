@@ -45,6 +45,7 @@
 
 <script>
 import debounce from 'lodash.debounce';
+import { ipcRenderer as ipc } from 'electron-better-ipc';
 import TheSideBar from '@/components/TheSideBar.vue';
 import TheTitleBar from '@/components/TheTitleBar.vue';
 import WindowControls from '@/components/WindowControls.vue';
@@ -86,7 +87,13 @@ export default {
     async setMainBoundingClientRect() {
       await this.$nextTick();
       const rect = this.$refs.main.getBoundingClientRect();
-      this.$store.commit('Window/setMainBoundingClientRect', rect);
+
+      await ipc.callMain('app-bv-update-bounds', {
+        x: Math.trunc(rect.x),
+        y: Math.trunc(rect.y),
+        width: Math.trunc(rect.width),
+        height: Math.trunc(rect.height),
+      });
     },
   },
 };
