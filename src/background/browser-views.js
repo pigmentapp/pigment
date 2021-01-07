@@ -102,6 +102,7 @@ const createView = ({ partition: _partition }) => {
     const { protocol } = url.parse(openUrl);
 
     if (!['http:', 'https:'].includes(protocol)) return;
+    e.preventDefault();
     shell.openExternal(openUrl);
   });
 
