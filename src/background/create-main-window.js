@@ -18,7 +18,7 @@ export const createMainWindow = () => {
   window = new BrowserWindow({
     webPreferences: {
       enableRemoteModule: true,
-      nodeIntegration: true,
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
     },
     backgroundColor: '#22292f',
     frame: false,

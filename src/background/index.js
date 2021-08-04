@@ -1,7 +1,7 @@
 import { app, protocol } from 'electron';
 import { ipcMain as ipc } from 'electron-better-ipc';
 import moduleReq from 'module';
-// import { installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { createMainWindow, getMainWindow } from '@/background/create-main-window';
 import createApplicationMenu from '@/background/create-application-menu';
 import initBrowserViews from '@/background/browser-views';
@@ -42,12 +42,9 @@ app.on('before-quit', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
-  // if (isDevelopment && !process.env.IS_TEST) {
-  //   // Install Vue Devtools
-  //   // temp. fix: Electron 6.0.0 does not launch in Windows 10 Dark Mode
-  //   // https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378
-  //   await installVueDevtools();
-  // }
+  if (isDevelopment && !process.env.IS_TEST) {
+    installExtension(VUEJS_DEVTOOLS);
+  }
   createMainWindow();
 
   createApplicationMenu();

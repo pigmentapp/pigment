@@ -27,6 +27,7 @@ module.exports = {
   settings: {
     'import/core-modules': [
       'electron',
+      'electron-devtools-installer',
       'vue-cli-plugin-electron-builder',
       'vue-cli-plugin-electron-builder/lib',
     ],
