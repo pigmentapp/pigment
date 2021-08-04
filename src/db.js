@@ -17,7 +17,7 @@ export default class {
 
   setOptions(options) {
     this.options = {
-      path: path.join(homedir(), `.${name}`),
+      path: path.join(homedir(), `.${name}${process.env.NODE_ENV === 'development' ? '-dev' : ''}`),
       file: undefined,
       defaults: {},
       ...options,
