@@ -33,6 +33,7 @@
 
 <script>
 import { clipboard, remote } from 'electron';
+import { ipcRenderer as ipc } from 'electron-better-ipc';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
@@ -52,6 +53,7 @@ export default {
   data() {
     return {
       isMenuOpen: false,
+      ipcListeners: [],
     };
   },
   computed: {
@@ -62,6 +64,18 @@ export default {
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
+  },
+  created() {
+    this.ipcListeners.push(
+      ipc.answerMain('app-tabs-active-reload', () => { this.$emit('execute', ['reload']); }),
+      ipc.answerMain('app-tabs-active-reload-hard', () => { this.$emit('execute', ['reloadIgnoringCache']); }),
+      ipc.answerMain('app-tabs-active-edit', () => { this.$router.push({ name: 'tabs-edit', params: { id: this.item.id } }); }),
+      ipc.answerMain('app-tabs-active-delete', () => { this.deleteTab(); }),
+      ipc.answerMain('app-tabs-active-toggle-devtools', () => { this.$emit('execute', ['toggleDevTools']); }),
+    );
+  },
+  beforeDestroy() {
+    this.ipcListeners.forEach((listener) => listener());
   },
   methods: {
     setAsHome() {
@@ -96,6 +110,7 @@ export default {
         },
         {
           label: 'Hard reload',
+          accelerator: 'CmdOrCtrl+Shift+R',
           click: () => this.$emit('execute', ['reloadIgnoringCache']),
         },
         {
@@ -105,15 +120,18 @@ export default {
         { type: 'separator' },
         {
           label: 'Edit',
+          accelerator: 'CmdOrCtrl+E',
           click: () => this.$router.push({ name: 'tabs-edit', params: { id: this.item.id } }),
         },
         {
           label: 'Delete',
+          accelerator: 'CmdOrCtrl+W',
           click: () => this.deleteTab(),
         },
         { type: 'separator' },
         {
           label: 'Show devtools',
+          accelerator: 'CmdOrCtrl+Shift+I',
           click: () => this.$emit('execute', ['toggleDevTools']),
         },
       ]);
