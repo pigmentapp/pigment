@@ -41,12 +41,12 @@
     "prismjs": "^1.20.0",
     "semver": "^6.3.0",
     "shuffle-array": "^1.0.1",
-    "vue": "^2.6.12",
+    "vue": "^2.6.14",
     "vue-electron": "^1.0.6",
     "vue-prism-editor": "^0.3.0",
-    "vue-router": "^3.4.9",
+    "vue-router": "^3.5.2",
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.5.1",
+    "vuex": "^3.6.2",
     "vuex-persist": "^1.7.0"
   },
   "devDependencies": {
@@ -54,11 +54,11 @@
     "@commitlint/config-conventional": "^11.0.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@vue/cli-plugin-babel": "^4.5.8",
-    "@vue/cli-plugin-eslint": "^4.5.8",
-    "@vue/cli-plugin-router": "^4.5.8",
-    "@vue/cli-plugin-vuex": "^4.5.8",
-    "@vue/cli-service": "^4.5.8",
+    "@vue/cli-plugin-babel": "^4.5.13",
+    "@vue/cli-plugin-eslint": "^4.5.13",
+    "@vue/cli-plugin-router": "^4.5.13",
+    "@vue/cli-plugin-vuex": "^4.5.13",
+    "@vue/cli-service": "^4.5.13",
     "@vue/eslint-config-airbnb": "^5.1.0",
     "babel-eslint": "^10.1.0",
     "electron": "^13.1.8",
@@ -69,7 +69,7 @@
     "semantic-release": "^17.2.2",
     "tailwindcss": "^1.6.2",
     "vue-cli-plugin-electron-builder": "^2.1.1",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.14"
   },
   "main": "background.js",
   "gitHooks": {
