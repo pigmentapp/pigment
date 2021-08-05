@@ -17,12 +17,12 @@
     <div
       :class="{
         [$style.thumb]: true,
-        [$style.thumbIsImage]: pageState.favicon,
-        [$style.thumbIsIcon]: !pageState.favicon,
+        [$style.thumbIsImage]: favicon,
+        [$style.thumbIsIcon]: !favicon,
       }"
     >
       <img
-        v-if="pageState.favicon"
+        v-if="favicon"
         :src="pageState.favicon"
         :class="$style.image"
       >
@@ -52,6 +52,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      favicon: '',
+    };
+  },
   computed: {
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
@@ -64,6 +69,32 @@ export default {
     },
     badgeSize() {
       return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeSize');
+    },
+  },
+  watch: {
+    pageState: {
+      immediate: true,
+      handler: 'loadFavicon',
+    },
+  },
+  methods: {
+    loadFavicon() {
+      const { favicon } = this.pageState;
+      if (!favicon) {
+        this.favicon = '';
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        this.favicon = favicon;
+      };
+
+      img.onerror = () => {
+        this.favicon = '';
+      };
+
+      img.src = favicon;
     },
   },
 };
