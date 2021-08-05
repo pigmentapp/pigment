@@ -20,6 +20,7 @@
         [$style.thumbIsImage]: favicon,
         [$style.thumbIsIcon]: !favicon,
       }"
+      @contextmenu="openContextMenu"
     >
       <img
         v-if="favicon"
@@ -41,6 +42,8 @@
 </template>
 
 <script>
+import { ipcRenderer as ipc } from 'electron-better-ipc';
+
 export default {
   props: {
     item: {
@@ -95,6 +98,9 @@ export default {
       };
 
       img.src = favicon;
+    },
+    openContextMenu() {
+      ipc.callMain('app-tabs-open-context-menu-by-id', this.item.id);
     },
   },
 };

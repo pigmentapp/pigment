@@ -4,6 +4,7 @@ import moduleReq from 'module';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { createMainWindow, getMainWindow } from '@/background/create-main-window';
 import createApplicationMenu from '@/background/create-application-menu';
+import createTabContextMenu from '@/background/create-tab-context-menu';
 import initBrowserViews from '@/background/browser-views';
 
 app.setAppUserModelId(process.execPath);
@@ -48,6 +49,8 @@ app.on('ready', async () => {
   createMainWindow();
 
   createApplicationMenu();
+
+  createTabContextMenu();
 
   initBrowserViews();
 
