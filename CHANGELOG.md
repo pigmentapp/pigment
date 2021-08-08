@@ -1,3 +1,19 @@
+# [0.14.0](https://github.com/pigmentapp/pigment/compare/0.13.1...0.14.0) (2021-08-08)
+
+
+### Bug Fixes
+
+* **navigation:** prevent broken favicons ([879b482](https://github.com/pigmentapp/pigment/commit/879b4822b65b65a61c417535e0fa6eb905acbe53))
+
+
+### Features
+
+* **electron:** update to 13.1.7 with chromium 91.0.4472.124 ([c6574ef](https://github.com/pigmentapp/pigment/commit/c6574ef34fdfcf573273ce03b26b23c682333bfc))
+* **navigation:** add context menu for tabs ([1337a4a](https://github.com/pigmentapp/pigment/commit/1337a4aa7b0a51356ffcc0b722e53066f7685f9d))
+* **navigation:** sort tabs by context menu ([bf3891a](https://github.com/pigmentapp/pigment/commit/bf3891afa104467ea79274e6589cae0e4b79b1a2))
+* **tabs:** add common keyboard shortcuts for active tab ([40d9891](https://github.com/pigmentapp/pigment/commit/40d98910a141f8808008cda4285b4a67acc9fc12))
+* **webview:** integrate context menu to copy/paste + save + search + inspect contents ([f58fce7](https://github.com/pigmentapp/pigment/commit/f58fce7bd483dd051875696beb9f6ac5e0c7783b))
+
 ## [0.13.1](https://github.com/pigmentapp/pigment/compare/0.13.0...0.13.1) (2021-01-07)
 
 
