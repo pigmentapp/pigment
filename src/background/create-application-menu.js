@@ -1,4 +1,5 @@
 import { app, Menu } from 'electron';
+import { ipcMain as ipc } from 'electron-better-ipc';
 
 const createApplicationMenu = () => {
   Menu.setApplicationMenu(
@@ -38,7 +39,12 @@ const createApplicationMenu = () => {
       {
         label: 'Tabs',
         submenu: [
-          { label: 'New Tab', accelerator: 'CmdOrCtrl+N', click: () => app.emit('app-router-goto-tabs-create') },
+          { label: 'New tab', accelerator: 'CmdOrCtrl+N', click: () => app.emit('app-router-goto-tabs-create') },
+          { label: 'Reload active tab', accelerator: 'CmdOrCtrl+R', click: () => { ipc.callFocusedRenderer('app-tabs-active-reload'); } },
+          { label: 'Reload active tab (hard)', accelerator: 'CmdOrCtrl+Shift+R', click: () => { ipc.callFocusedRenderer('app-tabs-active-reload-hard'); } },
+          { label: 'Edit active tab', accelerator: 'CmdOrCtrl+E', click: () => { ipc.callFocusedRenderer('app-tabs-active-edit'); } },
+          { label: 'Delete active tab', accelerator: 'CmdOrCtrl+W', click: () => { ipc.callFocusedRenderer('app-tabs-active-delete'); } },
+          { label: 'Toggle devtools of active tab', accelerator: 'CmdOrCtrl+Shift+I', click: () => { ipc.callFocusedRenderer('app-tabs-active-toggle-devtools'); } },
           { type: 'separator' },
           { label: 'Show tab 1', accelerator: 'CmdOrCtrl+1', click: () => app.emit('app-router-goto-tab-list-index', 1) },
           { label: 'Show tab 2', accelerator: 'CmdOrCtrl+2', click: () => app.emit('app-router-goto-tab-list-index', 2) },
@@ -53,7 +59,7 @@ const createApplicationMenu = () => {
             label: 'Alternatives',
             visible: false,
             submenu: [
-              { label: 'New Tab', accelerator: 'CmdOrCtrl+T', click: () => app.emit('app-router-goto-tabs-create') },
+              { label: 'New tab', accelerator: 'CmdOrCtrl+T', click: () => app.emit('app-router-goto-tabs-create') },
               { type: 'separator' },
               { label: 'Show tab 1', accelerator: 'CmdOrCtrl+num1', click: () => app.emit('app-router-goto-tab-list-index', 1) },
               { label: 'Show tab 2', accelerator: 'CmdOrCtrl+num2', click: () => app.emit('app-router-goto-tab-list-index', 2) },

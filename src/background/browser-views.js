@@ -1,12 +1,16 @@
 import path from 'path';
 import { BrowserView, shell } from 'electron';
 import { ipcMain as ipc } from 'electron-better-ipc';
+import contextMenu from 'electron-context-menu';
 import url from 'url';
 import { getMainWindow } from '@/background/create-main-window';
+import { nanoid } from 'nanoid';
 
 let bounds = {};
-const views = [];
-const customScripts = [];
+
+const views = {};
+const contextMenus = {};
+const customScripts = {};
 
 const updateAllViewsBounds = () => {
   getMainWindow().getBrowserViews().forEach((view) => view.setBounds(bounds));
@@ -24,13 +28,13 @@ const setCustomScripts = ({ viewId, css = '', js = '' }) => {
 const destroyById = (id) => {
   const view = views[id];
   if (!view) return;
+  contextMenus[id]();
   getMainWindow().removeBrowserView(view);
-  view.destroy();
   delete views[id];
 };
 
 const destroyAll = () => {
-  views.forEach((view) => destroyById(view.id));
+  Object.keys(views).forEach((viewId) => destroyById(viewId));
 };
 
 const showById = (id) => {
@@ -43,7 +47,7 @@ const showById = (id) => {
 
 const hideById = (id) => {
   const mainWindow = getMainWindow();
-  const view = mainWindow.getBrowserViews().find((v) => v.id === id);
+  const view = views[id];
   if (!view) return;
   mainWindow.removeBrowserView(view);
 };
@@ -57,53 +61,75 @@ const executeWebContentsMethod = ({ viewId, methodName, methodParams }) => {
 const createView = ({ partition: _partition }) => {
   const preload = path.join(__static, 'webview.js');
   const partition = _partition ? `persist:${_partition}` : undefined;
-  const view = new BrowserView({ webPreferences: { preload, partition } });
+  const view = new BrowserView({
+    webPreferences: {
+      contextIsolation: false,
+      partition,
+      preload,
+    },
+  });
 
-  views[view.id] = view;
+  const viewId = nanoid();
+
+  views[viewId] = view;
 
   let isLoadedCooldown = 0;
 
   const { webContents } = view;
 
+  contextMenus[viewId] = contextMenu({
+    window: {
+      webContents,
+      inspectElement: webContents.inspectElement.bind(webContents),
+    },
+    showCopyImageAddress: true,
+    showInspectElement: true,
+    showSaveImageAs: true,
+    showSaveLinkAs: true,
+    showServices: true,
+  });
+
   webContents.on('did-start-loading', () => {
     clearTimeout(isLoadedCooldown);
-    const payload = { viewId: view.id, data: { isLoaded: false } };
+    const payload = { viewId, data: { isLoaded: false } };
     ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', payload);
   });
 
   webContents.on('did-stop-loading', () => {
-    const statePayload = { viewId: view.id, data: { url: webContents.getURL() } };
+    const statePayload = { viewId, data: { url: webContents.getURL() } };
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', statePayload);
 
     isLoadedCooldown = setTimeout(() => {
-      const isLoadedPayload = { viewId: view.id, data: { isLoaded: true } };
+      const isLoadedPayload = { viewId, data: { isLoaded: true } };
       ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', isLoadedPayload);
     }, 2000);
   });
 
   webContents.on('dom-ready', () => {
-    const scripts = customScripts[view.id];
+    const scripts = customScripts[viewId];
     webContents.insertCSS(scripts ? scripts.css : '');
     webContents.executeJavaScript(scripts ? scripts.js : '');
   });
 
   webContents.on('page-title-updated', (_, title) => {
-    const payload = { viewId: view.id, data: { title } };
+    const payload = { viewId, data: { title } };
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
   });
 
   webContents.on('page-favicon-updated', (_, favicons) => {
     const favicon = favicons.pop();
-    const payload = { viewId: view.id, data: { favicon } };
+    const payload = { viewId, data: { favicon } };
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
   });
 
-  webContents.on('new-window', (e, openUrl) => {
-    const { protocol } = url.parse(openUrl);
+  webContents.setWindowOpenHandler((details) => {
+    const { protocol } = url.parse(details.url);
 
-    if (!['http:', 'https:'].includes(protocol)) return;
-    e.preventDefault();
-    shell.openExternal(openUrl);
+    if (['http:', 'https:'].includes(protocol)) {
+      shell.openExternal(details.url);
+    }
+
+    return { action: 'deny' };
   });
 
   webContents.on('ipc-message', (_, channel, ...args) => {
@@ -112,14 +138,14 @@ const createView = ({ partition: _partition }) => {
     const [notification] = args;
 
     ipc.callRenderer(getMainWindow(), 'app-bv-new-notification', {
-      viewId: view.id,
+      viewId,
       data: { notification },
     });
   });
 
   const canGo = () => {
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', {
-      viewId: view.id,
+      viewId,
       data: {
         canGoBack: webContents.canGoBack(),
         canGoForward: webContents.canGoForward(),
@@ -131,7 +157,7 @@ const createView = ({ partition: _partition }) => {
   webContents.on('did-navigate-in-page', canGo);
   webContents.on('did-frame-navigate', canGo);
 
-  return view.id;
+  return viewId;
 };
 
 const initBrowserViews = () => {

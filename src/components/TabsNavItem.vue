@@ -17,12 +17,13 @@
     <div
       :class="{
         [$style.thumb]: true,
-        [$style.thumbIsImage]: pageState.favicon,
-        [$style.thumbIsIcon]: !pageState.favicon,
+        [$style.thumbIsImage]: favicon,
+        [$style.thumbIsIcon]: !favicon,
       }"
+      @contextmenu="openContextMenu"
     >
       <img
-        v-if="pageState.favicon"
+        v-if="favicon"
         :src="pageState.favicon"
         :class="$style.image"
       >
@@ -41,8 +42,14 @@
 </template>
 
 <script>
+import { ipcRenderer as ipc } from 'electron-better-ipc';
+
 export default {
   props: {
+    index: {
+      type: Number,
+      required: true,
+    },
     item: {
       type: Object,
       default: () => ({}),
@@ -52,7 +59,15 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      favicon: '',
+    };
+  },
   computed: {
+    tabList() {
+      return this.$store.getters['Tabs/listSorted'];
+    },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
@@ -64,6 +79,39 @@ export default {
     },
     badgeSize() {
       return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeSize');
+    },
+  },
+  watch: {
+    pageState: {
+      immediate: true,
+      handler: 'loadFavicon',
+    },
+  },
+  methods: {
+    loadFavicon() {
+      const { favicon } = this.pageState;
+      if (!favicon) {
+        this.favicon = '';
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        this.favicon = favicon;
+      };
+
+      img.onerror = () => {
+        this.favicon = '';
+      };
+
+      img.src = favicon;
+    },
+    openContextMenu() {
+      ipc.callMain('app-tabs-open-context-menu-by-id', {
+        id: this.item.id,
+        isFirst: this.index === 0,
+        isLast: this.tabList.length - 1 === this.index,
+      });
     },
   },
 };
