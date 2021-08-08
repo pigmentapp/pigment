@@ -46,6 +46,10 @@ import { ipcRenderer as ipc } from 'electron-better-ipc';
 
 export default {
   props: {
+    index: {
+      type: Number,
+      required: true,
+    },
     item: {
       type: Object,
       default: () => ({}),
@@ -61,6 +65,9 @@ export default {
     };
   },
   computed: {
+    tabList() {
+      return this.$store.getters['Tabs/listSorted'];
+    },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
@@ -100,7 +107,11 @@ export default {
       img.src = favicon;
     },
     openContextMenu() {
-      ipc.callMain('app-tabs-open-context-menu-by-id', this.item.id);
+      ipc.callMain('app-tabs-open-context-menu-by-id', {
+        id: this.item.id,
+        isFirst: this.index === 0,
+        isLast: this.tabList.length - 1 === this.index,
+      });
     },
   },
 };
