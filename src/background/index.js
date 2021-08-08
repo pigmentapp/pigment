@@ -1,11 +1,17 @@
 import { app, protocol } from 'electron';
 import { ipcMain as ipc } from 'electron-better-ipc';
+import electronDl from 'electron-dl';
 import moduleReq from 'module';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { createMainWindow, getMainWindow } from '@/background/create-main-window';
 import createApplicationMenu from '@/background/create-application-menu';
 import createTabContextMenu from '@/background/create-tab-context-menu';
 import initBrowserViews from '@/background/browser-views';
+
+electronDl({
+  openFolderWhenDone: true,
+  saveAs: true,
+});
 
 app.setAppUserModelId(process.execPath);
 

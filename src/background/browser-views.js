@@ -1,12 +1,15 @@
 import path from 'path';
 import { BrowserView, shell } from 'electron';
 import { ipcMain as ipc } from 'electron-better-ipc';
+import contextMenu from 'electron-context-menu';
 import url from 'url';
 import { getMainWindow } from '@/background/create-main-window';
 import { nanoid } from 'nanoid';
 
 let bounds = {};
+
 const views = {};
+const contextMenus = {};
 const customScripts = {};
 
 const updateAllViewsBounds = () => {
@@ -25,6 +28,7 @@ const setCustomScripts = ({ viewId, css = '', js = '' }) => {
 const destroyById = (id) => {
   const view = views[id];
   if (!view) return;
+  contextMenus[id]();
   getMainWindow().removeBrowserView(view);
   delete views[id];
 };
@@ -73,6 +77,18 @@ const createView = ({ partition: _partition }) => {
 
   const { webContents } = view;
 
+  contextMenus[viewId] = contextMenu({
+    window: {
+      webContents,
+      inspectElement: webContents.inspectElement.bind(webContents),
+    },
+    showCopyImageAddress: true,
+    showInspectElement: true,
+    showSaveImageAs: true,
+    showSaveLinkAs: true,
+    showServices: true,
+  });
+
   webContents.on('did-start-loading', () => {
     clearTimeout(isLoadedCooldown);
     const payload = { viewId, data: { isLoaded: false } };
@@ -117,7 +133,6 @@ const createView = ({ partition: _partition }) => {
   });
 
   webContents.on('ipc-message', (_, channel, ...args) => {
-    console.log(channel);
     if (channel !== 'notification') return;
 
     const [notification] = args;
