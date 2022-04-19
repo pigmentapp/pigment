@@ -1,3 +1,10 @@
+## [0.14.1](https://github.com/pigmentapp/pigment/compare/0.14.0...0.14.1) (2022-04-19)
+
+
+### Bug Fixes
+
+* **electron:** update to 18.0.3 with chromium 100.0.4896.75 + replace deprecated `remote` module ([2f93301](https://github.com/pigmentapp/pigment/commit/2f933017ab6128f2757b4f0521d4c2ab5efe9e24))
+
 # [0.14.0](https://github.com/pigmentapp/pigment/compare/0.13.1...0.14.0) (2021-08-08)
 
 
