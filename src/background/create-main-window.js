@@ -1,6 +1,9 @@
 import path from 'path';
 import windowStateKeeper from 'electron-window-state';
-import { app, BrowserWindow, shell } from 'electron';
+import {
+  app, BrowserWindow, shell, session,
+} from 'electron';
+import { ipcMain as ipc } from 'electron-better-ipc';
 import { format as formatUrl } from 'url';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import checkForUpdates from '@/utils/updater';
@@ -18,7 +21,6 @@ export const createMainWindow = () => {
   window = new BrowserWindow({
     webPreferences: {
       contextIsolation: false,
-      enableRemoteModule: true,
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
     },
     backgroundColor: '#22292f',
@@ -54,7 +56,7 @@ export const createMainWindow = () => {
       slashes: true,
     }));
 
-    checkForUpdates();
+    checkForUpdates(window);
   }
 
   window.on('ready-to-show', () => {
@@ -73,6 +75,38 @@ export const createMainWindow = () => {
     if (process.platform !== 'darwin' || app.quitting) {
       window = null;
     }
+  });
+
+  window.on('maximize', () => {
+    ipc.callRenderer(window, 'app-is-maximized', true);
+  });
+
+  window.on('unmaximize', () => {
+    ipc.callRenderer(window, 'app-is-maximized', false);
+  });
+
+  ipc.callRenderer(window, 'app-is-maximized', window.isMaximized());
+
+  ipc.answerRenderer('app-toggle-maximized', () => {
+    if (window.isMaximized()) window.unmaximize();
+    else window.maximize();
+  });
+
+  window.on('focus', () => {
+    ipc.callRenderer(window, 'app-has-focus', true);
+  });
+
+  window.on('blur', () => {
+    ipc.callRenderer(window, 'app-has-focus', false);
+  });
+
+  ipc.callRenderer(window, 'app-has-focus', window.isFocused());
+
+  ipc.answerRenderer('app-wipe-cache', async () => {
+    await session.defaultSession.clearCache();
+    await session.defaultSession.clearStorageData();
+    app.relaunch();
+    app.exit();
   });
 
   window.webContents.on('devtools-opened', () => {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import marked from 'marked';
+import { marked } from 'marked';
 import semver from 'semver';
 
 const renderer = new marked.Renderer();
@@ -52,7 +52,6 @@ export default {
       return marked(val, {
         headerIds: false,
         renderer,
-        sanitize: true,
       });
     },
   },

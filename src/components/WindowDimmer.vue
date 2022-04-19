@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { ipcRenderer as ipc } from 'electron-better-ipc';
+
 export default {
   data() {
     return {
@@ -80,13 +82,13 @@ export default {
     },
   },
   created() {
-    this.$electron.remote.app.on('browser-window-blur', this.onBlur);
-    this.$electron.remote.app.on('browser-window-focus', this.onFocus);
+    ipc.answerMain('app-has-focus', (hasFocus) => {
+      if (hasFocus) this.onFocus();
+      else this.onBlur();
+    });
 
     window.addEventListener('beforeunload', () => {
       clearTimeout(this.timeout);
-      this.$electron.remote.app.off('browser-window-blur', this.onBlur);
-      this.$electron.remote.app.off('browser-window-focus', this.onFocus);
     });
   },
   methods: {

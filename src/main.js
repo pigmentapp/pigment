@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import VueElectron from 'vue-electron';
 import PortalVue from 'portal-vue';
 import App from './App.vue';
 import router from './router';
@@ -18,7 +17,6 @@ import AppTabs from './components/AppTabs.vue';
 
 import './utils/pluginProductInfo';
 
-Vue.use(VueElectron);
 Vue.use(PortalVue);
 
 Vue.config.productionTip = false;

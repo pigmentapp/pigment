@@ -14,11 +14,18 @@ export default {
     },
   },
   created() {
-    const { app } = this.$electron.remote;
     const r = this.$router;
 
-    app.on('app-router-goto-tabs-create', () => r.push({ name: 'tabs-create' }));
-    app.on('app-router-goto-tab-list-index', (index) => this.goToTabWithListIndex(index));
+    ipc.answerMain('app-router-goto-tabs-create', () => r.push({ name: 'tabs-create' }));
+    ipc.answerMain('app-router-goto-tab-list-index', (index) => this.goToTabWithListIndex(index));
+
+    ipc.answerMain('app-router-push', (routeProps) => {
+      r.push(routeProps);
+    });
+
+    ipc.answerMain('app-settings-toggle', (settingsIdentifier) => {
+      this.$store.dispatch('Settings/toggle', settingsIdentifier);
+    });
   },
   methods: {
     goToTabWithListIndex(index) {
