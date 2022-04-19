@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { clipboard, remote } from 'electron';
 import { ipcRenderer as ipc } from 'electron-better-ipc';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
@@ -72,6 +71,9 @@ export default {
       ipc.answerMain('app-tabs-active-edit', () => { this.$router.push({ name: 'tabs-edit', params: { id: this.item.id } }); }),
       ipc.answerMain('app-tabs-active-delete', () => { this.deleteTab(); }),
       ipc.answerMain('app-tabs-active-toggle-devtools', () => { this.$emit('execute', ['toggleDevTools']); }),
+      ipc.answerMain('app-tabs-active-go-to-home', () => { this.$emit('execute', ['loadURL', this.item.url]); }),
+      ipc.answerMain('app-tabs-active-set-as-home', () => { this.setAsHome(); }),
+      ipc.answerMain('app-tabs-active-menu-close', () => { this.isMenuOpen = false; }),
     );
   },
   beforeDestroy() {
@@ -95,59 +97,15 @@ export default {
       if (this.isMenuOpen) return;
       this.isMenuOpen = true;
 
-      const settingsMenu = remote.Menu.buildFromTemplate([
-        {
-          label: 'Go to homepage',
-          type: 'checkbox',
-          checked: this.item.url === this.pageState.url,
-          click: () => this.$emit('execute', ['loadURL', this.item.url]),
-        },
-        {
-          label: 'Set as homepage',
-          type: 'checkbox',
-          checked: this.item.url === this.pageState.url,
-          click: () => this.setAsHome(),
-        },
-        {
-          label: 'Hard reload',
-          accelerator: 'CmdOrCtrl+Shift+R',
-          click: () => this.$emit('execute', ['reloadIgnoringCache']),
-        },
-        {
-          label: 'Copy URL to clipboard',
-          click: () => clipboard.writeText(this.pageState.url),
-        },
-        { type: 'separator' },
-        {
-          label: 'Edit',
-          accelerator: 'CmdOrCtrl+E',
-          click: () => this.$router.push({ name: 'tabs-edit', params: { id: this.item.id } }),
-        },
-        {
-          label: 'Delete',
-          accelerator: 'CmdOrCtrl+W',
-          click: () => this.deleteTab(),
-        },
-        { type: 'separator' },
-        {
-          label: 'Show devtools',
-          accelerator: 'CmdOrCtrl+Shift+I',
-          click: () => this.$emit('execute', ['toggleDevTools']),
-        },
-      ]);
-
       // remove :key from ref="menuBtn" element once this is fixed:
       // https://github.com/LinusBorg/portal-vue/issues/294
       const btnRect = this.$refs.menuBtn.$el.getBoundingClientRect();
 
-      settingsMenu.popup({
+      ipc.callMain('app-show-tab-menu', {
+        currentUrl: this.pageState.url,
+        startUrl: this.item.url,
         x: Math.trunc(btnRect.x),
         y: Math.trunc(btnRect.y + btnRect.height),
-        callback: () => {
-          setTimeout(() => {
-            this.isMenuOpen = false;
-          }, 10);
-        },
       });
     },
   },

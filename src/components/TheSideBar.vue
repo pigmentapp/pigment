@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { remote } from 'electron';
+import { ipcRenderer as ipc } from 'electron-better-ipc';
 import SideBarButton from '@/components/SideBarButton.vue';
 import TabsNav from '@/components/TabsNav.vue';
 
@@ -47,7 +47,7 @@ export default {
     },
   },
   created() {
-    remote.app.on('app-update-available', (info) => {
+    ipc.answerMain('app-update-available', (info) => {
       if (this.$route.name !== 'home') {
         this.showMenuBadge = true;
       }
@@ -56,45 +56,14 @@ export default {
   },
   methods: {
     showMenu() {
-      const settingsMenu = remote.Menu.buildFromTemplate([
-        {
-          label: 'Show navigation labels',
-          type: 'checkbox',
-          checked: this.$store.getters['Settings/byKey']('navigation.displayTabLabels'),
-          click: () => this.$store.dispatch('Settings/toggle', 'navigation.displayTabLabels'),
-        },
-        {
-          label: `Dim contents when ${this.$productInfo.productName} is out of focus`,
-          type: 'checkbox',
-          checked: this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus'),
-          click: () => this.$store.dispatch('Settings/toggle', 'dimmer.dimIfWindowIsNotInFocus'),
-        },
-        {
-          label: `Mute audio when ${this.$productInfo.productName} is out of focus`,
-          type: 'checkbox',
-          checked: this.$store.getters['Settings/byKey']('window.muteAudioIfWindowIsNotInFocus'),
-          click: () => this.$store.dispatch('Settings/toggle', 'window.muteAudioIfWindowIsNotInFocus'),
-        },
-        {
-          label: `Hold back notifications when ${this.$productInfo.productName} is out of focus`,
-          type: 'checkbox',
-          checked: this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus'),
-          click: () => this.$store.dispatch('Settings/toggle', 'notifications.holdBackIfWindowIsNotInFocus'),
-        },
-        { type: 'separator' },
-        {
-          label: 'More settings…',
-          click: () => this.$router.push({ name: 'settings' }),
-        },
-        { type: 'separator' },
-        {
-          label: 'Check for updates…',
-          click: () => remote.app.emit('app-update-check'),
-        },
-        { role: 'toggledevtools' },
-      ]);
-
-      settingsMenu.popup();
+      ipc.callMain('app-show-settings-menu', {
+        checked: [
+          this.$store.getters['Settings/byKey']('navigation.displayTabLabels') && 'navigation.displayTabLabels',
+          this.$store.getters['Settings/byKey']('dimmer.dimIfWindowIsNotInFocus') && 'dimmer.dimIfWindowIsNotInFocus',
+          this.$store.getters['Settings/byKey']('window.muteAudioIfWindowIsNotInFocus') && 'window.muteAudioIfWindowIsNotInFocus',
+          this.$store.getters['Settings/byKey']('notifications.holdBackIfWindowIsNotInFocus') && 'notifications.holdBackIfWindowIsNotInFocus',
+        ],
+      });
     },
   },
 };

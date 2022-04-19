@@ -256,6 +256,7 @@
 </template>
 
 <script>
+import { ipcRenderer as ipc } from 'electron-better-ipc';
 import SettingsItemButton from '@/components/SettingsItemButton.vue';
 import SettingsItemSelect from '@/components/SettingsItemSelect.vue';
 import SettingsItemInput from '@/components/SettingsItemInput.vue';
@@ -277,14 +278,7 @@ export default {
   methods: {
     wipeAppData() {
       if (window.confirm('Are you sure you want to to that?')) { // eslint-disable-line no-alert
-        this.$electron.remote.session.defaultSession.clearCache(() => {
-          this.$electron.remote.session.defaultSession.clearStorageData({
-            storages: ['localstorage', 'caches', 'indexdb'],
-          }, () => {
-            this.$router.replace('/');
-            this.$electron.remote.getCurrentWindow().reload();
-          });
-        });
+        ipc.callMain('app-wipe-cache');
       }
     },
   },

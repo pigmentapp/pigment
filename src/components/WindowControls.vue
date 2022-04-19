@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { ipcRenderer as ipc } from 'electron-better-ipc';
 import TitleBarButton from '@/components/TitleBarButton.vue';
 
 export default {
@@ -36,32 +37,14 @@ export default {
       isMaximized: false,
     };
   },
-  computed: {
-    window() {
-      return this.$electron.remote.getCurrentWindow();
-    },
-  },
   created() {
-    this.watchMaximizedState();
+    ipc.answerMain('app-is-maximized', (isMaximized) => {
+      this.isMaximized = isMaximized;
+    });
   },
   methods: {
-    watchMaximizedState() {
-      this.isMaximized = this.window.isMaximized();
-
-      this.window.on('maximize', () => {
-        this.isMaximized = true;
-      });
-
-      this.window.on('unmaximize', () => {
-        this.isMaximized = false;
-      });
-    },
     toggleMaximized() {
-      if (this.isMaximized) {
-        this.window.unmaximize();
-      } else {
-        this.window.maximize();
-      }
+      ipc.callMain('app-toggle-maximized');
     },
   },
 };

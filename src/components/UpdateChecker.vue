@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { remote } from 'electron';
+import { ipcRenderer as ipc } from 'electron-better-ipc';
 
 export default {
   isWin: process.platform === 'win32',
@@ -67,13 +67,13 @@ export default {
     },
   },
   created() {
-    remote.app.on('app-update-error', (error) => {
+    ipc.answerMain('app-update-error', (error) => {
       // eslint-disable-next-line no-console
       console.error(error);
       this.isInstalling = false;
     });
 
-    remote.app.on('app-update-download-progress', (info) => {
+    ipc.answerMain('app-update-download-progress', (info) => {
       // eslint-disable-next-line no-console
       console.info(info);
       this.downloadProgress = info;
@@ -82,7 +82,7 @@ export default {
   methods: {
     downloadAndInstall() {
       this.isInstalling = true;
-      remote.app.emit('app-update-start-download');
+      ipc.callMain('app-update-start-download');
     },
   },
 };
