@@ -96,6 +96,10 @@ export const createMainWindow = () => {
     else window.maximize();
   });
 
+  ipc.answerRenderer('app-minimize', () => {
+    window.minimize();
+  });
+
   window.on('focus', () => {
     ipc.callRenderer(window, 'app-has-focus', true);
   });
