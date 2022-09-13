@@ -71,6 +71,10 @@ export const createMainWindow = () => {
     }
   });
 
+  ipc.answerRenderer('app-close', () => {
+    window.close();
+  });
+
   window.on('closed', () => {
     if (process.platform !== 'darwin' || app.quitting) {
       window = null;
