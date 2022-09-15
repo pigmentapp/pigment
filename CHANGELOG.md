@@ -1,3 +1,21 @@
+# [0.15.0](https://github.com/pigmentapp/pigment/compare/0.14.1...0.15.0) (2022-09-15)
+
+
+### Bug Fixes
+
+* **electron:** update to 20.1.3 with chromium 104.0.5112.65 ([4083aea](https://github.com/pigmentapp/pigment/commit/4083aea05fc22b160acc5f360a5eb52f18825e56))
+* **window:** fix 'close window' button on windows ([a84a278](https://github.com/pigmentapp/pigment/commit/a84a278bf9d57c3214bfdd7c72c2afc5793a7038))
+* **window:** fix 'minimize window' button on windows ([dbeae56](https://github.com/pigmentapp/pigment/commit/dbeae56ef1ea6a7245e4808853d066afa93b82bd))
+
+
+### Features
+
+* add modified fallback user agent ([9640d18](https://github.com/pigmentapp/pigment/commit/9640d18c244986d94168aa7c44af0afe9672eea0))
+* **navigation:** add secondary menu to hide tabs in it ([6aa60c0](https://github.com/pigmentapp/pigment/commit/6aa60c09b9c5a1509e9a1f4c04d279e55e03dd2a))
+* **tabs:** add option to move tab to new secondary menu ([ee66494](https://github.com/pigmentapp/pigment/commit/ee66494bfa017b2a46bf9e267523d04fd5326737))
+* update some dependencies ([d1cbbca](https://github.com/pigmentapp/pigment/commit/d1cbbca86b2cdb145758f3098f47fd604161c284))
+* **webview:** add menu items to 'select all' and copy/save videos ([4e5d8d8](https://github.com/pigmentapp/pigment/commit/4e5d8d81df9c78e280bff561114df7b3a9255796))
+
 ## [0.14.1](https://github.com/pigmentapp/pigment/compare/0.14.0...0.14.1) (2022-04-19)
 
 
