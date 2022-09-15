@@ -16,4 +16,6 @@ export {
   mdiTabPlus,
   mdiToggleSwitch,
   mdiToggleSwitchOff,
+  mdiUnfoldMoreHorizontal,
+  mdiUnfoldLessHorizontal,
 } from '@mdi/js';

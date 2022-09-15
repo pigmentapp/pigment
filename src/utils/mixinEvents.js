@@ -3,7 +3,7 @@ import { ipcRenderer as ipc } from 'electron-better-ipc';
 export default {
   computed: {
     tabListSorted() {
-      return this.$store.getters['Tabs/listSorted'];
+      return this.$store.getters['Tabs/listSorted'].filter((tab) => !tab.isSecondary);
     },
   },
   watch: {

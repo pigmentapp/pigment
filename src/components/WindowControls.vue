@@ -3,7 +3,7 @@
     <title-bar-button
       schema="gray"
       title="Minimize window"
-      @click="window.minimize()"
+      @click="minimizeWindow"
     >
       <span :class="$style.icon">&#xE921;</span>
     </title-bar-button>
@@ -17,7 +17,7 @@
     <title-bar-button
       schema="red"
       title="Close window"
-      @click="window.close()"
+      @click="closeWindow"
     >
       <span :class="$style.icon">&#xE8BB;</span>
     </title-bar-button>
@@ -43,6 +43,12 @@ export default {
     });
   },
   methods: {
+    closeWindow() {
+      ipc.callMain('app-close');
+    },
+    minimizeWindow() {
+      ipc.callMain('app-minimize');
+    },
     toggleMaximized() {
       ipc.callMain('app-toggle-maximized');
     },

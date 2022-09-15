@@ -1,5 +1,8 @@
 const { ipcRenderer } = require('electron');
-const isUrlRelativeUrl = require('is-url-relative-without-domain');
+
+const { baseURI } = document;
+// eslint-disable-next-line max-len
+const isUrlRelativeUrl = (urlToTest) => new URL(baseURI).origin === new URL(urlToTest, baseURI).origin;
 
 (function overrideNotifications() {
   const OriginalNotification = Notification;

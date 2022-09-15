@@ -1,24 +1,47 @@
 <template>
-  <vue-draggable
-    v-if="tabList.length"
-    v-model="tabList"
-    :class="$style.nav"
-    :animation="150"
-    :delay="150"
-    :chosen-class="$style.drag"
-    :drag-class="$style.helper"
-    direction="vertical"
-    tag="nav"
-  >
-    <tabs-nav-item
-      v-for="(tab, index) in tabList"
-      :key="tab.id"
-      :index="index"
-      :item="tab"
-      :show-label="displaysTabLabels"
-    />
-  </vue-draggable>
-  <div v-else />
+  <div>
+    <vue-draggable
+      v-if="tabList.length"
+      v-model="tabList"
+      :class="$style.nav"
+      :animation="150"
+      :delay="150"
+      :chosen-class="$style.drag"
+      :drag-class="$style.helper"
+      direction="vertical"
+      tag="nav"
+    >
+      <tabs-nav-item
+        v-for="(tab, index) in tabList"
+        :key="tab.id"
+        :index="index"
+        :item="tab"
+        :show-label="displaysTabLabels"
+        type="primary"
+      />
+    </vue-draggable>
+
+    <vue-draggable
+      v-if="tabListSecondary.length && showSecondaryTabs"
+      v-model="tabListSecondary"
+      :class="[$style.nav, $style.navSecondary]"
+      :animation="150"
+      :delay="150"
+      :chosen-class="$style.drag"
+      :drag-class="$style.helper"
+      direction="vertical"
+      tag="nav"
+    >
+      <tabs-nav-item
+        v-for="(tab, index) in tabListSecondary"
+        :key="tab.id"
+        :index="index"
+        :item="tab"
+        :show-label="displaysTabLabels"
+        type="secondary"
+      />
+    </vue-draggable>
+  </div>
 </template>
 
 <script>
@@ -31,6 +54,12 @@ export default {
     VueDraggable,
     TabsNavItem,
   },
+  props: {
+    showSecondaryTabs: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       ipcListeners: [],
@@ -39,10 +68,18 @@ export default {
   computed: {
     tabList: {
       get() {
-        return this.$store.getters['Tabs/listSorted'];
+        return this.$store.getters['Tabs/listSorted'].filter((tab) => !tab.isSecondary);
       },
       set(items) {
-        this.$store.commit('Tabs/setSorting', items);
+        this.$store.commit('Tabs/setSorting', [...items, ...this.tabListSecondary]);
+      },
+    },
+    tabListSecondary: {
+      get() {
+        return this.$store.getters['Tabs/listSorted'].filter((tab) => tab.isSecondary);
+      },
+      set(items) {
+        this.$store.commit('Tabs/setSorting', [...this.tabList, ...items]);
       },
     },
     displaysTabLabels() {
@@ -89,10 +126,7 @@ export default {
 
 <style lang="postcss" module>
 .nav {
-  @apply
-    relative flex flex-col
-    px-1 pb-1 overflow-x-hidden overflow-y-auto
-  ;
+  @apply relative flex flex-col px-1 pb-1 overflow-x-hidden overflow-y-auto;
 }
 
 .nav::-webkit-scrollbar {
@@ -101,6 +135,11 @@ export default {
 
 .nav::-webkit-scrollbar-thumb {
   @apply border-l-0 border-r-0;
+}
+
+.navSecondary {
+  @apply pt-1;
+  background-color: #0006;
 }
 
 .drag {

@@ -26,6 +26,12 @@
             label="URL"
             descr="Homepage of the tab. For example: https://google.com"
           />
+
+          <app-form-element>
+            <app-form-checkbox v-model="tab.isSecondary">
+              Display tab in secondary menu
+            </app-form-checkbox>
+          </app-form-element>
         </div>
 
         <div
@@ -185,12 +191,14 @@
 </template>
 
 <script>
+import AppFormElement from '@/components/AppFormElement.vue';
 import SettingsItem from '@/components/SettingsItem.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
 export default {
   components: {
+    AppFormElement,
     SettingsItem,
     TitleBar,
     TitleBarText,

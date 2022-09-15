@@ -42,6 +42,7 @@ export const createMainWindow = () => {
   // https://github.com/meetfranz/franz/issues/1138
   const removeUserAgents = `(Electron|${pkg.name}|${pkg.productName})/([0-9a-z-.]+) `;
   window.webContents.userAgent = (window.webContents.userAgent.replace(new RegExp(removeUserAgents, 'g'), ''));
+  app.userAgentFallback = (app.userAgentFallback.replace(new RegExp(removeUserAgents, 'g'), ''));
 
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
@@ -71,6 +72,10 @@ export const createMainWindow = () => {
     }
   });
 
+  ipc.answerRenderer('app-close', () => {
+    window.close();
+  });
+
   window.on('closed', () => {
     if (process.platform !== 'darwin' || app.quitting) {
       window = null;
@@ -90,6 +95,10 @@ export const createMainWindow = () => {
   ipc.answerRenderer('app-toggle-maximized', () => {
     if (window.isMaximized()) window.unmaximize();
     else window.maximize();
+  });
+
+  ipc.answerRenderer('app-minimize', () => {
+    window.minimize();
   });
 
   window.on('focus', () => {

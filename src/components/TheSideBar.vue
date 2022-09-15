@@ -1,26 +1,37 @@
 <template>
   <div :class="$style.wrap">
-    <tabs-nav />
+    <tabs-nav :show-secondary-tabs="showSecondaryTabs" />
     <div :class="$style.buttons">
       <side-bar-button
-        :to="{ name: 'tabs-create' }"
+        v-if="tabListSecondary.length"
         :show-label="displaysTabLabels"
-        icon="TabPlus"
-        title="Create tab"
+        :icon="showSecondaryTabs ? 'UnfoldLessHorizontal' : 'UnfoldMoreHorizontal'"
+        title="Toggle secondary tabs"
+        @click="showSecondaryTabs = !showSecondaryTabs"
       >
-        Create tab
+        Secondary tabs
       </side-bar-button>
-      <side-bar-button
-        :to="{ name: 'home' }"
-        :show-badge="showMenuBadge"
-        :show-label="displaysTabLabels"
-        icon="Menu"
-        title="Show menu"
-        @click.native="showMenuBadge = false"
-        @contextmenu.native.prevent="showMenu"
-      >
-        Menu
-      </side-bar-button>
+      <div :class="$style.buttonsBottom">
+        <side-bar-button
+          :to="{ name: 'tabs-create' }"
+          :show-label="displaysTabLabels"
+          icon="TabPlus"
+          title="Create tab"
+        >
+          Create tab
+        </side-bar-button>
+        <side-bar-button
+          :to="{ name: 'home' }"
+          :show-badge="showMenuBadge"
+          :show-label="displaysTabLabels"
+          icon="Menu"
+          title="Show menu"
+          @click.native="showMenuBadge = false"
+          @contextmenu.native.prevent="showMenu"
+        >
+          Menu
+        </side-bar-button>
+      </div>
     </div>
   </div>
 </template>
@@ -38,12 +49,16 @@ export default {
   data() {
     return {
       showMenuBadge: false,
+      showSecondaryTabs: false,
     };
   },
   computed: {
     displaysTabLabels() {
       const key = 'navigation.displayTabLabels';
       return this.$store.getters['Settings/byKey'](key);
+    },
+    tabListSecondary() {
+      return this.$store.getters['Tabs/listSorted'].filter((tab) => tab.isSecondary);
     },
   },
   created() {
@@ -80,6 +95,10 @@ export default {
 .buttons {
   @apply flex flex-col justify-between pt-1 pb-2
     text-gray-600 border-t border-gray-800 border-opacity-50;
+}
+
+.buttonsBottom {
+  @apply mt-auto;
 }
 
 @media (hover: hover) {

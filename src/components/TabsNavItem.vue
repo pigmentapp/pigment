@@ -58,6 +58,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    type: {
+      type: String,
+      default: 'primary',
+    },
   },
   data() {
     return {
@@ -66,7 +70,10 @@ export default {
   },
   computed: {
     tabList() {
-      return this.$store.getters['Tabs/listSorted'];
+      if (this.type === 'primary') {
+        return this.$store.getters['Tabs/listSorted'].filter((tab) => !tab.isSecondary);
+      }
+      return this.$store.getters['Tabs/listSorted'].filter((tab) => tab.isSecondary);
     },
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
