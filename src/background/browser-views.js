@@ -63,7 +63,6 @@ const createView = ({ partition: _partition }) => {
   const partition = _partition ? `persist:${_partition}` : undefined;
   const view = new BrowserView({
     webPreferences: {
-      contextIsolation: false,
       partition,
       preload,
     },
@@ -110,6 +109,16 @@ const createView = ({ partition: _partition }) => {
   });
 
   webContents.on('dom-ready', () => {
+    webContents.executeJavaScript(`
+      (() => {
+        const OriginalNotification = Notification;
+
+        window.Notification = function (title, options) { window.pigment.transferNotification(title, options); }
+        Notification.permission = OriginalNotification.permission;
+        Notification.requestPermission = OriginalNotification.requestPermission;
+      })();
+    `);
+
     const scripts = customScripts[viewId];
     webContents.insertCSS(scripts ? scripts.css : '');
     webContents.executeJavaScript(scripts ? scripts.js : '');
