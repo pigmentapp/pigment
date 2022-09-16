@@ -68,6 +68,8 @@ const createView = ({ partition: _partition }) => {
     },
   });
 
+  view.setBackgroundColor('#fff');
+
   const viewId = nanoid();
 
   views[viewId] = view;
