@@ -52,6 +52,15 @@ const hideById = (id) => {
   mainWindow.removeBrowserView(view);
 };
 
+const focusActive = () => {
+  try {
+    const view = getMainWindow().getBrowserView();
+    if (!view) return;
+    view.webContents.focus();
+    // eslint-disable-next-line no-empty
+  } catch (error) { }
+};
+
 const executeWebContentsMethod = ({ viewId, methodName, methodParams }) => {
   const view = views[viewId];
   if (!view) return;
@@ -182,6 +191,7 @@ const initBrowserViews = () => {
   ipc.answerRenderer('app-bv-destroy-by-id', destroyById);
   ipc.answerRenderer('app-bv-show-by-id', showById);
   ipc.answerRenderer('app-bv-hide-by-id', hideById);
+  ipc.answerRenderer('app-bv-focus-active', focusActive);
   ipc.answerRenderer('app-bv-execute-webcontents-method', executeWebContentsMethod);
   ipc.answerRenderer('app-bv-set-custom-scripts', setCustomScripts);
 };

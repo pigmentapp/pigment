@@ -26,6 +26,10 @@ export default {
     ipc.answerMain('app-settings-toggle', (settingsIdentifier) => {
       this.$store.dispatch('Settings/toggle', settingsIdentifier);
     });
+
+    ipc.answerMain('app-has-focus', (hasFocus) => {
+      if (hasFocus) ipc.callMain('app-bv-focus-active');
+    });
   },
   methods: {
     goToTabWithListIndex(index) {
