@@ -28,7 +28,11 @@ const setCustomScripts = ({ viewId, css = '', js = '' }) => {
 const destroyById = (id) => {
   const view = views[id];
   if (!view) return;
-  contextMenus[id]();
+  try {
+    contextMenus[id]();
+  } catch (error) {
+    console.error(error);
+  }
   getMainWindow().removeBrowserView(view);
   delete views[id];
 };
@@ -88,10 +92,7 @@ const createView = ({ partition: _partition }) => {
   const { webContents } = view;
 
   contextMenus[viewId] = contextMenu({
-    window: {
-      webContents,
-      inspectElement: webContents.inspectElement.bind(webContents),
-    },
+    window: webContents,
     showSelectAll: true,
     showCopyVideoAddress: true,
     showSaveVideo: true,
