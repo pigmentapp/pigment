@@ -24,7 +24,7 @@
     >
       <img
         v-if="favicon"
-        :src="pageState.favicon"
+        :src="item.favicon"
         :class="$style.image"
       >
       <app-icon
@@ -89,14 +89,15 @@ export default {
     },
   },
   watch: {
-    pageState: {
+    'item.favicon': {
       immediate: true,
       handler: 'loadFavicon',
     },
   },
   methods: {
     loadFavicon() {
-      const { favicon } = this.pageState;
+      const { favicon } = this.item;
+
       if (!favicon) {
         this.favicon = '';
         return;

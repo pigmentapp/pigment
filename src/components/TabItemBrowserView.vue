@@ -103,6 +103,15 @@ export default {
       if (viewId !== this.viewId) return;
       this.$store.commit('Pages/setState', { tabId, data });
 
+      if (data.favicon) {
+        this.$store.commit('Tabs/update', {
+          id: tabId,
+          data: {
+            favicon: data.favicon,
+          },
+        });
+      }
+
       this.evaluateIfHasNotifications();
     });
 

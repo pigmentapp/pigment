@@ -54,16 +54,21 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      apps: [],
+    };
+  },
   computed: {
     existingTabs() {
       return this.$store.getters['Tabs/list'];
     },
-    apps() {
-      const existing = this.existingTabs;
-      const filtered = apps
-        .filter((app) => !existing.some((e) => e.url.includes(new URL(app.url).host)));
-      return shuffleArray(filtered);
-    },
+  },
+  created() {
+    const existing = this.existingTabs;
+    const filtered = apps
+      .filter((app) => !existing.some((e) => e.url.includes(new URL(app.url).host)));
+    this.apps = shuffleArray(filtered);
   },
   methods: {
     async createTab({ label, url }) {
