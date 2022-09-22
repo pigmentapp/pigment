@@ -19,6 +19,7 @@ export default {
         url: '',
         canGoBack: false,
         canGoForward: false,
+        isLoaded: false,
         ...pageState,
         ...data,
       };

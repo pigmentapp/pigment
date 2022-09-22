@@ -108,14 +108,17 @@ const createView = ({ partition: _partition }) => {
     clearTimeout(isLoadedCooldown);
     const payload = { viewId, data: { isLoaded: false } };
     ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', payload);
+    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
   });
 
   webContents.on('did-stop-loading', () => {
     const statePayload = { viewId, data: { url: webContents.getURL() } };
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', statePayload);
 
+    const isLoadedPayload = { viewId, data: { isLoaded: true } };
+    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', isLoadedPayload);
+
     isLoadedCooldown = setTimeout(() => {
-      const isLoadedPayload = { viewId, data: { isLoaded: true } };
       ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', isLoadedPayload);
     }, 2000);
   });

@@ -25,7 +25,7 @@
       <img
         v-if="favicon"
         :src="item.favicon"
-        :class="$style.image"
+        :class="{[$style.image]: true, [$style.imageTabIsLoading]: !pageState.isLoaded }"
       >
       <app-icon
         v-else
@@ -189,6 +189,10 @@ export default {
 
 .image {
   @apply block max-w-full max-h-full;
+}
+
+.imageTabIsLoading {
+  @apply opacity-50;
 }
 
 .label {

@@ -112,7 +112,9 @@ export default {
         });
       }
 
-      this.evaluateIfHasNotifications();
+      if (!('isLoaded' in data)) {
+        this.evaluateIfHasNotifications();
+      }
     });
 
     ipc.answerMain('app-bv-new-notification', ({ viewId, data }) => {
