@@ -1,13 +1,11 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, contextBridge } = require('electron');
 
 const { baseURI } = document;
 // eslint-disable-next-line max-len
 const isUrlRelativeUrl = (urlToTest) => new URL(baseURI).origin === new URL(urlToTest, baseURI).origin;
 
-(function overrideNotifications() {
-  const OriginalNotification = Notification;
-
-  window.Notification = function Notification(title, options) {
+contextBridge.exposeInMainWorld('pigment', {
+  transferNotification: (title, options) => {
     const notificationOptions = options;
 
     if (notificationOptions.icon && isUrlRelativeUrl(notificationOptions.icon)) {
@@ -15,8 +13,5 @@ const isUrlRelativeUrl = (urlToTest) => new URL(baseURI).origin === new URL(urlT
     }
 
     ipcRenderer.send('notification', { title, options: notificationOptions });
-  };
-
-  Notification.permission = OriginalNotification.permission;
-  Notification.requestPermission = OriginalNotification.requestPermission;
-}());
+  },
+});

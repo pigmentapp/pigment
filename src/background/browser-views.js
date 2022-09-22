@@ -28,7 +28,11 @@ const setCustomScripts = ({ viewId, css = '', js = '' }) => {
 const destroyById = (id) => {
   const view = views[id];
   if (!view) return;
-  contextMenus[id]();
+  try {
+    contextMenus[id]();
+  } catch (error) {
+    console.error(error);
+  }
   getMainWindow().removeBrowserView(view);
   delete views[id];
 };
@@ -52,6 +56,15 @@ const hideById = (id) => {
   mainWindow.removeBrowserView(view);
 };
 
+const focusActive = () => {
+  try {
+    const view = getMainWindow().getBrowserView();
+    if (!view) return;
+    view.webContents.focus();
+    // eslint-disable-next-line no-empty
+  } catch (error) { }
+};
+
 const executeWebContentsMethod = ({ viewId, methodName, methodParams }) => {
   const view = views[viewId];
   if (!view) return;
@@ -63,11 +76,12 @@ const createView = ({ partition: _partition }) => {
   const partition = _partition ? `persist:${_partition}` : undefined;
   const view = new BrowserView({
     webPreferences: {
-      contextIsolation: false,
       partition,
       preload,
     },
   });
+
+  view.setBackgroundColor('#fff');
 
   const viewId = nanoid();
 
@@ -78,10 +92,7 @@ const createView = ({ partition: _partition }) => {
   const { webContents } = view;
 
   contextMenus[viewId] = contextMenu({
-    window: {
-      webContents,
-      inspectElement: webContents.inspectElement.bind(webContents),
-    },
+    window: webContents,
     showSelectAll: true,
     showCopyVideoAddress: true,
     showSaveVideo: true,
@@ -97,19 +108,32 @@ const createView = ({ partition: _partition }) => {
     clearTimeout(isLoadedCooldown);
     const payload = { viewId, data: { isLoaded: false } };
     ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', payload);
+    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
   });
 
   webContents.on('did-stop-loading', () => {
     const statePayload = { viewId, data: { url: webContents.getURL() } };
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', statePayload);
 
+    const isLoadedPayload = { viewId, data: { isLoaded: true } };
+    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', isLoadedPayload);
+
     isLoadedCooldown = setTimeout(() => {
-      const isLoadedPayload = { viewId, data: { isLoaded: true } };
       ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', isLoadedPayload);
     }, 2000);
   });
 
   webContents.on('dom-ready', () => {
+    webContents.executeJavaScript(`
+      (() => {
+        const OriginalNotification = Notification;
+
+        window.Notification = function (title, options) { window.pigment.transferNotification(title, options); }
+        Notification.permission = OriginalNotification.permission;
+        Notification.requestPermission = OriginalNotification.requestPermission;
+      })();
+    `);
+
     const scripts = customScripts[viewId];
     webContents.insertCSS(scripts ? scripts.css : '');
     webContents.executeJavaScript(scripts ? scripts.js : '');
@@ -171,6 +195,7 @@ const initBrowserViews = () => {
   ipc.answerRenderer('app-bv-destroy-by-id', destroyById);
   ipc.answerRenderer('app-bv-show-by-id', showById);
   ipc.answerRenderer('app-bv-hide-by-id', hideById);
+  ipc.answerRenderer('app-bv-focus-active', focusActive);
   ipc.answerRenderer('app-bv-execute-webcontents-method', executeWebContentsMethod);
   ipc.answerRenderer('app-bv-set-custom-scripts', setCustomScripts);
 };

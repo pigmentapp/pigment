@@ -24,8 +24,8 @@
     >
       <img
         v-if="favicon"
-        :src="pageState.favicon"
-        :class="$style.image"
+        :src="item.favicon"
+        :class="{[$style.image]: true, [$style.imageTabIsLoading]: !pageState.isLoaded }"
       >
       <app-icon
         v-else
@@ -89,14 +89,15 @@ export default {
     },
   },
   watch: {
-    pageState: {
+    'item.favicon': {
       immediate: true,
       handler: 'loadFavicon',
     },
   },
   methods: {
     loadFavicon() {
-      const { favicon } = this.pageState;
+      const { favicon } = this.item;
+
       if (!favicon) {
         this.favicon = '';
         return;
@@ -188,6 +189,10 @@ export default {
 
 .image {
   @apply block max-w-full max-h-full;
+}
+
+.imageTabIsLoading {
+  @apply opacity-50;
 }
 
 .label {

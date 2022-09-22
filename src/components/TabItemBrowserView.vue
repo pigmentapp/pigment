@@ -24,6 +24,7 @@ export default {
     return {
       dimTimeout: 0,
       isActive: false,
+      isInizialized: false,
       isLoaded: false,
       viewId: -1,
     };
@@ -103,7 +104,18 @@ export default {
       if (viewId !== this.viewId) return;
       this.$store.commit('Pages/setState', { tabId, data });
 
-      this.evaluateIfHasNotifications();
+      if (data.favicon) {
+        this.$store.commit('Tabs/update', {
+          id: tabId,
+          data: {
+            favicon: data.favicon,
+          },
+        });
+      }
+
+      if (!('isLoaded' in data)) {
+        this.evaluateIfHasNotifications();
+      }
     });
 
     ipc.answerMain('app-bv-new-notification', ({ viewId, data }) => {
@@ -133,7 +145,12 @@ export default {
       await this.createView();
       await this.setCustomScripts();
       this.executeMethod(['setUserAgent', userAgent]);
-      this.executeMethod(['loadURL', url]);
+
+      if (!this.item.isLazy) {
+        this.executeMethod(['loadURL', url]);
+        this.isInizialized = true;
+      }
+
       this.checkActiveState();
     })();
   },
@@ -163,6 +180,9 @@ export default {
           await this.setCustomScripts();
           this.executeMethod(['setUserAgent', userAgent]);
           this.executeMethod(['reload']);
+        } else if (this.item.isLazy && !this.isInizialized) {
+          this.executeMethod(['loadURL', this.item.url]);
+          this.isInizialized = true;
         }
       } else {
         this.toggleView(false);
