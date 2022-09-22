@@ -12,6 +12,8 @@ const db = new Connection({
 const defaultTab = () => ({
   label: '',
   url: '',
+  isSecondary: false,
+  isLazy: false,
   userAgent: '',
   customCss: '',
   customJs: '',

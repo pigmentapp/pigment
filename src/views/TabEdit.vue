@@ -28,9 +28,16 @@
           />
 
           <app-form-element>
-            <app-form-checkbox v-model="tab.isSecondary">
-              Display tab in secondary menu
-            </app-form-checkbox>
+            <div>
+              <app-form-checkbox v-model="tab.isSecondary">
+                Display tab in secondary menu
+              </app-form-checkbox>
+            </div>
+            <div>
+              <app-form-checkbox v-model="tab.isLazy">
+                Load tab once it has been focused
+              </app-form-checkbox>
+            </div>
           </app-form-element>
         </div>
 
