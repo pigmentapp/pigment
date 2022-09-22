@@ -1,3 +1,21 @@
+# [0.16.0](https://github.com/pigmentapp/pigment/compare/0.15.0...0.16.0) (2022-09-22)
+
+
+### Bug Fixes
+
+* **electron:** update to 20.1.4 ([472d863](https://github.com/pigmentapp/pigment/commit/472d86372121b1e0e83eaecddcdbe9dfd47b6690))
+* **tabs:** fix 'delete tab' button ([2f2fbc9](https://github.com/pigmentapp/pigment/commit/2f2fbc95856fda285f9ab3a747d69abc1e72f386))
+* **webview:** refocus active tab on window activation ([41b2c68](https://github.com/pigmentapp/pigment/commit/41b2c687c4db973e1dfca381f66861ea44a21011))
+* **webview:** set default background color to white ([d710852](https://github.com/pigmentapp/pigment/commit/d710852b24ceccbf55625e7d3b98b8cde17b4df2))
+
+
+### Features
+
+* **navigation:** indicate loading state of tabs ([e1143b9](https://github.com/pigmentapp/pigment/commit/e1143b9af5c7840a462e66d3d2c8d4c434a93956))
+* **tabs:** load tab once it has been focused ([a2f4ce2](https://github.com/pigmentapp/pigment/commit/a2f4ce209dbce15e0b27fdccf7f83bd79c17094f))
+* **tabs:** store current favicon ([8a89713](https://github.com/pigmentapp/pigment/commit/8a89713d5d1714f168c60de3df3a47e5ac6a4e5f))
+* **webview:** enable context isolation for better security ([b649b71](https://github.com/pigmentapp/pigment/commit/b649b712519cbc0527dead0009ae179ba2a34bfc))
+
 # [0.15.0](https://github.com/pigmentapp/pigment/compare/0.14.1...0.15.0) (2022-09-15)
 
 
