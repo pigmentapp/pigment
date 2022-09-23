@@ -104,6 +104,24 @@ const createView = ({ partition: _partition }) => {
     showServices: true,
   });
 
+  let originalUserAgent = '';
+  let originalUserAgentChanged = false;
+
+  webContents.on('did-navigate', (event, didNavigateUrl) => {
+    if (!didNavigateUrl) return;
+
+    if (didNavigateUrl.startsWith('https://accounts.google.com/')) {
+      if (!originalUserAgentChanged) {
+        originalUserAgent = webContents.getUserAgent();
+        webContents.setUserAgent('Chrome');
+        originalUserAgentChanged = true;
+      }
+    } else if (originalUserAgentChanged) {
+      webContents.setUserAgent(originalUserAgent);
+      originalUserAgentChanged = false;
+    }
+  });
+
   webContents.on('did-start-loading', () => {
     clearTimeout(isLoadedCooldown);
     const payload = { viewId, data: { isLoaded: false } };
