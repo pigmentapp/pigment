@@ -1,7 +1,7 @@
 <template>
   <tab-item-browser-view
     ref="bv"
-    #default="{ executeMethod }"
+    v-slot="{ executeMethod }"
     :item="item"
   >
     <tab-item-header

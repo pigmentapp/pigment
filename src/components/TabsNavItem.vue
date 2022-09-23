@@ -26,6 +26,7 @@
         v-if="favicon"
         :src="item.favicon"
         :class="{[$style.image]: true, [$style.imageTabIsLoading]: !pageState.isLoaded }"
+        :alt="'Favicon of ' + item.label"
       >
       <app-icon
         v-else

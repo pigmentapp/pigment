@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
   <label :class="$style.item">
     <div
       v-if="label"

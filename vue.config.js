@@ -1,4 +1,6 @@
-module.exports = {
+const { defineConfig } = require('@vue/cli-service');
+
+module.exports = defineConfig({
   pluginOptions: {
     electronBuilder: {
       mainProcessFile: 'src/background/',
@@ -12,4 +14,5 @@ module.exports = {
       },
     },
   },
-};
+  transpileDependencies: true,
+});

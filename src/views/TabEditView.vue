@@ -108,6 +108,7 @@
               Fade out tab contents if you work outside the app.
             </template>
             <template slot="control">
+              <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
               <select
                 v-model="tab.settings['dimmer.dimIfWindowIsNotInFocus']"
                 :class="$style.select"
@@ -133,6 +134,7 @@
               Mute tab audio if you work outside the app.
             </template>
             <template slot="control">
+              <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
               <select
                 v-model="tab.settings['window.muteAudioIfWindowIsNotInFocus']"
                 :class="$style.select"
@@ -158,6 +160,7 @@
               Hold back tab notifications if you work outside the app.
             </template>
             <template slot="control">
+              <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
               <select
                 v-model="tab.settings['notifications.holdBackIfWindowIsNotInFocus']"
                 :class="$style.select"

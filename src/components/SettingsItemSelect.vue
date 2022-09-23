@@ -6,7 +6,8 @@
     <template slot="descr">
       <slot name="descr" />
     </template>
-    <template v-slot:control="{ disabled }">
+    <template #control="{ disabled }">
+      <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
       <select
         v-model="value"
         :class="$style.select"

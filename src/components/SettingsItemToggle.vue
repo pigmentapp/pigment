@@ -6,7 +6,7 @@
     <template slot="descr">
       <slot name="descr" />
     </template>
-    <template v-slot:control="{ disabled }">
+    <template #control="{ disabled }">
       <button
         :class="$style.button"
         :disabled="disabled"

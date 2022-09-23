@@ -1,5 +1,6 @@
 <template>
   <app-form-element v-bind="$attrs">
+    <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
     <input
       v-model="value"
       :class="$style.input"

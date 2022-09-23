@@ -8,6 +8,7 @@
         v-if="notification.options && notification.options.icon && !hasBrokenImage"
         :class="$style.image"
         :src="notification.options.icon"
+        :alt="'Favicon of ' + notification.title"
         @error="hasBrokenImage = true"
       >
       <app-icon

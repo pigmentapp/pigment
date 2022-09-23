@@ -9,19 +9,19 @@ export default new Router({
       path: '/',
       name: 'home',
       components: {
-        aside: () => import(/* webpackChunkName: "home" */ '@/views/HomeAside.vue'),
-        default: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        aside: () => import(/* webpackChunkName: "home" */ '@/views/HomeAsideView.vue'),
+        default: () => import(/* webpackChunkName: "home" */ '@/views/HomeView.vue'),
       },
     },
     {
       path: '/tabs/create',
       name: 'tabs-create',
-      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabCreate.vue'),
+      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabCreateView.vue'),
     },
     {
       path: '/tabs/:id/edit',
       name: 'tabs-edit',
-      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabEdit.vue'),
+      component: () => import(/* webpackChunkName: "tabs" */ '@/views/TabEditView.vue'),
     },
     {
       path: '/tabs/:id?',
@@ -30,7 +30,7 @@ export default new Router({
     {
       path: '/settings',
       name: 'settings',
-      component: () => import(/* webpackChunkName: "settings" */ '@/views/Settings.vue'),
+      component: () => import(/* webpackChunkName: "settings" */ '@/views/SettingsView.vue'),
     },
   ],
 });
