@@ -1,5 +1,12 @@
 <template>
   <title-bar>
+    <div
+      v-if="pageState.certificateError"
+      :class="$style.isCertError"
+      title="Certificate Error"
+    >
+      <app-icon face="LockOpenAlert" />
+    </div>
     <title-bar-text>
       {{ title }}
     </title-bar-text>
@@ -111,3 +118,10 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" module>
+.isCertError {
+  @apply mr-1 text-red-500;
+  -webkit-app-region: no-drag;
+}
+</style>

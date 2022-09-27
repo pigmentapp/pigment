@@ -113,7 +113,8 @@ export default {
         });
       }
 
-      if (!('isLoaded' in data)) {
+      const dataKeys = Object.keys(data);
+      if (['favicon', 'title'].some((needle) => dataKeys.includes(needle))) {
         this.evaluateIfHasNotifications();
       }
     });

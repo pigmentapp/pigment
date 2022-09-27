@@ -124,7 +124,7 @@ const createView = ({ partition: _partition }) => {
 
   webContents.on('did-start-loading', () => {
     clearTimeout(isLoadedCooldown);
-    const payload = { viewId, data: { isLoaded: false } };
+    const payload = { viewId, data: { isLoaded: false, certificateError: false } };
     ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', payload);
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
   });
@@ -165,6 +165,11 @@ const createView = ({ partition: _partition }) => {
   webContents.on('page-favicon-updated', (_, favicons) => {
     const favicon = favicons.pop();
     const payload = { viewId, data: { favicon } };
+    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
+  });
+
+  webContents.on('certificate-error', () => {
+    const payload = { viewId, data: { certificateError: true } };
     ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
   });
 
