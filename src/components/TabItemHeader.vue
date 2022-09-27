@@ -7,6 +7,13 @@
     >
       <app-icon face="LockOpenAlert" />
     </div>
+    <div
+      v-else-if="isInsecure"
+      :class="$style.isInsecure"
+      title="Insecure"
+    >
+      <app-icon face="LockOff" />
+    </div>
     <title-bar-text>
       {{ title }}
     </title-bar-text>
@@ -70,6 +77,10 @@ export default {
     pageState() {
       return this.$store.getters['Pages/state'](this.item.id);
     },
+    isInsecure() {
+      const url = new URL(this.pageState.url || '');
+      return !url.protocol.endsWith('s:');
+    },
   },
   created() {
     this.ipcListeners.push(
@@ -122,6 +133,11 @@ export default {
 <style lang="postcss" module>
 .isCertError {
   @apply mr-1 text-red-500;
+  -webkit-app-region: no-drag;
+}
+
+.isInsecure {
+  @apply mr-1 text-yellow-500;
   -webkit-app-region: no-drag;
 }
 </style>
