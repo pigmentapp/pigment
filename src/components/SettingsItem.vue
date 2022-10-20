@@ -25,26 +25,28 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   props: {
     disabledIfNotSetting: {
-      type: Array,
+      type: Array as () => string[],
       default: undefined,
     },
   },
   computed: {
-    disabled() {
+    disabled(): boolean {
       if (!this.disabledIfNotSetting) return false;
       const relatedSettings = this.disabledIfNotSetting.reduce((settings, item) => {
         settings.push(this.$store.getters['Settings/byKey'](item));
         return settings;
-      }, []);
+      }, [] as unknown[]);
 
       return relatedSettings.some((val) => !val);
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

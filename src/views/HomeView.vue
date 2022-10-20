@@ -55,20 +55,21 @@
   </app-content>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import ReleaseNotes from '@/components/ReleaseNotes.vue';
 import SuggestedApps from '@/components/SuggestedApps.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
-export default {
+export default Vue.extend({
   components: {
     ReleaseNotes,
     SuggestedApps,
     TitleBar,
     TitleBarText,
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

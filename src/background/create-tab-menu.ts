@@ -46,9 +46,14 @@ const createTabMenu = () => {
   ipc.answerRenderer('app-show-tab-menu', ({
     currentUrl, startUrl, x, y,
   }) => {
-    menu.getMenuItemById('clipboard').click = () => clipboard.writeText(currentUrl);
-    menu.getMenuItemById('go-to-home').checked = startUrl === currentUrl;
-    menu.getMenuItemById('set-as-home').checked = startUrl === currentUrl;
+    const clipboardItem = menu.getMenuItemById('clipboard');
+    if (clipboardItem) clipboardItem.click = () => clipboard.writeText(currentUrl);
+
+    const goToHomeItem = menu.getMenuItemById('go-to-home');
+    if (goToHomeItem) goToHomeItem.checked = startUrl === currentUrl;
+
+    const setAsHomeItem = menu.getMenuItemById('set-as-home');
+    if (setAsHomeItem) setAsHomeItem.checked = startUrl === currentUrl;
 
     menu.popup({
       x,

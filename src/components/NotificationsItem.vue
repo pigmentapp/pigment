@@ -45,13 +45,15 @@
   </router-link>
 </template>
 
-<script>
+<script lang="ts">
+import { TabNotification } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   props: {
     item: {
-      type: Object,
+      type: Object as () => TabNotification,
       required: true,
     },
   },
@@ -61,13 +63,13 @@ export default {
     };
   },
   computed: {
-    dateAgo() {
+    dateAgo(): string {
       return formatDistanceToNow(
         this.item.timestamp,
         { addSuffix: true },
       );
     },
-    notification() {
+    notification(): TabNotification['notification'] {
       return this.item.notification;
     },
   },
@@ -76,7 +78,7 @@ export default {
       this.$store.commit('Notifications/removeItem', this.item);
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

@@ -10,10 +10,11 @@
   </portal>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
 
-export default {
+export default Vue.extend({
   components: {
     TitleBarButton,
   },
@@ -23,5 +24,5 @@ export default {
       default: false,
     },
   },
-};
+});
 </script>

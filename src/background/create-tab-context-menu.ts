@@ -1,7 +1,8 @@
 import { Menu } from 'electron';
 import { ipcMain as ipc } from 'electron-better-ipc';
+import { TabProps } from '@/types';
 
-let tab = null;
+let tab: TabProps;
 
 const menu = Menu.buildFromTemplate([
   {
@@ -51,26 +52,30 @@ const menu = Menu.buildFromTemplate([
 ]);
 
 const createTabContextMenu = () => {
-  ipc.answerRenderer('app-tabs-open-context-menu-by-id', (tabProps) => {
+  ipc.answerRenderer('app-tabs-open-context-menu-by-id', (tabProps: TabProps) => {
     tab = tabProps;
 
+    const sortNextItem = menu.getMenuItemById('sort-next');
+    const sortLastItem = menu.getMenuItemById('sort-last');
+    const sortPrevItem = menu.getMenuItemById('sort-prev');
+    const sortFirstItem = menu.getMenuItemById('sort-first');
+
     if (tab.isLast) {
-      menu.getMenuItemById('sort-next').enabled = false;
-      menu.getMenuItemById('sort-last').enabled = false;
+      if (sortNextItem) sortNextItem.enabled = false;
+      if (sortLastItem) sortLastItem.enabled = false;
     }
 
     if (tab.isFirst) {
-      menu.getMenuItemById('sort-prev').enabled = false;
-      menu.getMenuItemById('sort-first').enabled = false;
+      if (sortPrevItem) sortPrevItem.enabled = false;
+      if (sortFirstItem) sortFirstItem.enabled = false;
     }
 
     menu.popup({
       callback() {
-        tab = null;
-        menu.getMenuItemById('sort-next').enabled = true;
-        menu.getMenuItemById('sort-last').enabled = true;
-        menu.getMenuItemById('sort-prev').enabled = true;
-        menu.getMenuItemById('sort-first').enabled = true;
+        if (sortNextItem) sortNextItem.enabled = true;
+        if (sortLastItem) sortLastItem.enabled = true;
+        if (sortPrevItem) sortPrevItem.enabled = true;
+        if (sortFirstItem) sortFirstItem.enabled = true;
       },
     });
   });

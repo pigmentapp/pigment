@@ -200,13 +200,15 @@
   </app-content>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import AppFormElement from '@/components/AppFormElement.vue';
 import SettingsItem from '@/components/SettingsItem.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
+import { Tab } from '@/types';
 
-export default {
+export default Vue.extend({
   components: {
     AppFormElement,
     SettingsItem,
@@ -214,19 +216,30 @@ export default {
     TitleBarText,
   },
   data() {
-    return {
-      tab: {},
+    const tab: Tab = {
+      id: '',
+      label: '',
+      url: '',
+      favicon: '',
+      isSecondary: false,
+      isLazy: false,
+      userAgent: '',
+      customCss: '',
+      customJs: '',
+      scope: '',
+      settings: {},
     };
+    return { tab };
   },
   computed: {
-    scopes() {
+    scopes(): Array<Tab['scope']> {
       return this.$store.getters['Tabs/scopes'];
     },
     useTabIdAsScope: {
-      get() {
+      get(): boolean {
         return this.tab.id === this.tab.scope;
       },
-      set(value) {
+      set(value: boolean) {
         this.tab.scope = value ? this.tab.id : '';
       },
     },
@@ -243,7 +256,7 @@ export default {
       this.$router.push({
         name: 'tabs',
         params: { id: this.tab.id },
-        query: { reload: true },
+        query: { reload: '' },
       });
     },
     deleteTab() {
@@ -251,7 +264,7 @@ export default {
       this.$router.push({ name: 'home' });
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

@@ -2,8 +2,8 @@
   <div
     :class="{
       [$style.app]: true,
-      [$style.app__osMac]: $options.isMac,
-      [$style.app__osNotMac]: !$options.isMac,
+      [$style.app__osMac]: isMac,
+      [$style.app__osNotMac]: !isMac,
       [$style.app__layoutLeft_compact]: !isLayoutInverted && !displaysTabLabels,
       [$style.app__layoutLeft_extended]: !isLayoutInverted && displaysTabLabels,
       [$style.app__layoutRight_compact]: isLayoutInverted && !displaysTabLabels,
@@ -13,17 +13,17 @@
     <div
       :class="{
         [$style.titleBarSpacer]: true,
-        [$style.titleBarSpacer__osMac]: $options.isMac,
-        [$style.titleBarSpacer__osNotMac]: !$options.isMac,
+        [$style.titleBarSpacer__osMac]: isMac,
+        [$style.titleBarSpacer__osNotMac]: !isMac,
       }"
     >
-      <window-controls v-if="!$options.isMac" />
+      <window-controls v-if="!isMac" />
     </div>
     <the-title-bar
       :class="{
         [$style.titleBar]: true,
-        [$style.titleBar__osMac]: $options.isMac,
-        [$style.titleBar__osNotMac]: !$options.isMac,
+        [$style.titleBar__osMac]: isMac,
+        [$style.titleBar__osNotMac]: !isMac,
       }"
     />
     <the-side-bar :class="$style.sideBar" />
@@ -43,28 +43,29 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import debounce from 'lodash.debounce';
 import { ipcRenderer as ipc } from 'electron-better-ipc';
 import TheSideBar from '@/components/TheSideBar.vue';
 import TheTitleBar from '@/components/TheTitleBar.vue';
 import WindowControls from '@/components/WindowControls.vue';
+import Vue from 'vue';
 
-export default {
-  isMac: process.platform === 'darwin',
+export default Vue.extend({
   components: {
     TheSideBar,
     TheTitleBar,
     WindowControls,
   },
   data: () => ({
-    resizeObserver: null,
+    isMac: process.platform === 'darwin',
+    resizeObserver: null as ResizeObserver | null,
   }),
   computed: {
-    isLayoutInverted() {
+    isLayoutInverted(): boolean {
       return this.$store.getters['Settings/byKey']('layout.sideBarLocation') === 'right';
     },
-    displaysTabLabels() {
+    displaysTabLabels(): boolean {
       return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
     },
   },
@@ -78,15 +79,15 @@ export default {
       this.setMainBoundingClientRect();
     }, 50));
 
-    this.resizeObserver.observe(this.$refs.main);
+    this.resizeObserver.observe(this.$refs.main as HTMLElement);
   },
   beforeDestroy() {
-    this.resizeObserver.disconnect();
+    this.resizeObserver?.disconnect();
   },
   methods: {
     async setMainBoundingClientRect() {
       await this.$nextTick();
-      const rect = this.$refs.main.getBoundingClientRect();
+      const rect = (this.$refs.main as HTMLElement).getBoundingClientRect();
 
       await ipc.callMain('app-bv-update-bounds', {
         x: Math.trunc(rect.x),
@@ -96,7 +97,7 @@ export default {
       });
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

@@ -24,11 +24,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
 
-export default {
+export default Vue.extend({
   components: {
     TitleBarButton,
   },
@@ -38,7 +39,7 @@ export default {
     };
   },
   created() {
-    ipc.answerMain('app-is-maximized', (isMaximized) => {
+    ipc.answerMain('app-is-maximized', (isMaximized: boolean) => {
       this.isMaximized = isMaximized;
     });
   },
@@ -53,7 +54,7 @@ export default {
       ipc.callMain('app-toggle-maximized');
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

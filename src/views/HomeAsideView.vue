@@ -19,16 +19,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import NotificationsList from '@/components/NotificationsList.vue';
 import UpdateChecker from '@/components/UpdateChecker.vue';
 
-export default {
+export default Vue.extend({
   components: {
     NotificationsList,
     UpdateChecker,
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

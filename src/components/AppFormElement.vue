@@ -17,8 +17,10 @@
   </label>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   inheritAttrs: false,
   props: {
     descr: {
@@ -30,7 +32,7 @@ export default {
       default: undefined,
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

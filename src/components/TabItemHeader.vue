@@ -21,18 +21,18 @@
       :disabled="!pageState.canGoBack"
       icon="ArrowLeft"
       title="Go back one page"
-      @click="$emit('execute', ['goBack'])"
+      @click="executeMethod({ methodName: 'goBack', methodParams: [] })"
     />
     <title-bar-button
       :disabled="!pageState.canGoForward"
       icon="ArrowRight"
       title="Go forward one page"
-      @click="$emit('execute', ['goForward'])"
+      @click="executeMethod({ methodName: 'goForward', methodParams: [] })"
     />
     <title-bar-button
       icon="Refresh"
       title="Reload page"
-      @click="$emit('execute', ['reload'])"
+      @click="executeMethod({ methodName: 'reload', methodParams: [] })"
     />
     <title-bar-button
       ref="menuBtn"
@@ -45,13 +45,15 @@
   </title-bar>
 </template>
 
-<script>
-import { ipcRenderer as ipc } from 'electron-better-ipc';
+<script lang="ts">
+import { ipcRenderer as ipc, RendererProcessIpc } from 'electron-better-ipc';
+import Vue from 'vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarButton from '@/components/TitleBarButton.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
+import { ExecuteWebContentsMethod, PageState, WebContentsMethods } from '@/types';
 
-export default {
+export default Vue.extend({
   components: {
     TitleBar,
     TitleBarButton,
@@ -64,20 +66,22 @@ export default {
     },
   },
   data() {
+    const ipcListeners: Array<ReturnType<RendererProcessIpc['answerMain']>> = [];
+
     return {
       isMenuOpen: false,
-      ipcListeners: [],
+      ipcListeners,
     };
   },
   computed: {
-    title() {
+    title(): string {
       const { title, url } = this.pageState;
       return this.isMenuOpen ? url : title || url;
     },
-    pageState() {
+    pageState(): PageState {
       return this.$store.getters['Pages/state'](this.item.id);
     },
-    isInsecure() {
+    isInsecure(): boolean {
       const url = new URL(this.pageState.url || '');
       return !url.protocol.endsWith('s:');
     },
@@ -117,7 +121,8 @@ export default {
 
       // remove :key from ref="menuBtn" element once this is fixed:
       // https://github.com/LinusBorg/portal-vue/issues/294
-      const btnRect = this.$refs.menuBtn.$el.getBoundingClientRect();
+      const menuBtn = (this.$refs.menuBtn as InstanceType<typeof TitleBarButton>);
+      const btnRect = menuBtn.$el.getBoundingClientRect();
 
       ipc.callMain('app-show-tab-menu', {
         currentUrl: this.pageState.url,
@@ -126,8 +131,13 @@ export default {
         y: Math.trunc(btnRect.y + btnRect.height),
       });
     },
+    executeMethod<K extends WebContentsMethods>(
+      { methodName, methodParams }: Omit<ExecuteWebContentsMethod<K>, 'viewId'>,
+    ) {
+      this.$emit('execute', { methodName, methodParams });
+    },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

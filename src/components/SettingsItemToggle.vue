@@ -23,10 +23,11 @@
   </settings-item>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import SettingsItem from '@/components/SettingsItem.vue';
 
-export default {
+export default Vue.extend({
   components: {
     SettingsItem,
   },
@@ -36,21 +37,21 @@ export default {
       required: true,
     },
     disabledIfNotSetting: {
-      type: Array,
+      type: Array as () => string[],
       default: undefined,
     },
   },
   computed: {
     value: {
-      get() {
+      get(): boolean {
         return this.$store.getters['Settings/byKey'](this.setting);
       },
-      set(value) {
+      set(value: boolean) {
         this.$store.dispatch('Settings/set', [this.setting, value]);
       },
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

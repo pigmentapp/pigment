@@ -24,8 +24,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   props: {
     value: {
       type: String,
@@ -38,7 +40,7 @@ export default {
     };
   },
   computed: {
-    tabs() {
+    tabs(): string[] {
       return Object.keys(this.$slots);
     },
   },
@@ -55,15 +57,15 @@ export default {
     }
   },
   methods: {
-    isActiveTab(value) {
-      return this.activeTab === value;
+    isActiveTab(tabName: string) {
+      return this.activeTab === tabName;
     },
-    setActiveTab(value) {
-      this.activeTab = value;
-      this.$emit('input', value);
+    setActiveTab(tabName: string) {
+      this.activeTab = tabName;
+      this.$emit('input', tabName);
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

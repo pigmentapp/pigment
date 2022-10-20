@@ -38,15 +38,22 @@ const menu = Menu.buildFromTemplate([
     label: 'Check for updates…',
     click: () => autoUpdater.checkForUpdates(),
   },
-  { role: 'toggledevtools' },
+  { role: 'toggleDevTools' },
 ]);
 
 const createSettingsMenu = () => {
   ipc.answerRenderer('app-show-settings-menu', ({ checked }) => {
-    menu.getMenuItemById('navigation.displayTabLabels').checked = checked.includes('navigation.displayTabLabels');
-    menu.getMenuItemById('dimmer.dimIfWindowIsNotInFocus').checked = checked.includes('dimmer.dimIfWindowIsNotInFocus');
-    menu.getMenuItemById('window.muteAudioIfWindowIsNotInFocus').checked = checked.includes('window.muteAudioIfWindowIsNotInFocus');
-    menu.getMenuItemById('notifications.holdBackIfWindowIsNotInFocus').checked = checked.includes('notifications.holdBackIfWindowIsNotInFocus');
+    const navigationDisplayTabLabelsItem = menu.getMenuItemById('navigation.displayTabLabels');
+    if (navigationDisplayTabLabelsItem) navigationDisplayTabLabelsItem.checked = checked.includes('navigation.displayTabLabels');
+
+    const dimmerDimIfWindowIsNotInFocusItem = menu.getMenuItemById('dimmer.dimIfWindowIsNotInFocus');
+    if (dimmerDimIfWindowIsNotInFocusItem) dimmerDimIfWindowIsNotInFocusItem.checked = checked.includes('dimmer.dimIfWindowIsNotInFocus');
+
+    const windowMuteAudioIfWindowIsNotInFocusItem = menu.getMenuItemById('window.muteAudioIfWindowIsNotInFocus');
+    if (windowMuteAudioIfWindowIsNotInFocusItem) windowMuteAudioIfWindowIsNotInFocusItem.checked = checked.includes('window.muteAudioIfWindowIsNotInFocus');
+
+    const notificationsHoldBackIfWindowIsNotInFocus = menu.getMenuItemById('notifications.holdBackIfWindowIsNotInFocus');
+    if (notificationsHoldBackIfWindowIsNotInFocus) notificationsHoldBackIfWindowIsNotInFocus.checked = checked.includes('notifications.holdBackIfWindowIsNotInFocus');
 
     menu.popup();
   });

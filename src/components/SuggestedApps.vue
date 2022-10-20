@@ -39,11 +39,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import shuffleArray from 'shuffle-array';
+import Vue from 'vue';
 import apps from '@/data/recommended-apps.json';
+import { Tab } from '@/types';
 
-export default {
+export default Vue.extend({
   props: {
     goToCreatedTab: {
       type: Boolean,
@@ -60,7 +62,7 @@ export default {
     };
   },
   computed: {
-    existingTabs() {
+    existingTabs(): Tab[] {
       return this.$store.getters['Tabs/list'];
     },
   },
@@ -71,7 +73,7 @@ export default {
     this.apps = shuffleArray(filtered);
   },
   methods: {
-    async createTab({ label, url }) {
+    async createTab({ label, url }: Tab) {
       const tab = await this.$store.dispatch('Tabs/create', { label, url });
 
       if (!this.goToCreatedTab) return;
@@ -83,11 +85,11 @@ export default {
         },
       });
     },
-    favicon({ url }) {
+    favicon({ url }: typeof apps[0]) {
       return `https://icons.duckduckgo.com/ip3/${new URL(url).host}.ico`;
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

@@ -45,24 +45,25 @@
   </app-content>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import SuggestedApps from '@/components/SuggestedApps.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
+import { TabCreate } from '@/types';
 
-export default {
+export default Vue.extend({
   components: {
     SuggestedApps,
     TitleBar,
     TitleBarText,
   },
   data() {
-    return {
-      tab: {
-        label: '',
-        url: 'https://',
-      },
+    const tab: TabCreate = {
+      label: '',
+      url: 'https://',
     };
+    return { tab };
   },
   methods: {
     async createTab() {
@@ -76,7 +77,7 @@ export default {
       });
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

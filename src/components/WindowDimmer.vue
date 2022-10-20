@@ -18,47 +18,49 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { TabNotification, Settings, Tab } from '@/types';
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   data() {
     return {
-      timeout: null,
+      timeout: setTimeout(() => { /* */ }),
       isActive: false,
     };
   },
   computed: {
-    activeTab() {
+    activeTab(): Tab {
       return this.$store.getters['Tabs/active'];
     },
-    displayNotificationBadge() {
+    displayNotificationBadge(): Settings['dimmer.displayBadgeAtNewNotifications'] {
       return this.$store.getters['Settings/byKey']('dimmer.displayBadgeAtNewNotifications');
     },
-    hasNewNotifications() {
+    hasNewNotifications(): boolean {
       return !this.windowHasFocus
         && this.displayNotificationBadge
-        && this.notificationsAfterWindowBlur.length;
+        && !!this.notificationsAfterWindowBlur.length;
     },
-    notificationsAfterWindowBlur() {
+    notificationsAfterWindowBlur(): TabNotification[] {
       return this.$store.getters['Notifications/list']({
         newerThanTimestamp: this.windowTimestampOfBlur,
       });
     },
-    settingsIsDimActive() {
+    settingsIsDimActive(): Settings['dimmer.dimIfWindowIsNotInFocus'] | undefined {
       const key = 'dimmer.dimIfWindowIsNotInFocus';
       if (this.activeTabHasSetting(key)) {
         return this.activeTab.settings[key];
       }
       return this.$store.getters['Settings/byKey'](key);
     },
-    settingsDimDelay() {
+    settingsDimDelay(): Settings['dimmer.dimDelayInMs'] {
       return this.$store.getters['Settings/byKey']('dimmer.dimDelayInMs');
     },
-    windowHasFocus() {
+    windowHasFocus(): boolean {
       return this.$store.getters['Window/hasFocus'];
     },
-    windowTimestampOfBlur() {
+    windowTimestampOfBlur(): number {
       return this.$store.getters['Window/timestampOfBlur'];
     },
   },
@@ -98,12 +100,12 @@ export default {
     onFocus() {
       this.$store.dispatch('Window/hasFocus', true);
     },
-    activeTabHasSetting(key) {
+    activeTabHasSetting(key: keyof Tab['settings']) {
       return Object.prototype.hasOwnProperty.call(this.activeTab.settings, key)
         && typeof this.activeTab.settings[key] !== 'undefined';
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

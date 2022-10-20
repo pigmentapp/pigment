@@ -1,5 +1,7 @@
 import Vue from 'vue';
-import { name, productName, version } from '@/../package.json';
+import pkg from '@/../package.json';
+
+const { name, productName, version } = pkg;
 
 Vue.use({
   install(vue) {

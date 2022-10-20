@@ -1,9 +1,10 @@
 import { autoUpdater } from 'electron-updater';
 import { ipcMain as ipc } from 'electron-better-ipc';
+import { BrowserWindow } from 'electron';
 
 autoUpdater.autoDownload = false;
 
-export default (window) => {
+export default (window: BrowserWindow) => {
   autoUpdater.on('checking-for-update', () => {
     ipc.callRenderer(window, 'app-update-checking', true);
   });

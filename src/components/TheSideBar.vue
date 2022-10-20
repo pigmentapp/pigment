@@ -36,12 +36,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
 import SideBarButton from '@/components/SideBarButton.vue';
 import TabsNav from '@/components/TabsNav.vue';
+import { Settings, Tab } from '@/types';
 
-export default {
+export default Vue.extend({
   components: {
     SideBarButton,
     TabsNav,
@@ -53,12 +55,12 @@ export default {
     };
   },
   computed: {
-    displaysTabLabels() {
+    displaysTabLabels(): Settings['navigation.displayTabLabels'] {
       const key = 'navigation.displayTabLabels';
       return this.$store.getters['Settings/byKey'](key);
     },
-    tabListSecondary() {
-      return this.$store.getters['Tabs/listSorted'].filter((tab) => tab.isSecondary);
+    tabListSecondary(): Tab[] {
+      return this.$store.getters['Tabs/listSorted'].filter((tab: Tab) => tab.isSecondary);
     },
   },
   created() {
@@ -81,7 +83,7 @@ export default {
       });
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>
