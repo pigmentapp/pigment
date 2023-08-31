@@ -1,3 +1,18 @@
+# [0.17.0](https://github.com/pigmentapp/pigment/compare/0.16.0...0.17.0) (2023-08-31)
+
+
+### Bug Fixes
+
+* **webview:** work around google account login barrier ([f6c1a04](https://github.com/pigmentapp/pigment/commit/f6c1a04e83864d8b4009702b0d2b9ffe49851b6d))
+
+
+### Features
+
+* **project:** add deprecation warning ([d1c00bc](https://github.com/pigmentapp/pigment/commit/d1c00bcc070b662261dae26270cb6539098a6692))
+* **project:** add license ([59caf97](https://github.com/pigmentapp/pigment/commit/59caf97bd124fa366a63f5953dd082382ca144c2))
+* **titlebar:** add indicator for insecure websites ([a1bdd12](https://github.com/pigmentapp/pigment/commit/a1bdd12f4f53f6833f644fce8e38d6d2a37bbe78))
+* **titlebar:** add indicator for invalid website certificate ([7032519](https://github.com/pigmentapp/pigment/commit/70325196dd283cc9e1db402f86f78d13b3b7f532))
+
 # [0.16.0](https://github.com/pigmentapp/pigment/compare/0.15.0...0.16.0) (2022-09-22)
 
 
