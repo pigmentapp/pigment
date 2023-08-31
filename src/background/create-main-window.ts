@@ -1,27 +1,25 @@
-import path from 'path';
 import windowStateKeeper from 'electron-window-state';
 import {
   app, BrowserWindow, shell, session,
 } from 'electron';
 import { ipcMain as ipc } from 'electron-better-ipc';
-import { format as formatUrl } from 'url';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import checkForUpdates from '@/utils/updater';
 import pkg from '@/../package.json';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-let window = null;
+let window: BrowserWindow;
 
 export const getMainWindow = () => window;
 
 export const createMainWindow = () => {
-  const mainWindowState = windowStateKeeper();
+  const mainWindowState = windowStateKeeper({});
 
   window = new BrowserWindow({
     webPreferences: {
       contextIsolation: false,
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION as unknown as boolean,
     },
     backgroundColor: '#22292f',
     frame: false,
@@ -46,66 +44,57 @@ export const createMainWindow = () => {
 
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
-    window.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    window.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
     if (!process.env.IS_TEST) window.webContents.openDevTools();
   } else {
     createProtocol('app');
     // Load the index.html when not in development
-    window.loadURL(formatUrl({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file',
-      slashes: true,
-    }));
+    window.loadURL('app://./index.html');
 
     checkForUpdates(window);
   }
 
   window.on('ready-to-show', () => {
+    if (!window) return;
     window.show();
     window.focus();
   });
 
-  window.on('close', (e) => {
-    if (process.platform === 'darwin' && !app.quitting) {
-      e.preventDefault();
-      window.hide();
-    }
-  });
-
   ipc.answerRenderer('app-close', () => {
+    if (!window) return;
     window.close();
   });
 
-  window.on('closed', () => {
-    if (process.platform !== 'darwin' || app.quitting) {
-      window = null;
-    }
-  });
-
   window.on('maximize', () => {
+    if (!window) return;
     ipc.callRenderer(window, 'app-is-maximized', true);
   });
 
   window.on('unmaximize', () => {
+    if (!window) return;
     ipc.callRenderer(window, 'app-is-maximized', false);
   });
 
   ipc.callRenderer(window, 'app-is-maximized', window.isMaximized());
 
   ipc.answerRenderer('app-toggle-maximized', () => {
+    if (!window) return;
     if (window.isMaximized()) window.unmaximize();
     else window.maximize();
   });
 
   ipc.answerRenderer('app-minimize', () => {
+    if (!window) return;
     window.minimize();
   });
 
   window.on('focus', () => {
+    if (!window) return;
     ipc.callRenderer(window, 'app-has-focus', true);
   });
 
   window.on('blur', () => {
+    if (!window) return;
     ipc.callRenderer(window, 'app-has-focus', false);
   });
 
@@ -119,8 +108,10 @@ export const createMainWindow = () => {
   });
 
   window.webContents.on('devtools-opened', () => {
+    if (!window) return;
     window.focus();
     setImmediate(() => {
+      if (!window) return;
       window.focus();
     });
   });

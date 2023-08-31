@@ -11,7 +11,7 @@ const createApplicationMenu = () => {
           { type: 'separator' },
           { role: 'minimize' },
           { role: 'hide' },
-          { role: 'hideothers' },
+          { role: 'hideOthers' },
           { role: 'unhide' },
           { type: 'separator' },
           { role: 'quit' },
@@ -33,7 +33,7 @@ const createApplicationMenu = () => {
       {
         label: 'View',
         submenu: [
-          { role: 'toggledevtools' },
+          { role: 'toggleDevTools' },
         ],
       },
       {

@@ -6,7 +6,8 @@
     <template slot="descr">
       <slot name="descr" />
     </template>
-    <template v-slot:control="{ disabled }">
+    <template #control="{ disabled }">
+      <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
       <select
         v-model="value"
         :class="$style.select"
@@ -24,10 +25,11 @@
   </settings-item>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import SettingsItem from '@/components/SettingsItem.vue';
 
-export default {
+export default Vue.extend({
   components: {
     SettingsItem,
   },
@@ -41,21 +43,21 @@ export default {
       required: true,
     },
     disabledIfNotSetting: {
-      type: Array,
+      type: Array as () => string[],
       default: undefined,
     },
   },
   computed: {
     value: {
-      get() {
+      get(): unknown {
         return this.$store.getters['Settings/byKey'](this.setting);
       },
-      set(value) {
+      set(value: unknown) {
         this.$store.dispatch('Settings/set', [this.setting, value]);
       },
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

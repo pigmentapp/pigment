@@ -14,7 +14,7 @@
         </h3>
         <div :class="$style.links">
           <a
-            href="https://getpigment.app/download/"
+            href="https://pigmentapp.github.io/getpigment.app/download/"
             target="_blank"
           >Go to download page</a>
         </div>
@@ -22,7 +22,7 @@
     </div>
 
     <app-button
-      v-if="$options.isWin"
+      v-if="isWin"
       :class="$style.button"
       :disabled="isInstalling"
       @click="downloadAndInstall"
@@ -40,7 +40,7 @@
     <app-button
       v-else
       :class="$style.button"
-      href="https://getpigment.app/download"
+      href="https://pigmentapp.github.io/getpigment.app/download"
       target="_blank"
       tag="a"
     >
@@ -49,20 +49,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
 
-export default {
-  isWin: process.platform === 'win32',
+export default Vue.extend({
   data() {
     return {
+      isWin: process.platform === 'win32',
       latestRelease: {},
       isInstalling: false,
       downloadProgress: {},
     };
   },
   computed: {
-    updateInfo() {
+    updateInfo(): { version: string } {
       return this.$store.state.updateInfo;
     },
   },
@@ -73,7 +74,7 @@ export default {
       this.isInstalling = false;
     });
 
-    ipc.answerMain('app-update-download-progress', (info) => {
+    ipc.answerMain('app-update-download-progress', (info: any) => {
       // eslint-disable-next-line no-console
       console.info(info);
       this.downloadProgress = info;
@@ -85,7 +86,7 @@ export default {
       ipc.callMain('app-update-start-download');
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

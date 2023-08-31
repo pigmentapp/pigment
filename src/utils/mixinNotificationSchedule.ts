@@ -1,31 +1,34 @@
-export default {
+import { TabNotification, Settings } from '@/types';
+import Vue from 'vue';
+
+export default Vue.extend({
   data() {
     return {
-      notificationInterval: null,
+      notificationInterval: setInterval(() => { /* */ }, 2000),
     };
   },
   computed: {
-    windowHasFocus() {
+    windowHasFocus(): boolean {
       return this.$store.getters['Window/hasFocus'];
     },
-    windowTimestampOfBlur() {
+    windowTimestampOfBlur(): number {
       return this.$store.getters['Window/timestampOfBlur'];
     },
-    nextSchedule() {
+    nextSchedule(): number {
       return this.$store.getters['Notifications/nextSchedule'];
     },
-    notificationsAfterWindowBlur() {
+    notificationsAfterWindowBlur(): TabNotification[] {
       return this.$store.getters['Notifications/list']({
         newerThanTimestamp: this.windowTimestampOfBlur,
       });
     },
-    notificationsSettings() {
+    notificationsSettings(): Record<string, any> {
       return this.$store.getters['Settings/inGroup']('notifications');
     },
-    notificationsPreventOnBlur() {
+    notificationsPreventOnBlur(): Settings['notifications.holdBackIfWindowIsNotInFocus'] {
       return this.notificationsSettings.holdBackIfWindowIsNotInFocus;
     },
-    notificationsScheduleActive() {
+    notificationsScheduleActive(): Settings['notifications.sendSummaryIfWindowIsNotInFocus'] {
       return this.notificationsSettings.sendSummaryIfWindowIsNotInFocus;
     },
   },
@@ -75,4 +78,4 @@ export default {
   beforeDestroy() {
     clearInterval(this.notificationInterval);
   },
-};
+});

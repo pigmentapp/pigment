@@ -1,13 +1,16 @@
+import { Tab } from '@/types';
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
+import { RawLocation } from 'vue-router';
 
-export default {
+export default Vue.extend({
   computed: {
-    tabListSorted() {
-      return this.$store.getters['Tabs/listSorted'].filter((tab) => !tab.isSecondary);
+    tabListSorted(): Tab[] {
+      return (this.$store.getters['Tabs/listSorted'] as Tab[]).filter((tab) => !tab.isSecondary);
     },
   },
   watch: {
-    windowHasFocus(hasFocus) {
+    windowHasFocus(hasFocus: boolean) {
       if (hasFocus) {
         ipc.send('app-hide-app-icon-badge');
       }
@@ -17,9 +20,9 @@ export default {
     const r = this.$router;
 
     ipc.answerMain('app-router-goto-tabs-create', () => r.push({ name: 'tabs-create' }));
-    ipc.answerMain('app-router-goto-tab-list-index', (index) => this.goToTabWithListIndex(index));
+    ipc.answerMain('app-router-goto-tab-list-index', (index: number) => this.goToTabWithListIndex(index));
 
-    ipc.answerMain('app-router-push', (routeProps) => {
+    ipc.answerMain('app-router-push', (routeProps: RawLocation) => {
       r.push(routeProps);
     });
 
@@ -32,7 +35,7 @@ export default {
     });
   },
   methods: {
-    goToTabWithListIndex(index) {
+    goToTabWithListIndex(index: number) {
       const tab = this.tabListSorted[index - 1];
 
       if (tab) {
@@ -43,4 +46,4 @@ export default {
       }
     },
   },
-};
+});

@@ -21,15 +21,16 @@
   </app-layout>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
 import AppLayout from '@/components/AppLayout.vue';
 import TabItem from '@/components/TabItem.vue';
 import WindowDimmer from '@/components/WindowDimmer.vue';
 import Events from '@/utils/mixinEvents';
 import NotificationSchedule from '@/utils/mixinNotificationSchedule';
 
-export default {
+export default Vue.extend({
   components: {
     AppLayout,
     TabItem,
@@ -42,7 +43,7 @@ export default {
   created() {
     ipc.callMain('app-bv-destroy-all');
   },
-};
+});
 </script>
 
 <style lang="postcss">

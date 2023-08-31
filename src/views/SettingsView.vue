@@ -192,7 +192,7 @@
       </settings-item-input>
 
       <settings-item-toggle
-        v-if="$options.isMac"
+        v-if="isMac"
         setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
       >
         <template slot="label">
@@ -205,7 +205,7 @@
       </settings-item-toggle>
 
       <settings-item-toggle
-        v-else-if="$options.isWin"
+        v-else-if="isWin"
         setting="notifications.displayAppIconBadgeIfWindowIsNotInFocus"
       >
         <template slot="label">
@@ -255,8 +255,9 @@
   </app-content>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
 import SettingsItemButton from '@/components/SettingsItemButton.vue';
 import SettingsItemSelect from '@/components/SettingsItemSelect.vue';
 import SettingsItemInput from '@/components/SettingsItemInput.vue';
@@ -264,9 +265,7 @@ import SettingsItemToggle from '@/components/SettingsItemToggle.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
-export default {
-  isMac: process.platform === 'darwin',
-  isWin: process.platform === 'win32',
+export default Vue.extend({
   components: {
     SettingsItemButton,
     SettingsItemSelect,
@@ -275,6 +274,12 @@ export default {
     TitleBar,
     TitleBarText,
   },
+  data() {
+    return {
+      isMac: process.platform === 'darwin',
+      isWin: process.platform === 'win32',
+    };
+  },
   methods: {
     wipeAppData() {
       if (window.confirm('Are you sure you want to to that?')) { // eslint-disable-line no-alert
@@ -282,7 +287,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

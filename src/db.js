@@ -12,6 +12,7 @@ export default class {
     this.createFolder();
     this.init();
 
+    // eslint-disable-next-line no-constructor-return
     return () => this.db;
   }
 

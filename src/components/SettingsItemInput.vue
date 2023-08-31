@@ -6,7 +6,7 @@
     <template slot="descr">
       <slot name="descr" />
     </template>
-    <template v-slot:control="{ disabled }">
+    <template #control="{ disabled }">
       <input
         v-model.lazy="value"
         :class="$style.input"
@@ -17,10 +17,11 @@
   </settings-item>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import SettingsItem from '@/components/SettingsItem.vue';
 
-export default {
+export default Vue.extend({
   components: {
     SettingsItem,
   },
@@ -39,19 +40,19 @@ export default {
       required: true,
     },
     disabledIfNotSetting: {
-      type: Array,
+      type: Array as () => string[],
       default: undefined,
     },
   },
   computed: {
     value: {
-      get() {
+      get(): string {
         const setting = this.$store.getters['Settings/byKey'](this.setting);
 
         if (this.getModifier) return this.getModifier(setting);
         return setting;
       },
-      set(value) {
+      set(value: string) {
         let val = value;
 
         if (this.getModifier) val = this.setModifier(val);
@@ -59,7 +60,7 @@ export default {
       },
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

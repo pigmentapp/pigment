@@ -8,6 +8,8 @@ export {
   mdiDotsVertical,
   mdiImage,
   mdiLoading,
+  mdiLockOff,
+  mdiLockOpenAlert,
   mdiMenu,
   mdiPartyPopper,
   mdiPencil,

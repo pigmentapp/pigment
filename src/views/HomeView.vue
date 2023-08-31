@@ -19,6 +19,13 @@
       </app-heading>
     </app-content-section>
 
+    <app-content-section :class="$style.alert">
+      Thank you for using Pigment!
+      Due to lack of time and interest the project is no longer maintained.
+      Using Pigment in the future is not recommended -
+      the underlying Chromium browser version is outdated.
+    </app-content-section>
+
     <app-content-section>
       <app-heading>
         Get started
@@ -55,23 +62,28 @@
   </app-content>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import ReleaseNotes from '@/components/ReleaseNotes.vue';
 import SuggestedApps from '@/components/SuggestedApps.vue';
 import TitleBar from '@/components/TitleBar.vue';
 import TitleBarText from '@/components/TitleBarText.vue';
 
-export default {
+export default Vue.extend({
   components: {
     ReleaseNotes,
     SuggestedApps,
     TitleBar,
     TitleBarText,
   },
-};
+});
 </script>
 
 <style lang="postcss" module>
+.alert {
+  @apply bg-yellow-400 text-yellow-900 p-4 rounded font-medium;
+}
+
 .root {
   @apply overflow-y-auto;
 }

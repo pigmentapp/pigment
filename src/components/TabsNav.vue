@@ -44,12 +44,14 @@
   </div>
 </template>
 
-<script>
-import { ipcRenderer as ipc } from 'electron-better-ipc';
+<script lang="ts">
+import { ipcRenderer as ipc, RendererProcessIpc } from 'electron-better-ipc';
 import VueDraggable from 'vuedraggable';
+import Vue from 'vue';
 import TabsNavItem from '@/components/TabsNavItem.vue';
+import { Tab } from '@/types';
 
-export default {
+export default Vue.extend({
   components: {
     VueDraggable,
     TabsNavItem,
@@ -61,44 +63,46 @@ export default {
     },
   },
   data() {
+    const ipcListeners: Array<ReturnType<RendererProcessIpc['answerMain']>> = [];
+
     return {
-      ipcListeners: [],
+      ipcListeners,
     };
   },
   computed: {
     tabList: {
-      get() {
-        return this.$store.getters['Tabs/listSorted'].filter((tab) => !tab.isSecondary);
+      get(): Tab[] {
+        return this.$store.getters['Tabs/listSorted'].filter((tab: Tab) => !tab.isSecondary);
       },
-      set(items) {
+      set(items: Tab[]) {
         this.$store.commit('Tabs/setSorting', [...items, ...this.tabListSecondary]);
       },
     },
     tabListSecondary: {
-      get() {
-        return this.$store.getters['Tabs/listSorted'].filter((tab) => tab.isSecondary);
+      get(): Tab[] {
+        return this.$store.getters['Tabs/listSorted'].filter((tab: Tab) => tab.isSecondary);
       },
-      set(items) {
+      set(items: Tab[]) {
         this.$store.commit('Tabs/setSorting', [...this.tabList, ...items]);
       },
     },
-    displaysTabLabels() {
+    displaysTabLabels(): boolean {
       return this.$store.getters['Settings/byKey']('navigation.displayTabLabels');
     },
   },
   created() {
     this.ipcListeners.push(
-      ipc.answerMain('app-tabs-sort-prev-by-id', (tabId) => this.sortById(tabId, 'prev')),
-      ipc.answerMain('app-tabs-sort-next-by-id', (tabId) => this.sortById(tabId, 'next')),
-      ipc.answerMain('app-tabs-sort-first-by-id', (tabId) => this.sortById(tabId, 'first')),
-      ipc.answerMain('app-tabs-sort-last-by-id', (tabId) => this.sortById(tabId, 'last')),
+      ipc.answerMain('app-tabs-sort-prev-by-id', (tabId: string) => this.sortById(tabId, 'prev')),
+      ipc.answerMain('app-tabs-sort-next-by-id', (tabId: string) => this.sortById(tabId, 'next')),
+      ipc.answerMain('app-tabs-sort-first-by-id', (tabId: string) => this.sortById(tabId, 'first')),
+      ipc.answerMain('app-tabs-sort-last-by-id', (tabId: string) => this.sortById(tabId, 'last')),
     );
   },
   beforeDestroy() {
     this.ipcListeners.forEach((listener) => listener());
   },
   methods: {
-    sortById(tabId, mode) {
+    sortById(tabId: string, mode: string) {
       const list = [...this.tabList];
       const fromIndex = list.findIndex(({ id }) => id === tabId);
       if (fromIndex < 0) return;
@@ -121,7 +125,7 @@ export default {
       this.$store.commit('Tabs/setSorting', list);
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

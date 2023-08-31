@@ -1,31 +1,38 @@
 import path from 'path';
-import { BrowserView, shell } from 'electron';
+import {
+  BrowserView, Rectangle, shell, WebContents,
+} from 'electron';
 import { ipcMain as ipc } from 'electron-better-ipc';
 import contextMenu from 'electron-context-menu';
 import url from 'url';
-import { getMainWindow } from '@/background/create-main-window';
 import { nanoid } from 'nanoid';
+import { getMainWindow } from '@/background/create-main-window';
+import {
+  ExecuteWebContentsMethod, IpcBrowserViewUpdateState, KeyOfType, ViewId, WebContentsMethods,
+} from '@/types';
 
-let bounds = {};
+let bounds: Rectangle = {
+  height: 0, width: 0, x: 0, y: 0,
+};
 
-const views = {};
-const contextMenus = {};
-const customScripts = {};
+const views: Record<ViewId, BrowserView> = {};
+const contextMenus: Record<ViewId, () => void> = {};
+const customScripts: Record<ViewId, { css: string, js: string; }> = {};
 
 const updateAllViewsBounds = () => {
   getMainWindow().getBrowserViews().forEach((view) => view.setBounds(bounds));
 };
 
-const updateBounds = (rect) => {
+const updateBounds = (rect: Rectangle) => {
   bounds = rect;
   updateAllViewsBounds();
 };
 
-const setCustomScripts = ({ viewId, css = '', js = '' }) => {
+const setCustomScripts = ({ viewId, css = '', js = '' }: { viewId: ViewId, css: string, js: string; }) => {
   customScripts[viewId] = { css, js };
 };
 
-const destroyById = (id) => {
+const destroyById = (id: ViewId) => {
   const view = views[id];
   if (!view) return;
   try {
@@ -41,7 +48,7 @@ const destroyAll = () => {
   Object.keys(views).forEach((viewId) => destroyById(viewId));
 };
 
-const showById = (id) => {
+const showById = (id: ViewId) => {
   const view = views[id];
   if (!view) return;
   getMainWindow().addBrowserView(view);
@@ -49,7 +56,7 @@ const showById = (id) => {
   view.webContents.focus();
 };
 
-const hideById = (id) => {
+const hideById = (id: ViewId) => {
   const mainWindow = getMainWindow();
   const view = views[id];
   if (!view) return;
@@ -65,13 +72,17 @@ const focusActive = () => {
   } catch (error) { }
 };
 
-const executeWebContentsMethod = ({ viewId, methodName, methodParams }) => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+const executeWebContentsMethod = <K extends WebContentsMethods>(
+  { viewId, methodName, methodParams }: ExecuteWebContentsMethod<K>,
+) => {
   const view = views[viewId];
   if (!view) return;
-  view.webContents[methodName](...methodParams);
+
+  (view.webContents[methodName] as any)(...methodParams);
 };
 
-const createView = ({ partition: _partition }) => {
+const createView = ({ partition: _partition }: { partition?: string; }) => {
   const preload = path.join(__static, 'webview.js');
   const partition = _partition ? `persist:${_partition}` : undefined;
   const view = new BrowserView({
@@ -87,7 +98,7 @@ const createView = ({ partition: _partition }) => {
 
   views[viewId] = view;
 
-  let isLoadedCooldown = 0;
+  let isLoadedCooldown = setTimeout(() => { /* */ });
 
   const { webContents } = view;
 
@@ -104,22 +115,39 @@ const createView = ({ partition: _partition }) => {
     showServices: true,
   });
 
+  let originalUserAgent = '';
+  let originalUserAgentChanged = false;
+
+  webContents.on('did-navigate', (event, didNavigateUrl) => {
+    if (!didNavigateUrl) return;
+
+    if (didNavigateUrl.startsWith('https://accounts.google.com/')) {
+      if (!originalUserAgentChanged) {
+        originalUserAgent = webContents.getUserAgent();
+        webContents.setUserAgent('Chrome');
+        originalUserAgentChanged = true;
+      }
+    } else if (originalUserAgentChanged) {
+      webContents.setUserAgent(originalUserAgent);
+      originalUserAgentChanged = false;
+    }
+  });
+
   webContents.on('did-start-loading', () => {
     clearTimeout(isLoadedCooldown);
-    const payload = { viewId, data: { isLoaded: false } };
-    ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', payload);
-    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
+    const payload = { viewId, data: { isLoaded: false, certificateError: false } };
+    ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-update-state', payload);
   });
 
   webContents.on('did-stop-loading', () => {
     const statePayload = { viewId, data: { url: webContents.getURL() } };
-    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', statePayload);
+    ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-update-state', statePayload);
 
     const isLoadedPayload = { viewId, data: { isLoaded: true } };
-    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', isLoadedPayload);
+    ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-update-state', isLoadedPayload);
 
     isLoadedCooldown = setTimeout(() => {
-      ipc.callRenderer(getMainWindow(), 'app-bv-is-loaded', isLoadedPayload);
+      ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-is-loaded', isLoadedPayload);
     }, 2000);
   });
 
@@ -141,19 +169,24 @@ const createView = ({ partition: _partition }) => {
 
   webContents.on('page-title-updated', (_, title) => {
     const payload = { viewId, data: { title } };
-    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
+    ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-update-state', payload);
   });
 
   webContents.on('page-favicon-updated', (_, favicons) => {
     const favicon = favicons.pop();
     const payload = { viewId, data: { favicon } };
-    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', payload);
+    ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-update-state', payload);
+  });
+
+  webContents.on('certificate-error', () => {
+    const payload = { viewId, data: { certificateError: true } };
+    ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-update-state', payload);
   });
 
   webContents.setWindowOpenHandler((details) => {
     const { protocol } = url.parse(details.url);
 
-    if (['http:', 'https:'].includes(protocol)) {
+    if (['http:', 'https:'].includes(protocol || '')) {
       shell.openExternal(details.url);
     }
 
@@ -172,7 +205,7 @@ const createView = ({ partition: _partition }) => {
   });
 
   const canGo = () => {
-    ipc.callRenderer(getMainWindow(), 'app-bv-update-state', {
+    ipc.callRenderer<IpcBrowserViewUpdateState>(getMainWindow(), 'app-bv-update-state', {
       viewId,
       data: {
         canGoBack: webContents.canGoBack(),

@@ -9,14 +9,15 @@
   </app-form-element>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { PrismEditor } from 'vue-prism-editor';
 import 'vue-prism-editor/dist/prismeditor.min.css';
 import { languages } from 'prismjs';
 import { highlight } from 'prismjs/components/prism-core';
 import 'prismjs/themes/prism-tomorrow.css';
 
-export default {
+export default Vue.extend({
   components: {
     PrismEditor,
   },
@@ -29,20 +30,20 @@ export default {
   },
   computed: {
     value: {
-      get() {
+      get(): string {
         return this.$attrs.value;
       },
-      set(value) {
+      set(value: string) {
         this.$emit('input', value);
       },
     },
   },
   methods: {
-    highlighter(code) {
+    highlighter(code: string) {
       return highlight(code, languages[this.language]);
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

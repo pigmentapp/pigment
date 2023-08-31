@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
   <label :class="$style.item">
     <div
       v-if="label"
@@ -16,8 +17,10 @@
   </label>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   inheritAttrs: false,
   props: {
     descr: {
@@ -29,7 +32,7 @@ export default {
       default: undefined,
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

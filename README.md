@@ -1,3 +1,6 @@
+> [!WARNING]
+> The project is no longer maintained.
+
 # Pigment – Manage your WebApps and stay focused
 
 Pigment is an open source wrapper app for WebApps. Add all your favorite WebApps to Pigment to clean up your browser tabs, dock or taskbar and benefit from its anti-stress features to stay focused.
@@ -8,7 +11,7 @@ Pigment is currently available for Mac and Windows.
 
 # Download
 
-You can download the latest version from the [Releases](https://github.com/pigmentapp/pigment/releases/latest) page. Also visit [getpigment.app](https://getpigment.app) for more information.
+You can download the latest version from the [Releases](https://github.com/pigmentapp/pigment/releases/latest) page. Also visit the [website](https://pigmentapp.github.io/getpigment.app/) for more information.
 
 # Development
 

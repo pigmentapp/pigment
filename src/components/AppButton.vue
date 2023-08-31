@@ -13,8 +13,10 @@
   </component>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   props: {
     primary: {
       type: Boolean,
@@ -29,7 +31,7 @@ export default {
       default: 'button',
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

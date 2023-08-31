@@ -10,30 +10,30 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { marked } from 'marked';
 import semver from 'semver';
+import Vue from 'vue';
 
 const renderer = new marked.Renderer();
 renderer.link = (href, title, text) => `<a target="_blank" href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`;
 
-export default {
+export default Vue.extend({
   data() {
     return {
-      releases: [],
+      releases: [] as Record<string, string>[],
     };
   },
   computed: {
-    matchingReleases() {
+    matchingReleases():Record<string, string>[] {
       if (!this.releases.length) return [];
 
       const currentVersion = process.env.NODE_ENV === 'development'
         ? this.releases[0].name
         : this.$productInfo.version;
 
-      let vWithoutPatch = currentVersion.split('.');
-      vWithoutPatch.pop();
-      vWithoutPatch = vWithoutPatch.join('.');
+      const version = semver.parse(currentVersion);
+      const vWithoutPatch = [version?.major, version?.minor].join('.');
 
       const versionRange = `${vWithoutPatch} - ${currentVersion}`;
 
@@ -48,14 +48,14 @@ export default {
       const url = 'https://api.github.com/repos/pigmentapp/pigment/releases';
       this.releases = await (await fetch(url)).json();
     },
-    mdToHtml(val) {
+    mdToHtml(val: string) {
       return marked(val, {
         headerIds: false,
         renderer,
       });
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
   <label :class="$style.wrap">
     <input
       v-model="internalValue"
@@ -21,8 +22,10 @@
   </label>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   props: {
     disabled: {
       type: Boolean,
@@ -35,15 +38,15 @@ export default {
   },
   computed: {
     internalValue: {
-      get() {
+      get(): boolean {
         return this.value;
       },
-      set(value) {
+      set(value: boolean) {
         this.$emit('input', value);
       },
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

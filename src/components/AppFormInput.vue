@@ -1,5 +1,6 @@
 <template>
   <app-form-element v-bind="$attrs">
+    <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
     <input
       v-model="value"
       :class="$style.input"
@@ -23,8 +24,10 @@
   </app-form-element>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   inheritAttrs: false,
   props: {
     datalist: {
@@ -34,15 +37,15 @@ export default {
   },
   computed: {
     value: {
-      get() {
+      get(): string {
         return this.$attrs.value;
       },
-      set(value) {
+      set(value: string) {
         this.$emit('input', value);
       },
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

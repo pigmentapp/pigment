@@ -21,7 +21,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 if (isDevelopment) {
   // Don't load any native (external) modules until the following line is run:
-  moduleReq.globalPaths.push(process.env.NODE_MODULES_PATH);
+  (moduleReq as any).globalPaths.push(process.env.NODE_MODULES_PATH);
 }
 
 // Standard scheme must be registered before the app is ready
@@ -45,8 +45,13 @@ app.on('activate', () => {
   }
 });
 
-app.on('before-quit', () => {
-  app.quitting = true;
+// Quit when all windows are closed.
+app.on('window-all-closed', () => {
+  // On macOS it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
 // create main BrowserWindow when electron is ready

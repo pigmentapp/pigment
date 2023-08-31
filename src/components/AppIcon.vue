@@ -13,10 +13,11 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import * as icons from '@/utils/icons';
 
-export default {
+export default Vue.extend({
   props: {
     face: {
       type: String,
@@ -36,11 +37,12 @@ export default {
     },
   },
   computed: {
-    content() {
-      return icons[`mdi${this.face}`];
+    content(): string {
+      const iconName = `mdi${this.face}` as keyof typeof icons;
+      return icons[iconName];
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

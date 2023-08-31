@@ -26,6 +26,7 @@
         v-if="favicon"
         :src="item.favicon"
         :class="{[$style.image]: true, [$style.imageTabIsLoading]: !pageState.isLoaded }"
+        :alt="'Favicon of ' + item.label"
       >
       <app-icon
         v-else
@@ -41,10 +42,12 @@
   </router-link>
 </template>
 
-<script>
+<script lang="ts">
+import { PageState, Settings, Tab } from '@/types';
 import { ipcRenderer as ipc } from 'electron-better-ipc';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   props: {
     index: {
       type: Number,
@@ -69,22 +72,22 @@ export default {
     };
   },
   computed: {
-    tabList() {
+    tabList(): Tab[] {
       if (this.type === 'primary') {
-        return this.$store.getters['Tabs/listSorted'].filter((tab) => !tab.isSecondary);
+        return this.$store.getters['Tabs/listSorted'].filter((tab: Tab) => !tab.isSecondary);
       }
-      return this.$store.getters['Tabs/listSorted'].filter((tab) => tab.isSecondary);
+      return this.$store.getters['Tabs/listSorted'].filter((tab: Tab) => tab.isSecondary);
     },
-    pageState() {
+    pageState(): PageState {
       return this.$store.getters['Pages/state'](this.item.id);
     },
-    hasNotificationBadge() {
+    hasNotificationBadge(): boolean {
       return this.pageState.hasNotificationBadge && this.badgeSize !== 'hidden';
     },
-    badgeColor() {
+    badgeColor(): Settings['navigation.indicatorBadgeColor'] {
       return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeColor');
     },
-    badgeSize() {
+    badgeSize(): Settings['navigation.indicatorBadgeSize'] {
       return this.$store.getters['Settings/byKey']('navigation.indicatorBadgeSize');
     },
   },
@@ -122,7 +125,7 @@ export default {
       });
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>

@@ -1,7 +1,7 @@
 <template>
   <tab-item-browser-view
     ref="bv"
-    #default="{ executeMethod }"
+    v-slot="{ executeMethod }"
     :item="item"
   >
     <tab-item-header
@@ -11,12 +11,13 @@
   </tab-item-browser-view>
 </template>
 
-<script>
-import { ipcRenderer as ipc } from 'electron-better-ipc';
+<script lang="ts">
+import { ipcRenderer as ipc, RendererProcessIpc } from 'electron-better-ipc';
+import Vue from 'vue';
 import TabItemHeader from '@/components/TabItemHeader.vue';
 import TabItemBrowserView from '@/components/TabItemBrowserView.vue';
 
-export default {
+export default Vue.extend({
   components: {
     TabItemHeader,
     TabItemBrowserView,
@@ -28,17 +29,18 @@ export default {
     },
   },
   data() {
-    return {
-      ipcListeners: [],
-    };
+    const ipcListeners: Array<ReturnType<RendererProcessIpc['answerMain']>> = [];
+
+    return { ipcListeners };
   },
-  created() {
+  mounted() {
+    const bv = (this.$refs.bv as InstanceType<typeof TabItemBrowserView>);
     this.ipcListeners.push(
-      ipc.answerMain('app-tabs-reload-by-id', (tabId) => { if (tabId !== this.item.id) return; this.$refs.bv.executeMethod(['reload']); }),
-      ipc.answerMain('app-tabs-reload-hard-by-id', (tabId) => { if (tabId !== this.item.id) return; this.$refs.bv.executeMethod(['reloadIgnoringCache']); }),
+      ipc.answerMain('app-tabs-reload-by-id', (tabId) => { if (tabId !== this.item.id) return; bv.executeMethod({ methodName: 'reload', methodParams: [] }); }),
+      ipc.answerMain('app-tabs-reload-hard-by-id', (tabId) => { if (tabId !== this.item.id) return; bv.executeMethod({ methodName: 'reloadIgnoringCache', methodParams: [] }); }),
       ipc.answerMain('app-tabs-edit-by-id', (tabId) => { if (tabId !== this.item.id) return; this.editTab(); }),
       ipc.answerMain('app-tabs-delete-by-id', (tabId) => { if (tabId !== this.item.id) return; this.deleteTab(); }),
-      ipc.answerMain('app-tabs-toggle-devtools-by-id', (tabId) => { if (tabId !== this.item.id) return; this.$refs.bv.executeMethod(['toggleDevTools']); }),
+      ipc.answerMain('app-tabs-toggle-devtools-by-id', (tabId) => { if (tabId !== this.item.id) return; bv.executeMethod({ methodName: 'toggleDevTools', methodParams: [] }); }),
     );
   },
   beforeDestroy() {
@@ -54,5 +56,5 @@ export default {
       this.$router.push({ name: 'tabs-edit', params: { id: this.item.id } });
     },
   },
-};
+});
 </script>

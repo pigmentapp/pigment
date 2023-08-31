@@ -40,15 +40,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import NotificationsItem from '@/components/NotificationsItem.vue';
+import { TabNotification } from '@/types';
 
-export default {
+export default Vue.extend({
   components: {
     NotificationsItem,
   },
   computed: {
-    notifications() {
+    notifications(): TabNotification[] {
       return this.$store.getters['Notifications/list']();
     },
   },
@@ -58,7 +60,7 @@ export default {
       this.$store.commit('Notifications/removeAll');
     },
   },
-};
+});
 </script>
 
 <style lang="postcss" module>
