@@ -4,7 +4,7 @@
   "productName": "Pigment",
   "description": "Manage your webapps from one central app. Including features for your well-being.",
   "homepage": "https://pigmentapp.github.io/getpigment.app/",
-  "license": "",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/pigmentapp/pigment.git"
