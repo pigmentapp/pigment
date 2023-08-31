@@ -1,3 +1,10 @@
+## [0.17.1](https://github.com/pigmentapp/pigment/compare/0.17.0...0.17.1) (2023-08-31)
+
+
+### Bug Fixes
+
+* create macos release ([b80514c](https://github.com/pigmentapp/pigment/commit/b80514c2cdca432eab942a1fdbff7cecc53b3199))
+
 # [0.17.0](https://github.com/pigmentapp/pigment/compare/0.16.0...0.17.0) (2023-08-31)
 
 
