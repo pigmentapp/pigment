@@ -14,7 +14,7 @@
         </h3>
         <div :class="$style.links">
           <a
-            href="https://getpigment.app/download/"
+            href="https://pigmentapp.github.io/getpigment.app/download/"
             target="_blank"
           >Go to download page</a>
         </div>
@@ -40,7 +40,7 @@
     <app-button
       v-else
       :class="$style.button"
-      href="https://getpigment.app/download"
+      href="https://pigmentapp.github.io/getpigment.app/download"
       target="_blank"
       tag="a"
     >
