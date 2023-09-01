@@ -25,7 +25,7 @@ if (isDevelopment) {
 }
 
 // Standard scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true } }]);
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }]);
 
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
