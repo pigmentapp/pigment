@@ -1,3 +1,10 @@
+## [0.17.2](https://github.com/pigmentapp/pigment/compare/0.17.1...0.17.2) (2023-09-01)
+
+
+### Bug Fixes
+
+* fix app startup ([8ed94df](https://github.com/pigmentapp/pigment/commit/8ed94df9f0bd858a7c7fc2fc2b8b02d642275d0a))
+
 ## [0.17.1](https://github.com/pigmentapp/pigment/compare/0.17.0...0.17.1) (2023-08-31)
 
 
